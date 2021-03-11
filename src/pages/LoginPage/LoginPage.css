@@ -1,0 +1,8 @@
+.login-page-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #303c8091;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

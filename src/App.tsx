@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
-import { LoginPage } from "./pages";
+import { LoginPage, LandingPage } from "./pages";
+import { Navbar } from "./components";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// redux
 import { Provider } from "react-redux";
 import store from "./store/store";
 import axios from "axios";
@@ -11,8 +14,15 @@ function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <div>hello people</div>
-        <LoginPage />
+        <Router>
+          <Navbar />
+          <div>
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/login" component={LoginPage} />
+            </Switch>
+          </div>
+        </Router>
       </Provider>
     </div>
   );
