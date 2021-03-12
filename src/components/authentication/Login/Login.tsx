@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Login.css";
 // redux stuff
 import { connect } from "react-redux";
@@ -57,6 +58,10 @@ const Login: React.FC<Props> = ({ loginUser }) => {
   return (
     <div className="login-card">
       <form className="login-form" autoComplete="off" onSubmit={handleSubmit}>
+        <div>
+          <h1>Sign in</h1>
+          <p>Please fillout the following credentials</p>
+        </div>
         <div className="form-item">
           <TextField
             className="full-width"
@@ -101,6 +106,9 @@ const Login: React.FC<Props> = ({ loginUser }) => {
           >
             Login
           </Button>
+        </div>
+        <div>
+            <p>Don't have an accout? Signup <Link to="/signup">here</Link></p>
         </div>
       </form>
     </div>
