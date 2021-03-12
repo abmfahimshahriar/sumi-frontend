@@ -9,13 +9,33 @@ import { loginUser } from "../../../store/actions/userActions";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+// utility functions
+import { inputValidator } from "../../../utility/validators/inputValidator";
+
 type Props = {
   loginUser: Function;
 };
+
 const Login: React.FC<Props> = ({ loginUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [formErrors, setFormErrors] = useState<any>({});
+  const inputs = [
+    {
+      fieldValue: email,
+      fieldName: "email",
+      validations: ["required"],
+      minLength: 8,
+      maxLength: 20,
+    },
+    {
+      fieldValue: password,
+      fieldName: "password",
+      validations: ["required", "minLength", "maxLength"],
+      minLength: 4,
+      maxLength: 10,
+    },
+  ];
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     if (name === "email") setEmail(value);
@@ -24,11 +44,15 @@ const Login: React.FC<Props> = ({ loginUser }) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData: IUser = {
-      Email: email,
-      Password: password,
-    };
-    loginUser(userData);
+    const errorsObject = inputValidator(inputs);
+    setFormErrors(errorsObject);
+    if (!errorsObject.hasError) {
+      const userData: IUser = {
+        Email: email,
+        Password: password,
+      };
+      loginUser(userData);
+    }
   };
   return (
     <div className="login-card">
@@ -41,6 +65,12 @@ const Login: React.FC<Props> = ({ loginUser }) => {
             type="email"
             placeholder="Email"
             label="Email"
+            error={formErrors.email?.errors.length > 0 ? true : false}
+            helperText={
+              formErrors.email?.errors.length > 0
+                ? formErrors.email?.errors[0]
+                : null
+            }
             onChange={handleInputChange}
           />
         </div>
@@ -52,6 +82,12 @@ const Login: React.FC<Props> = ({ loginUser }) => {
             type="password"
             placeholder="Password"
             label="Password"
+            error={formErrors.password?.errors.length > 0 ? true : false}
+            helperText={
+              formErrors.password?.errors.length > 0
+                ? formErrors.password?.errors[0]
+                : null
+            }
             onChange={handleInputChange}
           />
         </div>
@@ -65,7 +101,6 @@ const Login: React.FC<Props> = ({ loginUser }) => {
           >
             Login
           </Button>
-          {/* <button type="submit">Login</button> */}
         </div>
       </form>
     </div>

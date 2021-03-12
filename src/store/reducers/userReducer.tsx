@@ -15,7 +15,6 @@ export default function (
 ) {
   switch (action.type) {
     case actionTypes.LOGIN:
-      console.log(action);
       return {
         ...state,
         userId: action.payload.UserId,
