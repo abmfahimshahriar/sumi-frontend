@@ -79,8 +79,8 @@ export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string
 };
 
 const setAuthorizationHeader = (token: string, userId: string) => {
+  localStorage.setItem("Token", token);
   const userToken = `Bearer ${token}`;
-  localStorage.setItem("Token", userToken);
   localStorage.setItem("UserId", userId);
   axios.defaults.headers.common["Authorization"] = userToken;
 };

@@ -1,3 +1,4 @@
 import AuthRoute from "./AuthRoute";
+import MyButton from "./MyButton";
 
-export {AuthRoute};
+export {AuthRoute, MyButton};

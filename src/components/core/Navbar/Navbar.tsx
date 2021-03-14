@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { MyButton } from "../../../utility/components";
+import jwtDecode from "jwt-decode";
 // MUI stuffs
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -9,7 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-
+import UserIcon from "@material-ui/icons/AccountCircle";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -20,7 +23,6 @@ import {
   IUserMapStateToProps,
   UserState,
 } from "../../../interfaces/GlobalTypes";
-import jwtDecode from "jwt-decode";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,10 +46,11 @@ type Props = {
 
 const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   useEffect(() => {
     userAuthenticationCheck();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const userAuthenticationCheck = () => {
@@ -61,6 +64,20 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
         setAuthenticated();
       }
     }
+  };
+
+  const openProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeProfileMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const logOut = () => {
+    logoutUser();
+    window.location.href = "/login";
+    closeProfileMenu();
   };
   return (
     <div className={classes.root}>
@@ -79,22 +96,41 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
             Sumi
           </Typography>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            component={Link}
-            to="/login"
-          >
-            Login
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            component={Link}
-            to="/projects"
-          >
-            projects
-          </Button>
+          {!user.isAuthenticated && (
+            <Button
+              variant="contained"
+              color="secondary"
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
+          )}
+
+          {user.isAuthenticated && (
+            <Fragment>
+              <MyButton tip="profile" onClick={openProfileMenu}>
+                <UserIcon />
+              </MyButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={closeProfileMenu}
+              >
+                <MenuItem onClick={closeProfileMenu}>Profile</MenuItem>
+                <MenuItem
+                  onClick={closeProfileMenu}
+                  component={Link}
+                  to="/projects"
+                >
+                  Projects
+                </MenuItem>
+                <MenuItem onClick={logOut}>Logout</MenuItem>
+              </Menu>
+            </Fragment>
+          )}
         </Toolbar>
       </AppBar>
     </div>
