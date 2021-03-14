@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { LoginPage, LandingPage } from "./pages";
+import { LoginPage, LandingPage, SignupPage } from "./pages";
 import { Navbar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // redux
@@ -20,6 +20,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/signup" component={SignupPage} />
             </Switch>
           </div>
         </Router>

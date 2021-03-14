@@ -19,9 +19,8 @@ export interface SumiBackendResponse {
 
 export interface UserState {
   userId?: string;
-  email: string;
-  password: string;
   token: string;
+  isAuthenticated: boolean;
 }
 
 export interface DispatchActionTypes {
