@@ -14,7 +14,6 @@ function Alert(props: AlertProps) {
 
 const CustomSnackbar: React.FC<Props> = ({ openSnackbar, message, type }) => {
   const [open, setOpen] = useState(openSnackbar);
-  console.log(open);
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;

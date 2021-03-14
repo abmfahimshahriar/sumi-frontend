@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Signup.css";
+import  { Redirect } from 'react-router-dom';
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -8,7 +9,7 @@ import {
   IUser,
   UserState,
 } from "../../../interfaces/GlobalTypes";
-import { signupUser } from "../../../store/actions/userActions";
+import { signupUser, setDefaults } from "../../../store/actions/userActions";
 
 //MUI stuff
 import TextField from "@material-ui/core/TextField";
@@ -20,9 +21,10 @@ import { inputValidator } from "../../../utility/validators/inputValidator";
 type Props = {
   signupUser: Function;
   user: UserState;
+  setDefaults: Function;
 };
 
-const Signup: React.FC<Props> = ({ signupUser, user }) => {
+const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
@@ -32,11 +34,17 @@ const Signup: React.FC<Props> = ({ signupUser, user }) => {
   const [authSuccessMessage, setAuthSuccessMessage] = useState(user.authSuccessMessage);
 
   useEffect(() => {
+    setDefaults();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
+  useEffect(() => {
     setHasAuthErrors(user.hasAuthErrors);
     setAuthErrors(user.authErrors);
     setIsAuthenticated(user.isAuthenticated);
     setAuthSuccessMessage(user.authSuccessMessage);
   }, [user]);
+
   const inputs = [
     {
       fieldValue: email,
@@ -135,6 +143,7 @@ const Signup: React.FC<Props> = ({ signupUser, user }) => {
       {isAuthenticated && (
         <CustomSnackbar openSnackbar={isAuthenticated} message={authSuccessMessage} type="success"/>
       )}
+      {isAuthenticated && <Redirect to="/"  />}
     </div>
   );
 };
@@ -145,6 +154,7 @@ const mapStateToProps = (state: IUserMapStateToProps) => ({
 
 const mapActionToProps = {
   signupUser,
+  setDefaults,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Signup);

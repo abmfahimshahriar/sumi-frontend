@@ -1,26 +1,46 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
+import  { Redirect } from 'react-router-dom';
 // redux stuff
 import { connect } from "react-redux";
-import { IUserMapStateToProps, IUser } from "../../../interfaces/GlobalTypes";
-import { loginUser } from "../../../store/actions/userActions";
+import { IUserMapStateToProps, IUser, UserState } from "../../../interfaces/GlobalTypes";
+import { loginUser, setDefaults } from "../../../store/actions/userActions";
 
 //MUI stuff
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
+import { CustomSnackbar } from "../../../components";
 // utility functions
 import { inputValidator } from "../../../utility/validators/inputValidator";
 
 type Props = {
   loginUser: Function;
+  user: UserState;
+  setDefaults: Function;
 };
 
-const Login: React.FC<Props> = ({ loginUser }) => {
+const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
+  const [hasAuthErrors, setHasAuthErrors] = useState(user.hasAuthErrors);
+  const [authErrors, setAuthErrors] = useState(user.authErrors);
+  const [isAuthenticated, setIsAuthenticated] = useState(user.isAuthenticated);
+  const [authSuccessMessage, setAuthSuccessMessage] = useState(user.authSuccessMessage);
+
+  useEffect(() => {
+    setDefaults();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+
+  useEffect(() => {
+    setHasAuthErrors(user.hasAuthErrors);
+    setAuthErrors(user.authErrors);
+    setIsAuthenticated(user.isAuthenticated);
+    setAuthSuccessMessage(user.authSuccessMessage);
+  }, [user]);
+  
   const inputs = [
     {
       fieldValue: email,
@@ -111,6 +131,13 @@ const Login: React.FC<Props> = ({ loginUser }) => {
             <p>Don't have an accout? Signup <Link to="/signup">here</Link></p>
         </div>
       </form>
+      {hasAuthErrors && (
+        <CustomSnackbar openSnackbar={hasAuthErrors} message={authErrors[0]} type="error"/>
+      )}
+      {isAuthenticated && (
+        <CustomSnackbar openSnackbar={isAuthenticated} message={authSuccessMessage} type="success"/>
+      )}
+      {isAuthenticated && <Redirect to="/"  />}
     </div>
   );
 };
@@ -121,6 +148,7 @@ const mapStateToProps = (state: IUserMapStateToProps) => ({
 
 const mapActionToProps = {
   loginUser,
+  setDefaults,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(Login);
