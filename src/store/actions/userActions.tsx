@@ -7,6 +7,7 @@ import * as actionTypes from "../actionTypes";
 export const loginUser = (
   userData: IUser
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.SET_DEFAULT});
   axios
     .post("/auth/login", userData)
     .then((res: AxiosResponse) => {
@@ -18,13 +19,18 @@ export const loginUser = (
       dispatch({ type: actionTypes.LOGIN, payload: payload });
     })
     .catch((err: AxiosError) => {
-      console.log(err.response?.data);
+      const data = err.response?.data;
+      if(data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+      }
+      console.log(err.response?.data.Errors);
     });
 };
 
 export const signupUser = (
   userData: IUser
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.SET_DEFAULT});
   axios
     .post("/auth/signup", userData)
     .then((res: AxiosResponse) => {
@@ -36,6 +42,10 @@ export const signupUser = (
       dispatch({ type: actionTypes.SIGNUP, payload: payload });
     })
     .catch((err: AxiosError) => {
-      console.log(err.response?.data);
+      const data = err.response?.data;
+      if(data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+      }
+      console.log(err.response?.data.Errors);
     });
 };

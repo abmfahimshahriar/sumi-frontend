@@ -18,9 +18,12 @@ export interface SumiBackendResponse {
 }
 
 export interface UserState {
-  userId?: string;
+  userId: string;
   token: string;
   isAuthenticated: boolean;
+  hasAuthErrors: boolean;
+  authErrors: string[];
+  authSuccessMessage: string;
 }
 
 export interface DispatchActionTypes {
@@ -28,7 +31,7 @@ export interface DispatchActionTypes {
   payload: any;
 }
 
-export interface IMapStateToProps {
-  user?: UserState;
+export interface IUserMapStateToProps {
+  user: UserState;
 }
 export type DispatchType = (args: UserAction) => UserAction;

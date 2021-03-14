@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 // redux stuff
 import { connect } from "react-redux";
-import { IMapStateToProps, IUser } from "../../../interfaces/GlobalTypes";
+import { IUserMapStateToProps, IUser } from "../../../interfaces/GlobalTypes";
 import { loginUser } from "../../../store/actions/userActions";
 
 //MUI stuff
@@ -115,7 +115,7 @@ const Login: React.FC<Props> = ({ loginUser }) => {
   );
 };
 
-const mapStateToProps = (state: IMapStateToProps) => ({
+const mapStateToProps = (state: IUserMapStateToProps) => ({
   user: state.user,
 });
 
