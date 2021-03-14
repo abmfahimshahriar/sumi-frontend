@@ -46,6 +46,20 @@ export default function (
         authErrors: [...action.payload],
         authSuccessMessage: "",
       };
+    case actionTypes.SET_AUTHENTICATED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        userId: action.payload.UserId,
+        token: action.payload.Token,
+      };
+    case actionTypes.SET_UNAUTHENTICATED:
+      return {
+        ...state,
+        isAuthenticated: false,
+        userId: "",
+        token: "",
+      };
     default:
       return state;
   }

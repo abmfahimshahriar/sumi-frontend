@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
 // redux stuff
 import { IUserMapStateToProps, UserState } from "../../interfaces/GlobalTypes";
@@ -11,12 +11,17 @@ type Props = {
   children: any;
 };
 const AuthRoute: React.FC<Props> = ({ children, user, path, exact }) => {
+  const [authenticated, setAuthenticated] = useState(user?.isAuthenticated);
+  useEffect(() => {
+    setAuthenticated(user?.isAuthenticated);
+  }, [user]);
+
   return (
     <Route
       exact
       path={path}
       render={() => {
-        return user?.isAuthenticated ? children : <Redirect to="/"></Redirect>;
+        return authenticated ? children : <Redirect to="/"></Redirect>;
       }}
     ></Route>
   );

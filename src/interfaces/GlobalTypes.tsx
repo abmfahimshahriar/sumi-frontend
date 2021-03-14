@@ -28,7 +28,7 @@ export interface UserState {
 
 export interface DispatchActionTypes {
   type: string;
-  payload: any;
+  payload?: any;
 }
 
 export interface IUserMapStateToProps {

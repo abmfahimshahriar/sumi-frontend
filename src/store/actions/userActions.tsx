@@ -21,6 +21,7 @@ export const loginUser = (
     .post("/auth/login", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
+      setAuthorizationHeader(data.Result.Token, data.Result.UserId);
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
@@ -32,7 +33,6 @@ export const loginUser = (
       if (data) {
         dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
       }
-      console.log(err.response?.data.Errors);
     });
 };
 
@@ -44,6 +44,7 @@ export const signupUser = (
     .post("/auth/signup", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
+      setAuthorizationHeader(data.Result.Token, data.Result.UserId);
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
@@ -55,6 +56,31 @@ export const signupUser = (
       if (data) {
         dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
       }
-      console.log(err.response?.data.Errors);
     });
+};
+
+
+export const logoutUser = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  localStorage.removeItem("Token");
+  localStorage.removeItem("UserId");
+  delete axios.defaults.headers.common["Authorization"];
+  dispatch({ type: actionTypes.SET_DEFAULT });
+};
+
+export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  const token = localStorage.Token;
+  const userId = localStorage.UserId;
+  const payload = {
+    UserId: userId,
+    Token: token,
+  };
+  dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: payload });
+  axios.defaults.headers.common["Authorization"] = token;
+};
+
+const setAuthorizationHeader = (token: string, userId: string) => {
+  const userToken = `Bearer ${token}`;
+  localStorage.setItem("Token", userToken);
+  localStorage.setItem("UserId", userId);
+  axios.defaults.headers.common["Authorization"] = userToken;
 };
