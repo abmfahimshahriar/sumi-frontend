@@ -23,7 +23,10 @@ const CustomSnackbar: React.FC<Props> = ({ openSnackbar, message, type }) => {
   };
   return (
     <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={type === 'error' ? "error" : "success"}>
+      <Alert
+        onClose={handleClose}
+        severity={type === "error" ? "error" : "success"}
+      >
         {message}
       </Alert>
     </Snackbar>

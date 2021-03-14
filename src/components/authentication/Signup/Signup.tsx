@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Signup.css";
-import  { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -31,12 +31,14 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
   const [hasAuthErrors, setHasAuthErrors] = useState(user.hasAuthErrors);
   const [authErrors, setAuthErrors] = useState(user.authErrors);
   const [isAuthenticated, setIsAuthenticated] = useState(user.isAuthenticated);
-  const [authSuccessMessage, setAuthSuccessMessage] = useState(user.authSuccessMessage);
+  const [authSuccessMessage, setAuthSuccessMessage] = useState(
+    user.authSuccessMessage
+  );
 
   useEffect(() => {
     setDefaults();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setHasAuthErrors(user.hasAuthErrors);
@@ -138,12 +140,20 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
         </div>
       </form>
       {hasAuthErrors && (
-        <CustomSnackbar openSnackbar={hasAuthErrors} message={authErrors[0]} type="error"/>
+        <CustomSnackbar
+          openSnackbar={hasAuthErrors}
+          message={authErrors[0]}
+          type="error"
+        />
       )}
       {isAuthenticated && (
-        <CustomSnackbar openSnackbar={isAuthenticated} message={authSuccessMessage} type="success"/>
+        <CustomSnackbar
+          openSnackbar={isAuthenticated}
+          message={authSuccessMessage}
+          type="success"
+        />
       )}
-      {isAuthenticated && <Redirect to="/"  />}
+      {isAuthenticated && <Redirect to="/projects" />}
     </div>
   );
 };

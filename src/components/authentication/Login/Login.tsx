@@ -1,10 +1,14 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
-import  { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 // redux stuff
 import { connect } from "react-redux";
-import { IUserMapStateToProps, IUser, UserState } from "../../../interfaces/GlobalTypes";
+import {
+  IUserMapStateToProps,
+  IUser,
+  UserState,
+} from "../../../interfaces/GlobalTypes";
 import { loginUser, setDefaults } from "../../../store/actions/userActions";
 
 //MUI stuff
@@ -27,12 +31,14 @@ const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
   const [hasAuthErrors, setHasAuthErrors] = useState(user.hasAuthErrors);
   const [authErrors, setAuthErrors] = useState(user.authErrors);
   const [isAuthenticated, setIsAuthenticated] = useState(user.isAuthenticated);
-  const [authSuccessMessage, setAuthSuccessMessage] = useState(user.authSuccessMessage);
+  const [authSuccessMessage, setAuthSuccessMessage] = useState(
+    user.authSuccessMessage
+  );
 
   useEffect(() => {
     setDefaults();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setHasAuthErrors(user.hasAuthErrors);
@@ -40,7 +46,7 @@ const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
     setIsAuthenticated(user.isAuthenticated);
     setAuthSuccessMessage(user.authSuccessMessage);
   }, [user]);
-  
+
   const inputs = [
     {
       fieldValue: email,
@@ -128,16 +134,26 @@ const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
           </Button>
         </div>
         <div>
-            <p>Don't have an accout? Signup <Link to="/signup">here</Link></p>
+          <p>
+            Don't have an accout? Signup <Link to="/signup">here</Link>
+          </p>
         </div>
       </form>
       {hasAuthErrors && (
-        <CustomSnackbar openSnackbar={hasAuthErrors} message={authErrors[0]} type="error"/>
+        <CustomSnackbar
+          openSnackbar={hasAuthErrors}
+          message={authErrors[0]}
+          type="error"
+        />
       )}
       {isAuthenticated && (
-        <CustomSnackbar openSnackbar={isAuthenticated} message={authSuccessMessage} type="success"/>
+        <CustomSnackbar
+          openSnackbar={isAuthenticated}
+          message={authSuccessMessage}
+          type="success"
+        />
       )}
-      {isAuthenticated && <Redirect to="/"  />}
+      {isAuthenticated && <Redirect to="/projects" />}
     </div>
   );
 };
