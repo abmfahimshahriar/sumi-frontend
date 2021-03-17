@@ -6,7 +6,7 @@ import ProjectList from "./Project/ProjectList/ProjectList";
 import MyCreatedProjectList from "./Project/MyCreatedProjectList/MyCreatedProjectList";
 import MyInvolvedProjectList from "./Project/MyInvolvedProjectList/MyInvolvedProjectList";
 import ProjectListCard from "./Project/ProjectListCard/ProjectListCard";
-
+import CreateProjectDialog from "./Project/CreateProjectDialog/CreateProjectDialog";
 export {
   Navbar,
   Login,
@@ -15,5 +15,6 @@ export {
   ProjectList,
   MyCreatedProjectList,
   MyInvolvedProjectList,
-  ProjectListCard
+  ProjectListCard,
+  CreateProjectDialog
 };

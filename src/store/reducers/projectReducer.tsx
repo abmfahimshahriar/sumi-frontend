@@ -9,6 +9,7 @@ const initialProjectState: ProjectState = {
   myInvolvedProjects: [],
   hasProjectErrors: false,
   projectErrors: [],
+  usersList: [],
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -36,6 +37,11 @@ export default function (
         ...state,
         hasProjectErrors: true,
         projectErrors: [...action.payload],
+      };
+    case actionTypes.SET_USERS_LIST:
+      return {
+        ...state,
+        usersList: [...action.payload]
       };
     default:
       return state;

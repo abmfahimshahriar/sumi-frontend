@@ -28,7 +28,7 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
       <div className="project-details-wrapper">
         <div className="project-title">{project.ProjectName}</div>
         <div>
-          <MyButton tip="profile" onClick={openMoreMenu}>
+          <MyButton tip="more" onClick={openMoreMenu}>
             <MoreVertIcon />
           </MyButton>
           <Menu

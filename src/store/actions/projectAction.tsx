@@ -1,7 +1,10 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { SumiBackendResponse } from "../../interfaces/GlobalTypes";
+import {
+  CreateProjectPayload,
+  SumiBackendResponse,
+} from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
 export const setDefaults = (): ThunkAction<
@@ -61,6 +64,51 @@ export const getMyInvolvedProjects = (): ThunkAction<
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_INVOLVED_PROJECT_LOADING });
+      }
+    });
+};
+
+export const createProject = (
+  projectData: CreateProjectPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .post("/project/createProject", projectData)
+    .then((res: AxiosResponse) => {
+      dispatch(getMyCreatedProjects());
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const getUsersList = (
+  searchText: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  const payload = {
+    SearchText: searchText,
+  };
+  axios
+    .post("/project/getUsers", payload)
+    .then((res: AxiosResponse) => {
+      const data: SumiBackendResponse = res.data;
+      dispatch({
+        type: actionTypes.SET_USERS_LIST,
+        payload: data.Result.Users,
+      });
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
       }
     });
 };

@@ -26,11 +26,16 @@ export interface UserState {
   authSuccessMessage: string;
 }
 
+interface usersListItem {
+  _id: string,
+  Email: string
+}
 export interface ProjectState {
   myCreatedProjects: Project[];
   myInvolvedProjects: Project[];
   hasProjectErrors: boolean;
   projectErrors: string[];
+  usersList: usersListItem[];
 }
 
 export interface UIState {
@@ -64,4 +69,11 @@ export interface Project {
   CreatedBy: string;
   TotalStoryPoints: number;
   CompletedStoryPoints: number;
+}
+
+export interface CreateProjectPayload {
+  ProjectName: string;
+  StartDate: string;
+  EndDate: string;
+  InvolvedUsers: string[];
 }
