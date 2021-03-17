@@ -7,6 +7,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { ProjectListCard } from "../../../components";
 import "./MyInvolvedProjectList.css";
+import {ProjectListCardSkeleton} from "../../../utility/components";
 
 // redux stuff
 import { connect } from "react-redux";
@@ -34,7 +35,8 @@ const MyInvolvedProjectList: React.FC<Props> = ({
   const noProjectsMarkup = (
     <div>You are currently not involved in any other projects.</div>
   );
-  const loading = <div>loading....</div>;
+  const loadingCounter = [1,2];
+  const loadingMarkup = loadingCounter.map((item: number) => <ProjectListCardSkeleton key={item}/>)
   return (
     <div className="my-involved-project-wrapper">
       <h2>Involved Projects</h2>
@@ -47,7 +49,7 @@ const MyInvolvedProjectList: React.FC<Props> = ({
         project.myInvolvedProjects.length === 0 &&
         noProjectsMarkup}
       {project.hasProjectErrors && !ui.involvedProjectLoading && errorMarkup}
-      {ui.involvedProjectLoading && loading}
+      {ui.involvedProjectLoading && loadingMarkup}
     </div>
   );
 };

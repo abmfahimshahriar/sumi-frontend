@@ -1,0 +1,61 @@
+.single-project-skeleton-list-card-wrapper {
+    width: 90%;
+    height: 64px;
+    border: 1px solid black;
+    margin-bottom: 12px;
+    padding: 16px;
+    box-shadow: 2px 2px 5px rgb(75 62 62);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .single-project-skeleton-list-card-wrapper:hover {
+    box-shadow: 2px 2px 5px rgb(11, 139, 33);
+  }
+  
+  .project-skeleton-title {
+    width: 240px;
+    height: 18px;
+    background-color: rgba(20, 18, 18, 0.747);
+    margin-bottom: 8px;
+  }
+  
+  .project-skeleton-details-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .project-skeleton-date-wrapper {
+    display: flex;
+  }
+  .project-skeleton-date {
+    display: flex;
+  }
+  .project-skeleton-date-content {
+    width: 120px;
+    height: 18px;
+    background-color: rgba(65, 60, 60, 0.568);
+  }
+
+  
+  .skeleton-date-divider {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  
+  .skeleton-story-points-wrapper {
+    display: flex;
+  }
+  
+  .skeleton-story-point {
+    margin-right: 4px;
+  }
+  
