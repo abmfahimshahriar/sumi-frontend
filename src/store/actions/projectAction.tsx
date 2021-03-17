@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { IUser, SumiBackendResponse } from "../../interfaces/GlobalTypes";
+import { SumiBackendResponse } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
 export const setDefaults = (): ThunkAction<
@@ -19,20 +19,25 @@ export const getMyCreatedProjects = (): ThunkAction<
   unknown,
   Action<string>
 > => async (dispatch) => {
+  dispatch({ type: actionTypes.START_CREATED_PROJECT_LOADING });
   axios
     .get("/project/myCreatedProjects")
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      dispatch({ type: actionTypes.GET_MY_CREATED_PROJECTS, payload: data.Result.myCreatedProjects });
+      dispatch({
+        type: actionTypes.GET_MY_CREATED_PROJECTS,
+        payload: data.Result.myCreatedProjects,
+      });
+      dispatch({ type: actionTypes.END_CREATED_PROJECT_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
-        if (data) {
-          dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
-        }
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_CREATED_PROJECT_LOADING });
+      }
     });
 };
-
 
 export const getMyInvolvedProjects = (): ThunkAction<
   void,
@@ -40,16 +45,22 @@ export const getMyInvolvedProjects = (): ThunkAction<
   unknown,
   Action<string>
 > => async (dispatch) => {
+  dispatch({ type: actionTypes.START_INVOLVED_PROJECT_LOADING });
   axios
     .get("/project/myInvolvedProjects")
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      dispatch({ type: actionTypes.GET_MY_INVOLVED_PROJECTS, payload: data.Result.myInvolvedProjects });
+      dispatch({
+        type: actionTypes.GET_MY_INVOLVED_PROJECTS,
+        payload: data.Result.myInvolvedProjects,
+      });
+      dispatch({ type: actionTypes.END_INVOLVED_PROJECT_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
-        if (data) {
-          dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
-        }
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_INVOLVED_PROJECT_LOADING });
+      }
     });
 };

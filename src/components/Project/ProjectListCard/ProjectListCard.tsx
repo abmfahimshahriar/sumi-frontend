@@ -15,11 +15,12 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
       <div className="project-details-wrapper">
         <div className="project-date-wrapper">
           <div className="project-date">
-            <CalendarTodayIcon /> {moment(project.StartDate).format('DD-MM-YYYY')}
+            <CalendarTodayIcon />{" "}
+            {moment(project.StartDate).format("DD-MM-YYYY")}
           </div>
           <div className="date-divider">{"-"}</div>
           <div className="project-date">
-            <CalendarTodayIcon /> {moment(project.EndDate).format('DD-MM-YYYY')}
+            <CalendarTodayIcon /> {moment(project.EndDate).format("DD-MM-YYYY")}
           </div>
         </div>
         <div className="story-points-wrapper">

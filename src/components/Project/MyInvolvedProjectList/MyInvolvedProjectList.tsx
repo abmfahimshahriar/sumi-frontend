@@ -3,6 +3,7 @@ import {
   IProjectMapStateToProps,
   Project,
   ProjectState,
+  UIState,
 } from "../../../interfaces/GlobalTypes";
 import { ProjectListCard } from "../../../components";
 import "./MyInvolvedProjectList.css";
@@ -14,10 +15,12 @@ import { getMyInvolvedProjects } from "../../../store/actions/projectAction";
 type Props = {
   getMyInvolvedProjects: Function;
   project: ProjectState;
+  ui: UIState;
 };
 const MyInvolvedProjectList: React.FC<Props> = ({
   getMyInvolvedProjects,
   project,
+  ui,
 }) => {
   useEffect(() => {
     getMyInvolvedProjects();
@@ -31,22 +34,27 @@ const MyInvolvedProjectList: React.FC<Props> = ({
   const noProjectsMarkup = (
     <div>You are currently not involved in any other projects.</div>
   );
+  const loading = <div>loading....</div>;
   return (
     <div className="my-involved-project-wrapper">
       <h2>Involved Projects</h2>
       {!project.hasProjectErrors &&
+        !ui.involvedProjectLoading &&
         project.myInvolvedProjects.length > 0 &&
         projectsMarkup}
       {!project.hasProjectErrors &&
+        !ui.involvedProjectLoading &&
         project.myInvolvedProjects.length === 0 &&
         noProjectsMarkup}
-      {project.hasProjectErrors && errorMarkup}
+      {project.hasProjectErrors && !ui.involvedProjectLoading && errorMarkup}
+      {ui.involvedProjectLoading && loading}
     </div>
   );
 };
 
 const mapStateToProps = (state: IProjectMapStateToProps) => ({
   project: state.project,
+  ui: state.ui,
 });
 
 const mapActionToProps = {

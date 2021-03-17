@@ -33,6 +33,13 @@ export interface ProjectState {
   projectErrors: string[];
 }
 
+export interface UIState {
+  localLoading: boolean;
+  globalLoading: boolean;
+  createdProjectLoading: boolean;
+  involvedProjectLoading: boolean;
+}
+
 export interface DispatchActionTypes {
   type: string;
   payload?: any;
@@ -44,10 +51,10 @@ export interface IUserMapStateToProps {
 
 export interface IProjectMapStateToProps {
   project: ProjectState;
+  ui: UIState;
 }
 
 export type DispatchType = (args: UserAction) => UserAction;
-
 
 export interface Project {
   _id: string;
