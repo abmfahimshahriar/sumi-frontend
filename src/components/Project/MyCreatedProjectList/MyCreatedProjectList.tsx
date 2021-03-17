@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   IProjectMapStateToProps,
   Project,
@@ -13,24 +13,34 @@ import { getMyCreatedProjects } from "../../../store/actions/projectAction";
 
 type Props = {
   getMyCreatedProjects: Function;
-  project: ProjectState,
+  project: ProjectState;
 };
-const array = [1, 2, 3, 4, 5];
-const MyCreatedProjectList: React.FC<Props> = ({ getMyCreatedProjects, project }) => {
-    // const [projects, setProjects] = useState<Project[]>([]);
-    
+const MyCreatedProjectList: React.FC<Props> = ({
+  getMyCreatedProjects,
+  project,
+}) => {
   useEffect(() => {
     getMyCreatedProjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const projectsMarkuo = project.myCreatedProjects.map((item: Project) => {
-    return <ProjectListCard key={item._id} project={item}/>;
+  const projectsMarkup = project.myCreatedProjects.map((item: Project) => {
+    return <ProjectListCard key={item._id} project={item} />;
   });
+  const errorMarkup = <div>{project.projectErrors[0]}</div>;
+  const noProjectsMarkup = (
+    <div>You have not created any projects yet</div>
+  );
   return (
     <div className="my-created-project-wrapper">
       <h2>Created Projects</h2>
-      {projectsMarkuo}
+      {!project.hasProjectErrors &&
+        project.myCreatedProjects.length > 0 &&
+        projectsMarkup}
+      {!project.hasProjectErrors &&
+        project.myCreatedProjects.length === 0 &&
+        noProjectsMarkup}
+      {project.hasProjectErrors && errorMarkup}
     </div>
   );
 };

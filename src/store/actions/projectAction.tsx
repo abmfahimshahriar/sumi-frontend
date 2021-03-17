@@ -23,7 +23,6 @@ export const getMyCreatedProjects = (): ThunkAction<
     .get("/project/myCreatedProjects")
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      console.log(data);
       dispatch({ type: actionTypes.GET_MY_CREATED_PROJECTS, payload: data.Result.myCreatedProjects });
     })
     .catch((err: AxiosError) => {
@@ -31,6 +30,26 @@ export const getMyCreatedProjects = (): ThunkAction<
         if (data) {
           dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         }
-      console.log(data);
+    });
+};
+
+
+export const getMyInvolvedProjects = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  axios
+    .get("/project/myInvolvedProjects")
+    .then((res: AxiosResponse) => {
+      const data: SumiBackendResponse = res.data;
+      dispatch({ type: actionTypes.GET_MY_INVOLVED_PROJECTS, payload: data.Result.myInvolvedProjects });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+        if (data) {
+          dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        }
     });
 };

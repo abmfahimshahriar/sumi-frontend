@@ -26,6 +26,11 @@ export default function (
         ...state,
         myCreatedProjects: [...action.payload],
       };
+    case actionTypes.GET_MY_INVOLVED_PROJECTS:
+      return {
+        ...state,
+        myInvolvedProjects: [...action.payload],
+      };
     case actionTypes.PROJECT_ERROR:
       return {
         ...state,
