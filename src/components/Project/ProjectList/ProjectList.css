@@ -1,0 +1,25 @@
+.project-list-card {
+    overflow-y: auto;
+    box-shadow: 0 0 1px 0 rgb(0 0 0 / 70%), 0 3px 4px -2px rgb(0 0 0 / 50%);
+    border-radius: 4px;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: #ffffffe1;
+    width: 40vw;
+    height: 60vh;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+ 
+  
+  @media only screen and (max-width: 600px) {
+    .project-list-card {
+      width: 100vw;
+      height: 100vh;
+      padding: 0px;
+    }
+  }
+  

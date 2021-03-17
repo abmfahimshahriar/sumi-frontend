@@ -10,9 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import UserIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Avatar from "@material-ui/core/Avatar";
+
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -110,7 +111,7 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
           {user.isAuthenticated && (
             <Fragment>
               <MyButton tip="profile" onClick={openProfileMenu}>
-                <UserIcon />
+                <Avatar>F</Avatar>
               </MyButton>
               <Menu
                 id="simple-menu"

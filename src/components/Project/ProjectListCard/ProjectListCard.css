@@ -1,0 +1,54 @@
+.single-project-list-card-wrapper {
+    width: 90%;
+    height: 64px;
+    border: 1px solid black;
+    margin-bottom: 12px;
+    padding: 16px;
+    box-shadow: 2px 2px 5px rgb(75 62 62);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.single-project-list-card-wrapper:hover {
+    box-shadow: 2px 2px 5px rgb(11, 139, 33);
+}
+
+.project-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-bottom: 8px;
+}
+
+.project-details-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.project-date-wrapper {
+    display: flex;
+}
+.project-date {
+    display: flex;
+}
+
+.date-divider {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.story-points-wrapper {
+    display: flex;
+}
+
+.story-point {
+    margin-right: 4px;
+}

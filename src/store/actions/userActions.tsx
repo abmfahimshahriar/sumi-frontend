@@ -75,7 +75,7 @@ export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string
     Token: token,
   };
   dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: payload });
-  axios.defaults.headers.common["Authorization"] = token;
+  setAuthorizationHeader(token, userId);
 };
 
 const setAuthorizationHeader = (token: string, userId: string) => {

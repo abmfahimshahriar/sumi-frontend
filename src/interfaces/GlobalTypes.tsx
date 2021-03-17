@@ -26,6 +26,13 @@ export interface UserState {
   authSuccessMessage: string;
 }
 
+export interface ProjectState {
+  myCreatedProjects: Project[];
+  myInvolvedProjects: Project[];
+  hasProjectErrors: boolean;
+  projectErrors: string[];
+}
+
 export interface DispatchActionTypes {
   type: string;
   payload?: any;
@@ -34,4 +41,20 @@ export interface DispatchActionTypes {
 export interface IUserMapStateToProps {
   user: UserState;
 }
+
+export interface IProjectMapStateToProps {
+  project: ProjectState;
+}
+
 export type DispatchType = (args: UserAction) => UserAction;
+
+
+export interface Project {
+  _id: string;
+  ProjectName: string;
+  StartDate: string;
+  EndDate: string;
+  CreatedBy: string;
+  TotalStoryPoints: number;
+  CompletedStoryPoints: number;
+}
