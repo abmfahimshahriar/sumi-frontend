@@ -73,6 +73,7 @@ export interface Project {
   CreatedBy: string;
   TotalStoryPoints: number;
   CompletedStoryPoints: number;
+  InvolvedUsers: UsersListItem[];
 }
 
 export interface CreateProjectPayload {

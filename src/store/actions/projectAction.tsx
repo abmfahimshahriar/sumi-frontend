@@ -4,6 +4,7 @@ import { ThunkAction } from "redux-thunk";
 import {
   CreateProjectPayload,
   SumiBackendResponse,
+  UsersListItem,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
@@ -77,6 +78,32 @@ export const createProject = (
     .then((res: AxiosResponse) => {
       dispatch(getMyCreatedProjects());
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({
+        type: actionTypes.EMPTY_USERS_LIST,
+      });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const updateProject = (
+  projectData: CreateProjectPayload,
+  projectId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .put(`/project/updateProject/${projectId}`, projectData)
+    .then((res: AxiosResponse) => {
+      dispatch(getMyCreatedProjects());
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({
+        type: actionTypes.EMPTY_USERS_LIST,
+      });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
@@ -88,29 +115,38 @@ export const createProject = (
 };
 
 export const getUsersList = (
-  searchText: string
+  isUpdate: boolean,
+  searchText?: string,
+  usersListForUpdate?: UsersListItem[]
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
-  dispatch({ type: actionTypes.START_LOCAL_LOADING });
-  const payload = {
-    SearchText: searchText,
-  };
-  axios
-    .post("/project/getUsers", payload)
-    .then((res: AxiosResponse) => {
-      const data: SumiBackendResponse = res.data;
-      dispatch({
-        type: actionTypes.SET_USERS_LIST,
-        payload: data.Result.Users,
-      });
-      dispatch({ type: actionTypes.END_LOCAL_LOADING });
-    })
-    .catch((err: AxiosError) => {
-      const data = err.response?.data;
-      if (data) {
-        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
-        dispatch({ type: actionTypes.END_LOCAL_LOADING });
-      }
+  if (isUpdate) {
+    dispatch({
+      type: actionTypes.MARK_ALREADY_SELECTED_USER,
+      payload: usersListForUpdate,
     });
+  } else {
+    dispatch({ type: actionTypes.START_LOCAL_LOADING });
+    const payload = {
+      SearchText: searchText,
+    };
+    axios
+      .post("/project/getUsers", payload)
+      .then((res: AxiosResponse) => {
+        const data: SumiBackendResponse = res.data;
+        dispatch({
+          type: actionTypes.SET_USERS_LIST,
+          payload: data.Result.Users,
+        });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      })
+      .catch((err: AxiosError) => {
+        const data = err.response?.data;
+        if (data) {
+          dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+          dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        }
+      });
+  }
 };
 
 export const selectUser = (
@@ -119,5 +155,16 @@ export const selectUser = (
   dispatch({
     type: actionTypes.SELECT_USER,
     payload: userId,
+  });
+};
+
+export const emptyUserslist = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  dispatch({
+    type: actionTypes.EMPTY_USERS_LIST,
   });
 };

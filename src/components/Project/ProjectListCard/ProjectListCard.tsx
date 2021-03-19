@@ -9,19 +9,32 @@ import { MyButton } from "../../../utility/components";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Link } from "react-router-dom";
+import { CreateProjectDialog } from "../../../components";
 
 type Props = {
   project: Project;
 };
 const ProjectListCard: React.FC<Props> = ({ project }) => {
+  const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isUpdate, setIsUpdate] = useState(false);
   const openMoreMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   const closeMoreMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenDialog = () => {
+    setIsUpdate(true);
+    setOpen(true);
+    closeMoreMenu();
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setIsUpdate(false);
   };
   return (
     <div className="single-project-list-card-wrapper">
@@ -38,12 +51,15 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
             open={Boolean(anchorEl)}
             onClose={closeMoreMenu}
           >
-            <MenuItem onClick={closeMoreMenu}>Update</MenuItem>
-            <MenuItem onClick={closeMoreMenu} component={Link} to="/projects">
-              something with link
-            </MenuItem>
+            <MenuItem onClick={handleOpenDialog}>Update</MenuItem>
             <MenuItem onClick={closeMoreMenu}>Delete</MenuItem>
           </Menu>
+          <CreateProjectDialog
+            open={open}
+            onClose={handleCloseDialog}
+            isUpdate={isUpdate}
+            selectedProject={project}
+          />
         </div>
       </div>
 

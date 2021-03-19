@@ -53,14 +53,29 @@ export default function (
         ...state,
         usersList: [...combinedUserList],
       };
+    case actionTypes.MARK_ALREADY_SELECTED_USER:
+      let usersForUpdate = [...action.payload];
+      usersForUpdate = usersForUpdate.map((item) => {
+        item.IsSelected = true;
+        return item;
+      });
+      return {
+        ...state,
+        usersList: [...usersForUpdate],
+      };
     case actionTypes.SELECT_USER:
       const selectedUser = state.usersList.find(
         (item) => item._id === action.payload
       );
-      if(selectedUser) selectedUser.IsSelected = !selectedUser.IsSelected;
-      
+      if (selectedUser) selectedUser.IsSelected = !selectedUser.IsSelected;
+
       return {
         ...state,
+      };
+    case actionTypes.EMPTY_USERS_LIST:
+      return {
+        ...state,
+        usersList: [],
       };
     default:
       return state;

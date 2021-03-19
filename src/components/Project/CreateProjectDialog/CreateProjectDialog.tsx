@@ -18,6 +18,8 @@ import { connect } from "react-redux";
 import {
   getUsersList,
   createProject,
+  updateProject,
+  emptyUserslist,
 } from "../../../store/actions/projectAction";
 import { UserList } from "../..";
 
@@ -30,8 +32,9 @@ type Props = {
   project: ProjectState;
   ui: UIState;
   selectedProject?: Project;
+  updateProject: Function;
+  emptyUserslist: Function;
 };
-
 
 const CreateProjectDialog: React.FC<Props> = ({
   open,
@@ -42,19 +45,33 @@ const CreateProjectDialog: React.FC<Props> = ({
   ui,
   createProject,
   selectedProject,
+  updateProject,
+  emptyUserslist,
 }) => {
   const [dialogTitle, setDialogTile] = useState("Create Project");
   const [projectName, setProjectName] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(
+    moment(new Date().toISOString()).format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState(
+    moment(new Date().toISOString()).format("YYYY-MM-DD")
+  );
   const [searchText, setSearchText] = useState("");
 
   const handleClose = () => {
+    emptyUserslist();
     onClose();
   };
 
   useEffect(() => {
-    if (isUpdate) setDialogTile("Update Project");
+    if (isUpdate && selectedProject) {
+      setDialogTile("Update Project");
+      setProjectName(selectedProject.ProjectName);
+      setStartDate(selectedProject.StartDate);
+      setEndDate(selectedProject.EndDate);
+      getUsersList(true, "", selectedProject.InvolvedUsers);
+      console.log("is update called");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdate]);
 
@@ -65,14 +82,14 @@ const CreateProjectDialog: React.FC<Props> = ({
     if (name === "endDate") setEndDate(value);
     if (name === "searchUserText") {
       setSearchText(value);
-      getUsersList(value);
+      getUsersList(false, value);
     }
   };
 
-  
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const involvedUsers = project.usersList.filter(item => item.IsSelected === true);
+  const handleCreateProject = () => {
+    const involvedUsers = project.usersList.filter(
+      (item) => item.IsSelected === true
+    );
     const projectData: CreateProjectPayload = {
       ProjectName: projectName,
       StartDate: startDate,
@@ -81,6 +98,29 @@ const CreateProjectDialog: React.FC<Props> = ({
     };
     // console.log(projectData);
     createProject(projectData);
+  };
+
+  const handleUpdateProject = () => {
+    const involvedUsers = project.usersList.filter(
+      (item) => item.IsSelected === true
+    );
+    const projectData: CreateProjectPayload = {
+      ProjectName: projectName,
+      StartDate: startDate,
+      EndDate: endDate,
+      InvolvedUsers: involvedUsers,
+    };
+    // console.log(projectData);
+    updateProject(projectData, selectedProject?._id);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isUpdate) {
+      handleUpdateProject();
+    } else {
+      handleCreateProject();
+    }
     onClose();
   };
 
@@ -116,9 +156,9 @@ const CreateProjectDialog: React.FC<Props> = ({
               name="startDate"
               label="Start date"
               type="date"
-              defaultValue={moment(isUpdate ? selectedProject?.StartDate : new Date().toISOString()).format(
-                "YYYY-MM-DD"
-              )}
+              defaultValue={moment(
+                isUpdate ? selectedProject?.StartDate : new Date().toISOString()
+              ).format("YYYY-MM-DD")}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -132,9 +172,9 @@ const CreateProjectDialog: React.FC<Props> = ({
               name="endDate"
               label="End date"
               type="date"
-              defaultValue={moment(isUpdate ? selectedProject?.EndDate : new Date().toISOString()).format(
-                "YYYY-MM-DD"
-              )}
+              defaultValue={moment(
+                isUpdate ? selectedProject?.EndDate : new Date().toISOString()
+              ).format("YYYY-MM-DD")}
               onChange={handleInputChange}
               InputLabelProps={{
                 shrink: true,
@@ -155,13 +195,18 @@ const CreateProjectDialog: React.FC<Props> = ({
             />
           </div>
           <div className="form-item">
-            <UserList/>
+            <UserList />
           </div>
           <div className="form-item btn-container">
             <Button variant="contained" color="primary" type="submit">
               Submit
             </Button>
-            <Button variant="contained" color="secondary" type="button" onClick={handleClose}>
+            <Button
+              variant="contained"
+              color="secondary"
+              type="button"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
           </div>
@@ -179,6 +224,8 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 const mapActionToProps = {
   getUsersList,
   createProject,
+  updateProject,
+  emptyUserslist,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(CreateProjectDialog);
