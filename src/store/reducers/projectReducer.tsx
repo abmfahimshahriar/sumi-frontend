@@ -44,7 +44,8 @@ export default function (
         item.IsSelected = false;
         return item;
       });
-      const combinedUserList = [...state.usersList, ...usersListData].filter(
+      const usersFromState = state.usersList.filter(item => item.IsSelected === true);
+      const combinedUserList = [...usersFromState, ...usersListData].filter(
         ((
           set // store the set and return the actual callback
         ) => (o: any) => (set.has(o._id) ? false : set.add(o._id)))(new Set()) // use an IIFE to create a Set and store it set

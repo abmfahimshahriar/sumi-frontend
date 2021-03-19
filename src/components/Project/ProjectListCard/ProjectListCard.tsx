@@ -28,6 +28,7 @@ const ProjectListCard: React.FC<Props> = ({
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isUpdate, setIsUpdate] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isInvolvedProject, setIsInvolvedProject] = useState(
     isInvolvedProjectProp ? true : false
   );

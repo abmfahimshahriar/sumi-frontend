@@ -1,5 +1,4 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import {
   CreateProjectPayload,
@@ -70,7 +69,6 @@ const CreateProjectDialog: React.FC<Props> = ({
       setStartDate(selectedProject.StartDate);
       setEndDate(selectedProject.EndDate);
       getUsersList(true, "", selectedProject.InvolvedUsers);
-      console.log("is update called");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdate]);
@@ -82,7 +80,9 @@ const CreateProjectDialog: React.FC<Props> = ({
     if (name === "endDate") setEndDate(value);
     if (name === "searchUserText") {
       setSearchText(value);
-      getUsersList(false, value);
+      setTimeout(() => {
+        getUsersList(false, value);
+      }, 2000);
     }
   };
 
@@ -131,7 +131,7 @@ const CreateProjectDialog: React.FC<Props> = ({
       open={open}
     >
       <div className="create-project-dialog-wrapper">
-        <DialogTitle id="simple-dialog-title">{dialogTitle}</DialogTitle>
+        <h2>{dialogTitle}</h2>
         <form
           className="create-project-form"
           autoComplete="off"
