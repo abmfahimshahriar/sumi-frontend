@@ -111,7 +111,7 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
           {user.isAuthenticated && (
             <Fragment>
               <MyButton tip="profile" onClick={openProfileMenu}>
-                <Avatar>F</Avatar>
+                <Avatar>{user.username?.slice(0,1)}</Avatar>
               </MyButton>
               <Menu
                 id="simple-menu"

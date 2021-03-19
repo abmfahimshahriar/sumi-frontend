@@ -21,10 +21,11 @@ export const loginUser = (
     .post("/auth/login", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      setAuthorizationHeader(data.Result.Token, data.Result.UserId);
+      setAuthorizationHeader(data.Result.Token, data.Result.UserId, data.Result.Username);
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
+        Username: data.Result.Username,
       };
       dispatch({ type: actionTypes.LOGIN, payload: payload });
     })
@@ -44,10 +45,11 @@ export const signupUser = (
     .post("/auth/signup", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      setAuthorizationHeader(data.Result.Token, data.Result.UserId);
+      setAuthorizationHeader(data.Result.Token, data.Result.UserId, data.Result.Username);
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
+        Username: data.Result.Username,
       };
       dispatch({ type: actionTypes.SIGNUP, payload: payload });
     })
@@ -63,6 +65,7 @@ export const signupUser = (
 export const logoutUser = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   localStorage.removeItem("Token");
   localStorage.removeItem("UserId");
+  localStorage.removeItem("Username");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: actionTypes.SET_DEFAULT });
 };
@@ -70,16 +73,19 @@ export const logoutUser = (): ThunkAction<void, {}, unknown, Action<string>> => 
 export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   const token = localStorage.Token;
   const userId = localStorage.UserId;
+  const username = localStorage.Username;
   const payload = {
     UserId: userId,
     Token: token,
+    Username: username,
   };
   dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: payload });
-  setAuthorizationHeader(token, userId);
+  setAuthorizationHeader(token, userId, username);
 };
 
-const setAuthorizationHeader = (token: string, userId: string) => {
+const setAuthorizationHeader = (token: string, userId: string, username: string) => {
   localStorage.setItem("Token", token);
+  localStorage.setItem("Username", username);
   const userToken = `Bearer ${token}`;
   localStorage.setItem("UserId", userId);
   axios.defaults.headers.common["Authorization"] = userToken;

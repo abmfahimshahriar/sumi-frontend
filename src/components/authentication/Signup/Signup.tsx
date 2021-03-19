@@ -25,6 +25,7 @@ type Props = {
 };
 
 const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
@@ -49,6 +50,13 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
 
   const inputs = [
     {
+      fieldValue: username,
+      fieldName: "username",
+      validations: ["required"],
+      minLength: 8,
+      maxLength: 20,
+    },
+    {
       fieldValue: email,
       fieldName: "email",
       validations: ["required"],
@@ -65,6 +73,7 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
   ];
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+    if (name === "username") setUsername(value);
     if (name === "email") setEmail(value);
     if (name === "password") setPassword(value);
   };
@@ -75,6 +84,7 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
     setFormErrors(errorsObject);
     if (!errorsObject.hasError) {
       const userData: IUser = {
+        Name: username,
         Email: email,
         Password: password,
       };
@@ -87,6 +97,23 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
         <div>
           <h1>Sign up</h1>
           <p>Please fillout the following credentials</p>
+        </div>
+        <div className="form-item">
+          <TextField
+            className="full-width"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Username"
+            label="Username"
+            error={formErrors.username?.errors.length > 0 ? true : false}
+            helperText={
+              formErrors.username?.errors.length > 0
+                ? formErrors.username?.errors[0]
+                : null
+            }
+            onChange={handleInputChange}
+          />
         </div>
         <div className="form-item">
           <TextField

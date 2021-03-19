@@ -1,5 +1,6 @@
 export interface IUser {
   UserId?: string;
+  Name?: string;
   Email: string;
   Password: string;
   Token?: string;
@@ -18,6 +19,7 @@ export interface SumiBackendResponse {
 }
 
 export interface UserState {
+  username?: string;
   userId: string;
   token: string;
   isAuthenticated: boolean;

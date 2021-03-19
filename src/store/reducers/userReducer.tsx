@@ -2,6 +2,7 @@ import { DispatchActionTypes, UserState } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
 const initialUserState: UserState = {
+  username: "",
   userId: "",
   token: "",
   isAuthenticated: false,
@@ -25,6 +26,7 @@ export default function (
         ...state,
         userId: action.payload.UserId,
         token: action.payload.Token,
+        username: action.payload.Username,
         isAuthenticated: true,
         hasAuthErrors: false,
         authSuccessMessage: "Successfully logged in!",
@@ -34,6 +36,7 @@ export default function (
         ...state,
         userId: action.payload.UserId,
         token: action.payload.Token,
+        username: action.payload.Username,
         isAuthenticated: true,
         hasAuthErrors: false,
         authSuccessMessage: "Successfully signed up!",
@@ -52,6 +55,7 @@ export default function (
         isAuthenticated: true,
         userId: action.payload.UserId,
         token: action.payload.Token,
+        username: action.payload.Username,
       };
     case actionTypes.SET_UNAUTHENTICATED:
       return {
