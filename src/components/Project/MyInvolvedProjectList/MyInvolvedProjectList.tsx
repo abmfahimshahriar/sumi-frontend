@@ -29,7 +29,7 @@ const MyInvolvedProjectList: React.FC<Props> = ({
   }, []);
 
   const projectsMarkup = project.myInvolvedProjects.map((item: Project) => {
-    return <ProjectListCard key={item._id} project={item} />;
+    return <ProjectListCard key={item._id} project={item} isInvolvedProjectProp={true}/>;
   });
   const errorMarkup = <div>{project.projectErrors[0]}</div>;
   const noProjectsMarkup = (

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Project } from "../../../interfaces/GlobalTypes";
+import {
+  IProjectMapStateToProps,
+  Project,
+} from "../../../interfaces/GlobalTypes";
 import "./ProjectListCard.css";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import Chip from "@material-ui/core/Chip";
@@ -10,14 +13,24 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { CreateProjectDialog } from "../../../components";
-
+import { connect } from "react-redux";
+import { deleteProject } from "../../../store/actions/projectAction";
 type Props = {
   project: Project;
+  deleteProject: Function;
+  isInvolvedProjectProp?: boolean;
 };
-const ProjectListCard: React.FC<Props> = ({ project }) => {
+const ProjectListCard: React.FC<Props> = ({
+  project,
+  deleteProject,
+  isInvolvedProjectProp,
+}) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isInvolvedProject, setIsInvolvedProject] = useState(
+    isInvolvedProjectProp ? true : false
+  );
   const openMoreMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -36,14 +49,21 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
     setOpen(false);
     setIsUpdate(false);
   };
+
+  const handleDeleteProject = () => {
+    deleteProject(project._id);
+    closeMoreMenu();
+  };
   return (
     <div className="single-project-list-card-wrapper">
       <div className="project-details-wrapper">
         <div className="project-title">{project.ProjectName}</div>
         <div>
-          <MyButton tip="more" onClick={openMoreMenu}>
-            <MoreVertIcon />
-          </MyButton>
+          {!isInvolvedProject && (
+            <MyButton tip="more" onClick={openMoreMenu}>
+              <MoreVertIcon />
+            </MyButton>
+          )}
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
@@ -52,7 +72,7 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
             onClose={closeMoreMenu}
           >
             <MenuItem onClick={handleOpenDialog}>Update</MenuItem>
-            <MenuItem onClick={closeMoreMenu}>Delete</MenuItem>
+            <MenuItem onClick={handleDeleteProject}>Delete</MenuItem>
           </Menu>
           <CreateProjectDialog
             open={open}
@@ -91,4 +111,10 @@ const ProjectListCard: React.FC<Props> = ({ project }) => {
   );
 };
 
-export default ProjectListCard;
+const mapStateToProps = (state: IProjectMapStateToProps) => ({});
+
+const mapActionToProps = {
+  deleteProject,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(ProjectListCard);

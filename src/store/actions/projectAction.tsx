@@ -114,6 +114,25 @@ export const updateProject = (
     });
 };
 
+export const deleteProject = (
+  projectId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .delete(`/project/deleteProject/${projectId}`)
+    .then((res: AxiosResponse) => {
+      dispatch(getMyCreatedProjects());
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
 export const getUsersList = (
   isUpdate: boolean,
   searchText?: string,
