@@ -13,3 +13,10 @@
 .form-item {
   margin-top: 16px;
 }
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

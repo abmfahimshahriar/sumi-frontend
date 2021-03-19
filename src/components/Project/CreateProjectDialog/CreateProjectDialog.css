@@ -1,13 +1,14 @@
 .create-project-dialog-wrapper {
-    box-shadow: 0 0 1px 0 rgb(0 0 0 / 70%), 0 3px 4px -2px rgb(0 0 0 / 50%);
-    border-radius: 4px;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    background-color: #ffffffe1;
-    padding: 32px;
-  }
+  box-shadow: 0 0 1px 0 rgb(0 0 0 / 70%), 0 3px 4px -2px rgb(0 0 0 / 50%);
+  border-radius: 4px;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #ffffffe1;
+  padding: 32px;
+}
 
 .create-project-form {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+

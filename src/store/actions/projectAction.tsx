@@ -112,3 +112,12 @@ export const getUsersList = (
       }
     });
 };
+
+export const selectUser = (
+  userId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({
+    type: actionTypes.SELECT_USER,
+    payload: userId,
+  });
+};

@@ -39,9 +39,28 @@ export default function (
         projectErrors: [...action.payload],
       };
     case actionTypes.SET_USERS_LIST:
+      let usersListData = [...action.payload];
+      usersListData = usersListData.map((item) => {
+        item.IsSelected = false;
+        return item;
+      });
+      const combinedUserList = [...state.usersList, ...usersListData].filter(
+        ((
+          set // store the set and return the actual callback
+        ) => (o: any) => (set.has(o._id) ? false : set.add(o._id)))(new Set()) // use an IIFE to create a Set and store it set
+      );
       return {
         ...state,
-        usersList: [...action.payload]
+        usersList: [...combinedUserList],
+      };
+    case actionTypes.SELECT_USER:
+      const selectedUser = state.usersList.find(
+        (item) => item._id === action.payload
+      );
+      if(selectedUser) selectedUser.IsSelected = !selectedUser.IsSelected;
+      
+      return {
+        ...state,
       };
     default:
       return state;

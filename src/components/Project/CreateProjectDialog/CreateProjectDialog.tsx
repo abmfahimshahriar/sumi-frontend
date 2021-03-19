@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import {
@@ -12,9 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import "./CreateProjectDialog.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
 
 // redux stuff
 import { connect } from "react-redux";
@@ -22,6 +19,7 @@ import {
   getUsersList,
   createProject,
 } from "../../../store/actions/projectAction";
+import { UserList } from "../..";
 
 type Props = {
   open: boolean;
@@ -34,16 +32,6 @@ type Props = {
   selectedProject?: Project;
 };
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 const CreateProjectDialog: React.FC<Props> = ({
   open,
@@ -56,11 +44,9 @@ const CreateProjectDialog: React.FC<Props> = ({
   selectedProject,
 }) => {
   const [dialogTitle, setDialogTile] = useState("Create Project");
-  const [openUserList, setOpenUserList] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [involvedUsers, setInvolvedUsers] = useState<string[]>([""]);
   const [searchText, setSearchText] = useState("");
 
   const handleClose = () => {
@@ -83,25 +69,17 @@ const CreateProjectDialog: React.FC<Props> = ({
     }
   };
 
-  const handleSelectChange = (e: ChangeEvent<{ value: unknown }>) => {
-    setInvolvedUsers(e.target.value as string[]);
-  };
-
-  const handleSelectClose = () => {
-    setOpenUserList(false);
-  };
-
-  const handleSelectOpen = () => {
-    setOpenUserList(true);
-  };
+  
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const involvedUsers = project.usersList.filter(item => item.IsSelected === true);
     const projectData: CreateProjectPayload = {
       ProjectName: projectName,
       StartDate: startDate,
       EndDate: endDate,
       InvolvedUsers: involvedUsers,
     };
+    // console.log(projectData);
     createProject(projectData);
     onClose();
   };
@@ -138,7 +116,7 @@ const CreateProjectDialog: React.FC<Props> = ({
               name="startDate"
               label="Start date"
               type="date"
-              defaultValue={moment("2021-03-15T00:57:33.049Z").format(
+              defaultValue={moment(isUpdate ? selectedProject?.StartDate : new Date().toISOString()).format(
                 "YYYY-MM-DD"
               )}
               onChange={handleInputChange}
@@ -154,7 +132,7 @@ const CreateProjectDialog: React.FC<Props> = ({
               name="endDate"
               label="End date"
               type="date"
-              defaultValue={moment("2021-03-15T00:57:33.049Z").format(
+              defaultValue={moment(isUpdate ? selectedProject?.EndDate : new Date().toISOString()).format(
                 "YYYY-MM-DD"
               )}
               onChange={handleInputChange}
@@ -177,30 +155,14 @@ const CreateProjectDialog: React.FC<Props> = ({
             />
           </div>
           <div className="form-item">
-            <Select
-              className="full-width"
-              labelId="demo-mutiple-name-label"
-              id="demo-mutiple-name"
-              multiple
-              value={involvedUsers}
-              onChange={handleSelectChange}
-              input={<Input />}
-              MenuProps={MenuProps}
-              open={openUserList}
-              onClose={handleSelectClose}
-              onOpen={handleSelectOpen}
-              disabled={ui.localLoading}
-            >
-              {project.usersList.map((item) => (
-                <MenuItem key={item._id} value={item._id}>
-                  {item.Email}
-                </MenuItem>
-              ))}
-            </Select>
+            <UserList/>
           </div>
-          <div className="form-item">
+          <div className="form-item btn-container">
             <Button variant="contained" color="primary" type="submit">
               Submit
+            </Button>
+            <Button variant="contained" color="secondary" type="button" onClick={handleClose}>
+              Cancel
             </Button>
           </div>
         </form>

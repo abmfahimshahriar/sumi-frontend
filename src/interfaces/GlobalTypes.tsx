@@ -26,16 +26,18 @@ export interface UserState {
   authSuccessMessage: string;
 }
 
-interface usersListItem {
-  _id: string,
-  Email: string
+export interface UsersListItem {
+  _id: string;
+  Email: string;
+  Name: string;
+  IsSelected: boolean;
 }
 export interface ProjectState {
   myCreatedProjects: Project[];
   myInvolvedProjects: Project[];
   hasProjectErrors: boolean;
   projectErrors: string[];
-  usersList: usersListItem[];
+  usersList: UsersListItem[];
 }
 
 export interface UIState {
@@ -75,5 +77,5 @@ export interface CreateProjectPayload {
   ProjectName: string;
   StartDate: string;
   EndDate: string;
-  InvolvedUsers: string[];
+  InvolvedUsers: UsersListItem[];
 }
