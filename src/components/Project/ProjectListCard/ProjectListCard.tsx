@@ -15,6 +15,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { CreateProjectDialog } from "../../../components";
 import { connect } from "react-redux";
 import { deleteProject } from "../../../store/actions/projectAction";
+import { Link } from "react-router-dom";
+
 type Props = {
   project: Project;
   deleteProject: Function;
@@ -58,7 +60,9 @@ const ProjectListCard: React.FC<Props> = ({
   return (
     <div className="single-project-list-card-wrapper">
       <div className="project-details-wrapper">
-        <div className="project-title">{project.ProjectName}</div>
+        <Link to={`/projects/${project._id}`}>
+          <div className="project-title">{project.ProjectName}</div>
+        </Link>
         <div>
           {!isInvolvedProject && (
             <MyButton tip="more" onClick={openMoreMenu}>

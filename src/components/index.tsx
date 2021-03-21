@@ -8,6 +8,7 @@ import MyInvolvedProjectList from "./Project/MyInvolvedProjectList/MyInvolvedPro
 import ProjectListCard from "./Project/ProjectListCard/ProjectListCard";
 import CreateProjectDialog from "./Project/CreateProjectDialog/CreateProjectDialog";
 import UserList from "../components/Project/UsersList/UserList";
+import SprintList from "../components/Sprint/SprintList/SprintList";
 
 export {
   Navbar,
@@ -19,5 +20,6 @@ export {
   MyInvolvedProjectList,
   ProjectListCard,
   CreateProjectDialog,
-  UserList
+  UserList,
+  SprintList
 };

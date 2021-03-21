@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { LoginPage, LandingPage, SignupPage, ProjectPage } from "./pages";
+import { LoginPage, LandingPage, SignupPage, ProjectPage, SprintPage } from "./pages";
 import { Navbar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthRoute } from "./utility/components";
@@ -24,6 +24,9 @@ function App() {
               <Route exact path="/signup" component={SignupPage} />
               <AuthRoute exact path="/projects">
                 <ProjectPage />
+              </AuthRoute>
+              <AuthRoute exact path="/projects/:projectId">
+                <SprintPage />
               </AuthRoute>
             </Switch>
           </div>
