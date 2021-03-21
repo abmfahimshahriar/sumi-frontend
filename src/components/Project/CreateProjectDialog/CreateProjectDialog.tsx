@@ -21,6 +21,7 @@ import {
   emptyUserslist,
 } from "../../../store/actions/projectAction";
 import { UserList } from "../..";
+import { inputValidator } from "../../../utility/validators/inputValidator";
 
 type Props = {
   open: boolean;
@@ -56,6 +57,31 @@ const CreateProjectDialog: React.FC<Props> = ({
     moment(new Date().toISOString()).format("YYYY-MM-DD")
   );
   const [searchText, setSearchText] = useState("");
+  const [formErrors, setFormErrors] = useState<any>({});
+
+  const inputs = [
+    {
+      fieldValue: projectName,
+      fieldName: "projectName",
+      validations: ["required"],
+      minLength: 8,
+      maxLength: 20,
+    },
+    {
+      fieldValue: startDate,
+      fieldName: "startDate",
+      validations: ["required"],
+      minLength: 8,
+      maxLength: 20,
+    },
+    {
+      fieldValue: endDate,
+      fieldName: "endDate",
+      validations: ["required"],
+      minLength: 4,
+      maxLength: 10,
+    },
+  ];
 
   const handleClose = () => {
     emptyUserslist();
@@ -116,12 +142,16 @@ const CreateProjectDialog: React.FC<Props> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isUpdate) {
-      handleUpdateProject();
-    } else {
-      handleCreateProject();
+    const errorsObject = inputValidator(inputs);
+    setFormErrors(errorsObject);
+    if (!errorsObject.hasError) {
+      if (isUpdate) {
+        handleUpdateProject();
+      } else {
+        handleCreateProject();
+      }
+      onClose();
     }
-    onClose();
   };
 
   return (
@@ -146,6 +176,12 @@ const CreateProjectDialog: React.FC<Props> = ({
               value={projectName}
               placeholder="Project name"
               label="Project name"
+              error={formErrors.projectName?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.projectName?.errors.length > 0
+                  ? formErrors.projectName?.errors[0]
+                  : null
+              }
               onChange={handleInputChange}
             />
           </div>
@@ -163,6 +199,12 @@ const CreateProjectDialog: React.FC<Props> = ({
               InputLabelProps={{
                 shrink: true,
               }}
+              error={formErrors.startDate?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.startDate?.errors.length > 0
+                  ? formErrors.startDate?.errors[0]
+                  : null
+              }
             />
           </div>
           <div className="form-item">
@@ -179,6 +221,12 @@ const CreateProjectDialog: React.FC<Props> = ({
               InputLabelProps={{
                 shrink: true,
               }}
+              error={formErrors.endDate?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.endDate?.errors.length > 0
+                  ? formErrors.endDate?.errors[0]
+                  : null
+              }
             />
           </div>
 
