@@ -113,3 +113,13 @@ export interface CreateProjectPayload {
   EndDate: string;
   InvolvedUsers: UsersListItem[];
 }
+
+export interface CreateSprintPayload {
+  ProjectId: string;
+  SprintName: string;
+  StartDate: string;
+  EndDate: string;
+  TaskBuckets: TaskBucket[];
+  StartBucket: string;
+  EndBucket: string;
+}

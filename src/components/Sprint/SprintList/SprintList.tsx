@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./SprintList.css";
-import { CreateProjectDialog, SprintListCard } from "../../../components";
+import { CreateSprintDialog, SprintListCard } from "../../../components";
 import { ProjectListCardSkeleton } from "../../../utility/components";
 // redux stuff
 import { connect } from "react-redux";
@@ -57,7 +57,7 @@ const SprintList: React.FC<Props> = ({ getSprints, sprint, ui }) => {
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Create Sprint
         </Button>
-        <CreateProjectDialog
+        <CreateSprintDialog
           open={open}
           onClose={handleClose}
           isUpdate={isUpdate}

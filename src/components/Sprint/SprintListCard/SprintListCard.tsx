@@ -2,7 +2,7 @@ import { Menu, MenuItem, Tooltip, Chip } from "@material-ui/core";
 import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { CreateProjectDialog } from "../..";
+import { CreateSprintDialog } from "../..";
 import { Sprint } from "../../../interfaces/GlobalTypes";
 import { MyButton } from "../../../utility/components";
 import "./SprintListCard.css";
@@ -58,10 +58,11 @@ const SprintListCard: React.FC<Props> = ({ sprint }) => {
             <MenuItem onClick={handleOpenDialog}>Update</MenuItem>
             <MenuItem onClick={handleDeleteSprint}>Delete</MenuItem>
           </Menu>
-          <CreateProjectDialog
+          <CreateSprintDialog
             open={open}
             onClose={handleCloseDialog}
             isUpdate={isUpdate}
+            selectedSprint={sprint}
           />
         </div>
       </div>

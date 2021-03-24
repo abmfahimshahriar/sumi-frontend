@@ -10,6 +10,7 @@ import CreateProjectDialog from "./Project/CreateProjectDialog/CreateProjectDial
 import UserList from "../components/Project/UsersList/UserList";
 import SprintList from "../components/Sprint/SprintList/SprintList";
 import SprintListCard from "../components/Sprint/SprintListCard/SprintListCard";
+import CreateSprintDialog from "../components/Sprint/CreateSprintDialog/CreateSprintDialog";
 
 export {
   Navbar,
@@ -23,5 +24,6 @@ export {
   CreateProjectDialog,
   UserList,
   SprintList,
-  SprintListCard
+  SprintListCard,
+  CreateSprintDialog
 };
