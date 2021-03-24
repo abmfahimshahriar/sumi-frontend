@@ -42,6 +42,12 @@ export interface ProjectState {
   usersList: UsersListItem[];
 }
 
+export interface SprintState {
+  sprints: Sprint[];
+  sprintErrors: string[];
+  hasSprintErrors: boolean;
+}
+
 export interface UIState {
   localLoading: boolean;
   globalLoading: boolean;
@@ -63,6 +69,11 @@ export interface IProjectMapStateToProps {
   ui: UIState;
 }
 
+export interface ISprintMapStateToProps {
+  sprint: SprintState;
+  ui: UIState;
+}
+
 export type DispatchType = (args: UserAction) => UserAction;
 
 export interface Project {
@@ -74,6 +85,26 @@ export interface Project {
   TotalStoryPoints: number;
   CompletedStoryPoints: number;
   InvolvedUsers: UsersListItem[];
+}
+
+export interface Sprint {
+  _id: string;
+  ProjectId: string;
+  SprintName: string;
+  StartDate: string;
+  EndDate: string;
+  CreatedBy: string;
+  TotalStoryPoints: number;
+  CompletedStoryPoints: number;
+  TaskBuckets: TaskBucket[];
+  StartBucket: string;
+  EndBucket: string;
+}
+
+export interface TaskBucket {
+  _id: string;
+  TaskBucketId: string;
+  TaskBucketName: string;
 }
 
 export interface CreateProjectPayload {

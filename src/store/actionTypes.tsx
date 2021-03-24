@@ -13,6 +13,11 @@ export const SET_USERS_LIST = "SET_USERS_LIST";
 export const SELECT_USER = "SELECT_USER";
 export const MARK_ALREADY_SELECTED_USER = "MARK_ALREADY_SELECTED_USER";
 export const EMPTY_USERS_LIST = "EMPTY_USERS_LIST";
+
+
+// sprint types
+export const GET_SPRINTS = "GET_SPRINTS";
+export const SPRINT_ERROR = "SPRINT_ERROR";
 // UI types
 export const START_LOCAL_LOADING = "START_LOCAL_LOADING";
 export const END_LOCAL_LOADING = "END_LOCAL_LOADING";

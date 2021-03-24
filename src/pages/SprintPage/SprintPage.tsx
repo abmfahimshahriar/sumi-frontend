@@ -1,5 +1,6 @@
 import React from 'react'
 import {SprintList} from "../../components";
+import "./SprintPage.css";
 
 const SprintPage = () => {
     return (

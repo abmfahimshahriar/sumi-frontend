@@ -4,6 +4,8 @@ import thunk from "redux-thunk";
 import userReducer from "./reducers/userReducer";
 import projectReducer from "./reducers/projectReducer";
 import uiReducer from "./reducers/uiReducer";
+import sprintReducer from "./reducers/sprintReducer";
+
 const initialState = {};
 
 const middleware = [thunk];
@@ -11,6 +13,7 @@ const middleware = [thunk];
 const reducers = combineReducers({
   user: userReducer,
   project: projectReducer,
+  sprint: sprintReducer,
   ui: uiReducer,
 });
 
