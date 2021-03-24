@@ -2,9 +2,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
-  CreateProjectPayload,
   SumiBackendResponse,
-  UsersListItem,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
