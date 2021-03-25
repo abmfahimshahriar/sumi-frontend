@@ -102,7 +102,7 @@ export interface Sprint {
 }
 
 export interface TaskBucket {
-  _id: string;
+  _id?: string;
   TaskBucketId: string;
   TaskBucketName: string;
 }

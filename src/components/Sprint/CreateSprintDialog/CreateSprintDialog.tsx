@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import "./CreateSprintDialog.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import {TaskBucketList} from "../../../components"
+import { TaskBucketList } from "../../../components";
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -21,6 +21,7 @@ import {
   emptyUserslist,
 } from "../../../store/actions/projectAction";
 import { inputValidator } from "../../../utility/validators/inputValidator";
+import { useParams } from "react-router-dom";
 
 type Props = {
   open: boolean;
@@ -35,6 +36,17 @@ type Props = {
   emptyUserslist: Function;
 };
 
+interface TaskBucket {
+  TaskBucketId: string;
+  TaskBucketName: string;
+  IsStartBucket: boolean;
+  IsEndBucket: boolean;
+}
+
+interface ParamTypes {
+  projectId: string;
+}
+
 const CreateSprintDialog: React.FC<Props> = ({
   open,
   onClose,
@@ -47,6 +59,7 @@ const CreateSprintDialog: React.FC<Props> = ({
   updateProject,
   emptyUserslist,
 }) => {
+  const { projectId } = useParams<ParamTypes>();
   const [dialogTitle, setDialogTile] = useState("Create Sprint");
   const [sprintName, setSprintName] = useState("");
   const [startDate, setStartDate] = useState(
@@ -56,8 +69,8 @@ const CreateSprintDialog: React.FC<Props> = ({
     moment(new Date().toISOString()).format("YYYY-MM-DD")
   );
   const [startBucket, setStartBucket] = useState("");
-  const [endBucket, setEndtBucket] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const [endBucket, setEndBucket] = useState("");
+  const [taskBuckets, setTaskBuckets] = useState<TaskBucket[]>([]);
   const [formErrors, setFormErrors] = useState<any>({});
 
   const inputs = [
@@ -106,31 +119,40 @@ const CreateSprintDialog: React.FC<Props> = ({
   };
 
   const handleCreateSprint = () => {
+    
     const sprintData: CreateSprintPayload = {
-      ProjectId: "",
+      ProjectId: projectId,
       SprintName: sprintName,
       StartDate: startDate,
       EndDate: endDate,
-      TaskBuckets: [],
-      StartBucket: "",
-      EndBucket: "",
+      TaskBuckets: taskBuckets,
+      StartBucket: startBucket,
+      EndBucket: endBucket,
     };
-    // console.log(sprintData);
+    console.log(sprintData);
     // createProject(sprintData);
   };
 
   const handleUpdateSprint = () => {
     const sprintData: CreateSprintPayload = {
-      ProjectId: "",
+      ProjectId: projectId,
       SprintName: sprintName,
       StartDate: startDate,
       EndDate: endDate,
-      TaskBuckets: [],
-      StartBucket: "",
-      EndBucket: "",
+      TaskBuckets: taskBuckets,
+      StartBucket: startBucket,
+      EndBucket: endBucket,
     };
-    // console.log(sprintData);
+    console.log(sprintData);
     // updateProject(sprintData, selectedSprint?._id);
+  };
+
+  const handleTaskBucketList = (taskBuckets: TaskBucket[]) => {
+    setTaskBuckets([...taskBuckets]);
+    const startBucket = taskBuckets.find((item) => item.IsStartBucket === true);
+    if (startBucket) setStartBucket(startBucket.TaskBucketId);
+    const endBucket = taskBuckets.find((item) => item.IsEndBucket === true);
+    if (endBucket) setEndBucket(endBucket.TaskBucketId);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -224,7 +246,7 @@ const CreateSprintDialog: React.FC<Props> = ({
           </div>
 
           <div>
-            <TaskBucketList/>
+            <TaskBucketList onSelectTaskBucket={handleTaskBucketList} />
           </div>
 
           <div className="form-item btn-container">

@@ -14,7 +14,11 @@ interface TaskBucket {
   IsStartBucket: boolean;
   IsEndBucket: boolean;
 }
-const TaskBucketList = () => {
+
+type Props = {
+    onSelectTaskBucket: Function;
+}
+const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
   const [taskBucketName, setTaskBucketName] = useState("");
   const [taskBuckets, setTaskBuckets] = useState<TaskBucket[]>([]);
 
@@ -46,6 +50,7 @@ const TaskBucketList = () => {
       }
     }
     setTaskBuckets([...tempTaskBuckets]);
+    onSelectTaskBucket(taskBuckets);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +67,7 @@ const TaskBucketList = () => {
     };
     setTaskBuckets([...taskBuckets, taskBucket]);
     setTaskBucketName("");
+    onSelectTaskBucket(taskBuckets);
   };
 
   const handleRemoveTaskBucket = (taskBucket: TaskBucket) => {
@@ -69,6 +75,7 @@ const TaskBucketList = () => {
       (item) => item.TaskBucketId !== taskBucket.TaskBucketId
     );
     setTaskBuckets([...filteredTaskBuckets]);
+    onSelectTaskBucket(taskBuckets);
   };
   return (
     <div className="task-bucket-list-wrapper">
