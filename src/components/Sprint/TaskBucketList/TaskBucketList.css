@@ -1,0 +1,38 @@
+.task-bucket-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.task-bucket-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 8px
+}
+
+.task-bucket-text-field {
+    width: 70%;
+}
+
+.task-bucket-item-title {
+    display: flex;
+    flex-direction: row;
+}
+.task-bucket-list {
+    width: 100%;
+}
+.task-bucket-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    width: 100%;
+    border-bottom: 1px solid black;
+}

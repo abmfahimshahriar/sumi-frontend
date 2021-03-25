@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import "./CreateSprintDialog.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-
+import {TaskBucketList} from "../../../components"
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -222,6 +222,11 @@ const CreateSprintDialog: React.FC<Props> = ({
               }
             />
           </div>
+
+          <div>
+            <TaskBucketList/>
+          </div>
+
           <div className="form-item btn-container">
             <Button variant="contained" color="primary" type="submit">
               Submit
