@@ -6,14 +6,47 @@ import { v4 as uuidv4 } from "uuid";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Checkbox from "@material-ui/core/Checkbox";
 
 interface TaskBucket {
   TaskBucketId: string;
   TaskBucketName: string;
+  IsStartBucket: boolean;
+  IsEndBucket: boolean;
 }
 const TaskBucketList = () => {
   const [taskBucketName, setTaskBucketName] = useState("");
   const [taskBuckets, setTaskBuckets] = useState<TaskBucket[]>([]);
+
+  const handleCheckChange = (taskBucket: TaskBucket, type: string) => {
+    const tempTaskBuckets = [...taskBuckets];
+    if (type === "start") {
+      const hasOneStartBucket = tempTaskBuckets.find(
+        (item) => item.IsStartBucket === true
+      );
+      if (hasOneStartBucket) hasOneStartBucket.IsStartBucket = false;
+      for (let i in tempTaskBuckets) {
+        if (tempTaskBuckets[i].TaskBucketId === taskBucket.TaskBucketId) {
+          taskBuckets[i].IsEndBucket = false;
+          taskBuckets[i].IsStartBucket = !taskBuckets[i].IsStartBucket;
+          break;
+        }
+      }
+    } else {
+      const hasOneEndBucket = tempTaskBuckets.find(
+        (item) => item.IsEndBucket === true
+      );
+      if (hasOneEndBucket) hasOneEndBucket.IsEndBucket = false;
+      for (let j in tempTaskBuckets) {
+        if (tempTaskBuckets[j].TaskBucketId === taskBucket.TaskBucketId) {
+          taskBuckets[j].IsEndBucket = !taskBuckets[j].IsEndBucket;
+          taskBuckets[j].IsStartBucket = false;
+          break;
+        }
+      }
+    }
+    setTaskBuckets([...tempTaskBuckets]);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -24,6 +57,8 @@ const TaskBucketList = () => {
     const taskBucket: TaskBucket = {
       TaskBucketId: uuidv4(),
       TaskBucketName: taskBucketName,
+      IsStartBucket: false,
+      IsEndBucket: false,
     };
     setTaskBuckets([...taskBuckets, taskBucket]);
     setTaskBucketName("");
@@ -62,13 +97,31 @@ const TaskBucketList = () => {
         {taskBuckets.map((item) => {
           return (
             <div key={item.TaskBucketId} className="task-bucket-list-item">
-              <div className="task-bucket-item-title">
-                <ChevronRightIcon />
-                <div>{item.TaskBucketName}</div>
+              <div className="task-bucket-list-upper">
+                <div className="task-bucket-item-title">
+                  <ChevronRightIcon />
+                  <div>{item.TaskBucketName}</div>
+                </div>
+                <IconButton onClick={() => handleRemoveTaskBucket(item)}>
+                  <DeleteIcon />
+                </IconButton>
               </div>
-              <IconButton onClick={() => handleRemoveTaskBucket(item)}>
-                <DeleteIcon />
-              </IconButton>
+              <div className="task-bucket-list-upper">
+                <div>
+                  <Checkbox
+                    checked={item.IsStartBucket}
+                    onChange={() => handleCheckChange(item, "start")}
+                  />{" "}
+                  Start Bucket
+                </div>
+                <div>
+                  <Checkbox
+                    checked={item.IsEndBucket}
+                    onChange={() => handleCheckChange(item, "end")}
+                  />{" "}
+                  End Bucket
+                </div>
+              </div>
             </div>
           );
         })}

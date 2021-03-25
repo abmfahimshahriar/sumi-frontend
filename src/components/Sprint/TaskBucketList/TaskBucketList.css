@@ -29,10 +29,18 @@
 }
 .task-bucket-list-item {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     margin-bottom: 8px;
     width: 100%;
     border-bottom: 1px solid black;
+}
+
+.task-bucket-list-upper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
