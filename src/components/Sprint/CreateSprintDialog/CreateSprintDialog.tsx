@@ -15,11 +15,8 @@ import { TaskBucketList } from "../../../components";
 // redux stuff
 import { connect } from "react-redux";
 import {
-  getUsersList,
-  createProject,
-  updateProject,
-  emptyUserslist,
-} from "../../../store/actions/projectAction";
+  createSprint
+} from "../../../store/actions/sprintActions";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
 
@@ -27,13 +24,10 @@ type Props = {
   open: boolean;
   onClose: () => void;
   isUpdate: boolean;
-  getUsersList: Function;
-  createProject: Function;
+  createSprint: Function;
   project: ProjectState;
   ui: UIState;
   selectedSprint?: Sprint;
-  updateProject: Function;
-  emptyUserslist: Function;
 };
 
 interface TaskBucket {
@@ -51,13 +45,9 @@ const CreateSprintDialog: React.FC<Props> = ({
   open,
   onClose,
   isUpdate,
-  getUsersList,
-  project,
   ui,
-  createProject,
   selectedSprint,
-  updateProject,
-  emptyUserslist,
+  createSprint
 }) => {
   const { projectId } = useParams<ParamTypes>();
   const [dialogTitle, setDialogTile] = useState("Create Sprint");
@@ -129,8 +119,7 @@ const CreateSprintDialog: React.FC<Props> = ({
       StartBucket: startBucket,
       EndBucket: endBucket,
     };
-    console.log(sprintData);
-    // createProject(sprintData);
+    createSprint(sprintData);
   };
 
   const handleUpdateSprint = () => {
@@ -274,10 +263,7 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 });
 
 const mapActionToProps = {
-  getUsersList,
-  createProject,
-  updateProject,
-  emptyUserslist,
+  createSprint
 };
 
 export default connect(mapStateToProps, mapActionToProps)(CreateSprintDialog);

@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
+  CreateSprintPayload,
   SumiBackendResponse,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
@@ -30,6 +31,25 @@ export const getSprints = (projectId: string): ThunkAction<
         type: actionTypes.GET_SPRINTS,
         payload: data.Result.Sprints,
       });
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const createSprint = (
+  projectData: CreateSprintPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .post("/sprint/createSprint", projectData)
+    .then((res: AxiosResponse) => {
+      dispatch(getSprints(projectData.ProjectId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
     })
     .catch((err: AxiosError) => {
