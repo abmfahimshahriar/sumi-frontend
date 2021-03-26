@@ -3,16 +3,23 @@ import moment from "moment";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { CreateSprintDialog } from "../..";
-import { Sprint } from "../../../interfaces/GlobalTypes";
+import {
+  IProjectMapStateToProps,
+  Sprint,
+} from "../../../interfaces/GlobalTypes";
 import { MyButton } from "../../../utility/components";
 import "./SprintListCard.css";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 
+// redux stuff
+import { deleteSprint } from "../../../store/actions/sprintActions";
+import { connect } from "react-redux";
 type Props = {
   sprint: Sprint;
+  deleteSprint: Function;
 };
-const SprintListCard: React.FC<Props> = ({ sprint }) => {
+const SprintListCard: React.FC<Props> = ({ sprint, deleteSprint }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -36,6 +43,11 @@ const SprintListCard: React.FC<Props> = ({ sprint }) => {
   };
 
   const handleDeleteSprint = () => {
+    const payload = {
+      ProjectId: sprint.ProjectId,
+      SprintId: sprint._id,
+    };
+    deleteSprint(payload);
     closeMoreMenu();
   };
   return (
@@ -95,4 +107,13 @@ const SprintListCard: React.FC<Props> = ({ sprint }) => {
   );
 };
 
-export default SprintListCard;
+const mapStateToProps = (state: IProjectMapStateToProps) => ({
+  project: state.project,
+  ui: state.ui,
+});
+
+const mapActionToProps = {
+  deleteSprint,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(SprintListCard);
