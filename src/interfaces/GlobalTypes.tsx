@@ -120,6 +120,7 @@ export interface CreateSprintPayload {
   StartDate: string;
   EndDate: string;
   TaskBuckets: TaskBucket[];
-  StartBucket: string;
-  EndBucket: string;
+  StartBucket?: string;
+  EndBucket?: string;
+  SprintId?: string;
 }

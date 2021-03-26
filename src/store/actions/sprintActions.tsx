@@ -16,12 +16,9 @@ export const setDefaults = (): ThunkAction<
   dispatch({ type: actionTypes.SET_DEFAULT });
 };
 
-export const getSprints = (projectId: string): ThunkAction<
-  void,
-  {},
-  unknown,
-  Action<string>
-> => async (dispatch) => {
+export const getSprints = (
+  projectId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
   axios
     .get(`/sprint/getSprints/${projectId}`)
@@ -43,13 +40,32 @@ export const getSprints = (projectId: string): ThunkAction<
 };
 
 export const createSprint = (
-  projectData: CreateSprintPayload
+  sprintData: CreateSprintPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
   axios
-    .post("/sprint/createSprint", projectData)
+    .post("/sprint/createSprint", sprintData)
     .then((res: AxiosResponse) => {
-      dispatch(getSprints(projectData.ProjectId));
+      dispatch(getSprints(sprintData.ProjectId));
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const updateSprint = (
+  sprintData: CreateSprintPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .put("/sprint/updateSprint", sprintData)
+    .then((res: AxiosResponse) => {
+      dispatch(getSprints(sprintData.ProjectId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
     })
     .catch((err: AxiosError) => {

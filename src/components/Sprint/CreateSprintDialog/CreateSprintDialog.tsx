@@ -15,10 +15,12 @@ import { TaskBucketList } from "../../../components";
 // redux stuff
 import { connect } from "react-redux";
 import {
-  createSprint
+  createSprint,
+  updateSprint,
 } from "../../../store/actions/sprintActions";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 type Props = {
   open: boolean;
@@ -28,6 +30,7 @@ type Props = {
   project: ProjectState;
   ui: UIState;
   selectedSprint?: Sprint;
+  updateSprint: Function;
 };
 
 interface TaskBucket {
@@ -47,7 +50,8 @@ const CreateSprintDialog: React.FC<Props> = ({
   isUpdate,
   ui,
   selectedSprint,
-  createSprint
+  createSprint,
+  updateSprint,
 }) => {
   const { projectId } = useParams<ParamTypes>();
   const [dialogTitle, setDialogTile] = useState("Create Sprint");
@@ -109,7 +113,6 @@ const CreateSprintDialog: React.FC<Props> = ({
   };
 
   const handleCreateSprint = () => {
-    
     const sprintData: CreateSprintPayload = {
       ProjectId: projectId,
       SprintName: sprintName,
@@ -125,15 +128,13 @@ const CreateSprintDialog: React.FC<Props> = ({
   const handleUpdateSprint = () => {
     const sprintData: CreateSprintPayload = {
       ProjectId: projectId,
+      SprintId: selectedSprint?._id,
       SprintName: sprintName,
       StartDate: startDate,
       EndDate: endDate,
       TaskBuckets: taskBuckets,
-      StartBucket: startBucket,
-      EndBucket: endBucket,
     };
-    console.log(sprintData);
-    // updateProject(sprintData, selectedSprint?._id);
+    updateSprint(sprintData);
   };
 
   const handleTaskBucketList = (taskBuckets: TaskBucket[]) => {
@@ -233,9 +234,31 @@ const CreateSprintDialog: React.FC<Props> = ({
               }
             />
           </div>
-
+          {isUpdate && (
+            <div>
+              <h4>Already assigned task buckets for this sprint</h4>
+              {selectedSprint?.TaskBuckets.map((item) => {
+                return (
+                  <div
+                    key={item.TaskBucketId}
+                    className="existing-task-bucket-list"
+                  >
+                    <ChevronRightIcon />
+                    {item.TaskBucketName}{" "}
+                    {item.TaskBucketId === selectedSprint.StartBucket &&
+                      "(start bucket)"}
+                    {item.TaskBucketId === selectedSprint.EndBucket &&
+                      "(end bucket)"}
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <div>
-            <TaskBucketList onSelectTaskBucket={handleTaskBucketList} />
+            <TaskBucketList
+              onSelectTaskBucket={handleTaskBucketList}
+              isUpdate={isUpdate}
+            />
           </div>
 
           <div className="form-item btn-container">
@@ -263,7 +286,8 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 });
 
 const mapActionToProps = {
-  createSprint
+  createSprint,
+  updateSprint,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(CreateSprintDialog);

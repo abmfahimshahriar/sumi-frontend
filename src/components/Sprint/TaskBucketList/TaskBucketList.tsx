@@ -16,9 +16,10 @@ interface TaskBucket {
 }
 
 type Props = {
-    onSelectTaskBucket: Function;
-}
-const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
+  onSelectTaskBucket: Function;
+  isUpdate: boolean;
+};
+const TaskBucketList: React.FC<Props> = ({ onSelectTaskBucket, isUpdate }) => {
   const [taskBucketName, setTaskBucketName] = useState("");
   const [taskBuckets, setTaskBuckets] = useState<TaskBucket[]>([]);
 
@@ -50,7 +51,7 @@ const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
       }
     }
     setTaskBuckets([...tempTaskBuckets]);
-    onSelectTaskBucket(taskBuckets);
+    onSelectTaskBucket(tempTaskBuckets);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,9 +66,10 @@ const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
       IsStartBucket: false,
       IsEndBucket: false,
     };
-    setTaskBuckets([...taskBuckets, taskBucket]);
+    const tempTaskBuckets = [...taskBuckets, taskBucket]
+    setTaskBuckets(tempTaskBuckets);
     setTaskBucketName("");
-    onSelectTaskBucket(taskBuckets);
+    onSelectTaskBucket(tempTaskBuckets);
   };
 
   const handleRemoveTaskBucket = (taskBucket: TaskBucket) => {
@@ -75,7 +77,7 @@ const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
       (item) => item.TaskBucketId !== taskBucket.TaskBucketId
     );
     setTaskBuckets([...filteredTaskBuckets]);
-    onSelectTaskBucket(taskBuckets);
+    onSelectTaskBucket(filteredTaskBuckets);
   };
   return (
     <div className="task-bucket-list-wrapper">
@@ -113,22 +115,24 @@ const TaskBucketList: React.FC<Props> = ({onSelectTaskBucket}) => {
                   <DeleteIcon />
                 </IconButton>
               </div>
-              <div className="task-bucket-list-upper">
-                <div>
-                  <Checkbox
-                    checked={item.IsStartBucket}
-                    onChange={() => handleCheckChange(item, "start")}
-                  />{" "}
-                  Start Bucket
+              {!isUpdate && (
+                <div className="task-bucket-list-upper">
+                  <div>
+                    <Checkbox
+                      checked={item.IsStartBucket}
+                      onChange={() => handleCheckChange(item, "start")}
+                    />{" "}
+                    Start Bucket
+                  </div>
+                  <div>
+                    <Checkbox
+                      checked={item.IsEndBucket}
+                      onChange={() => handleCheckChange(item, "end")}
+                    />{" "}
+                    End Bucket
+                  </div>
                 </div>
-                <div>
-                  <Checkbox
-                    checked={item.IsEndBucket}
-                    onChange={() => handleCheckChange(item, "end")}
-                  />{" "}
-                  End Bucket
-                </div>
-              </div>
+              )}
             </div>
           );
         })}
