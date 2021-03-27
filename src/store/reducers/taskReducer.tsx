@@ -1,7 +1,6 @@
 import {
   DispatchActionTypes,
   Sprint,
-  SprintState,
   TaskState,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";

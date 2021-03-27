@@ -1,0 +1,59 @@
+.dnd-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.task {
+  list-style: none;
+  padding-left: 0;
+}
+
+.task li {
+  display: flex;
+  align-items: center;
+  /* border: solid 2px black; */
+  border-radius: 4px;
+  padding: 16px 8px;
+  margin-bottom: 8px;
+  border: 0;
+  box-shadow: 0 1px 2px 0 rgb(9 30 66 / 25%);
+  background-color: #ffffff;
+}
+
+.task p {
+  max-width: none;
+  font-weight: bold;
+  margin: 0;
+}
+
+.lists-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.list-header {
+  text-transform: capitalize;
+  border-bottom: 1px dashed black;
+  padding: 8px 0;
+}
+
+.list-item {
+  padding: 32px;
+  border: solid 2px black;
+  border-radius: 4px;
+  margin: 32px;
+  min-width: 300px;
+  min-height: 400px;
+  background-color: #ebecf0;
+}
+
+@media only screen and (max-width: 600px) {
+  .list-item {
+    min-width: 250px;
+  }
+}

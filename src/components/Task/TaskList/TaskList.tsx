@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { ITaskMapStateToProps } from "../../../interfaces/GlobalTypes";
 import { useParams } from "react-router-dom";
 import { getTasks } from "../../../store/actions/taskActions";
+import "./TaskList.css";
+import { TaskDnD } from "../../../components";
 
 interface ParamTypes {
   projectId: string;
@@ -14,13 +16,16 @@ type Props = {
 };
 
 const TaskList: React.FC<Props> = ({ getTasks }) => {
-  const { projectId, sprintId } = useParams<ParamTypes>();
+  const { sprintId } = useParams<ParamTypes>();
   useEffect(() => {
     getTasks(sprintId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>hello from task page</div>
+      <div>
+          <div>hello from task page</div>
+          <TaskDnD/>
+      </div>
   );
 };
 
