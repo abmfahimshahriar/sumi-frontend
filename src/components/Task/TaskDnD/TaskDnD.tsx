@@ -2,16 +2,18 @@ import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import "./TaskDnD.css";
 import {
+  ChangeBucketPayload,
   ITaskMapStateToProps,
   TaskState,
 } from "../../../interfaces/GlobalTypes";
-import { getTasks } from "../../../store/actions/taskActions";
+import { getTasks, changeBucket } from "../../../store/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 type Props = {
   task: TaskState;
+  changeBucket: Function;
 };
-const TaskDnD: React.FC<Props> = ({ task }) => {
+const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -105,8 +107,17 @@ const TaskDnD: React.FC<Props> = ({ task }) => {
         tempData[dataDestinationIndex] = { ...updatedDestinationListItem };
         // set the state with updated value
         setData(tempData);
+        handleBuckterChange(result.draggableId, result.destination.droppableId);
       }
     }
+  };
+
+  const handleBuckterChange = (taskId: string, newBucket: string) => {
+    const payload: ChangeBucketPayload = {
+      TaskId: taskId,
+      NewBucket: newBucket,
+    };
+    changeBucket(payload, task.SprintDetails._id);
   };
   return (
     <div>
@@ -166,5 +177,6 @@ const mapStateToProps = (state: ITaskMapStateToProps) => ({
 
 const mapActionToProps = {
   getTasks,
+  changeBucket,
 };
 export default connect(mapStateToProps, mapActionToProps)(TaskDnD);

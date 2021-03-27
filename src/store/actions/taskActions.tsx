@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
+  ChangeBucketPayload,
   SumiBackendResponse,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
@@ -38,6 +39,23 @@ export const getTasks = (
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const changeBucket = (
+  payload: ChangeBucketPayload,
+  sprintId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  axios
+    .post("/task/bucketChange", payload)
+    .then((res: AxiosResponse) => {
+      dispatch(getTasks(sprintId));
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
       }
     });
 };

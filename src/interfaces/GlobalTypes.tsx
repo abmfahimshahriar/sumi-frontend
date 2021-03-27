@@ -157,3 +157,9 @@ export interface CreateSprintPayload {
   EndBucket?: string;
   SprintId?: string;
 }
+
+
+export interface ChangeBucketPayload {
+  TaskId: string;
+  NewBucket: string;
+}
