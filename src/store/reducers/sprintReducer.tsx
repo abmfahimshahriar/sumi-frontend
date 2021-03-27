@@ -22,7 +22,7 @@ export default function (
         ...state,
         sprints: [...action.payload],
       };
-    case actionTypes.PROJECT_ERROR:
+    case actionTypes.SPRINT_ERROR:
       return {
         ...state,
         hasSprintErrors: true,

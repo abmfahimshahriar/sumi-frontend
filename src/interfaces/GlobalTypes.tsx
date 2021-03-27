@@ -48,6 +48,13 @@ export interface SprintState {
   hasSprintErrors: boolean;
 }
 
+export interface TaskState {
+  tasks: Task[];
+  SprintDetails: Sprint;
+  taskErrors: string[];
+  hasTaskErrors: boolean;
+}
+
 export interface UIState {
   localLoading: boolean;
   globalLoading: boolean;
@@ -71,6 +78,11 @@ export interface IProjectMapStateToProps {
 
 export interface ISprintMapStateToProps {
   sprint: SprintState;
+  ui: UIState;
+}
+
+export interface ITaskMapStateToProps {
+  task: TaskState;
   ui: UIState;
 }
 
@@ -99,6 +111,27 @@ export interface Sprint {
   TaskBuckets: TaskBucket[];
   StartBucket: string;
   EndBucket: string;
+}
+
+export interface Task {
+  _id: string;
+  ProjectId: string;
+  SprintId: string;
+  TaskName: string;
+  TaskDescription: string;
+  StartDate: string;
+  EndDate: string;
+  CreatedBy: string;
+  StoryPoints: number;
+  CurrentBucket: string;
+  Assignee: Assignee;
+  IsDone: boolean;
+}
+
+export interface Assignee {
+  _id?: string;
+  Name: string;
+  Email: string;
 }
 
 export interface TaskBucket {

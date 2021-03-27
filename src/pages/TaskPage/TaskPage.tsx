@@ -1,18 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-
-interface ParamTypes {
-  projectId: string;
-  sprintId: string;
-}
+import {TaskList} from "../../components";
 
 const TaskPage = () => {
-  const { projectId, sprintId } = useParams<ParamTypes>();
   return (
     <div>
-      <div>hello from task page</div>
-      <div>{projectId}</div>
-      <div>{sprintId}</div>
+      <TaskList/>
     </div>
   );
 };

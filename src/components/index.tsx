@@ -12,6 +12,7 @@ import SprintList from "../components/Sprint/SprintList/SprintList";
 import SprintListCard from "../components/Sprint/SprintListCard/SprintListCard";
 import CreateSprintDialog from "../components/Sprint/CreateSprintDialog/CreateSprintDialog";
 import TaskBucketList from "../components/Sprint/TaskBucketList/TaskBucketList";
+import TaskList from "../components/Task/TaskList/TaskList";
 
 export {
   Navbar,
@@ -27,5 +28,6 @@ export {
   SprintList,
   SprintListCard,
   CreateSprintDialog,
-  TaskBucketList
+  TaskBucketList,
+  TaskList,
 };

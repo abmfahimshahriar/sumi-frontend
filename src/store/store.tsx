@@ -5,6 +5,7 @@ import userReducer from "./reducers/userReducer";
 import projectReducer from "./reducers/projectReducer";
 import uiReducer from "./reducers/uiReducer";
 import sprintReducer from "./reducers/sprintReducer";
+import taskReducer from "./reducers/taskReducer";
 
 const initialState = {};
 
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   project: projectReducer,
   sprint: sprintReducer,
   ui: uiReducer,
+  task: taskReducer,
 });
 
 const store = createStore(

@@ -18,6 +18,12 @@ export const EMPTY_USERS_LIST = "EMPTY_USERS_LIST";
 // sprint types
 export const GET_SPRINTS = "GET_SPRINTS";
 export const SPRINT_ERROR = "SPRINT_ERROR";
+
+// task types
+export const GET_TASKS = "GET_TASKS";
+export const TASK_ERROR = "TASK_ERROR";
+export const GET_SPRINT_DETAILS = "GET_SPRINT_DETAILS";
+
 // UI types
 export const START_LOCAL_LOADING = "START_LOCAL_LOADING";
 export const END_LOCAL_LOADING = "END_LOCAL_LOADING";
