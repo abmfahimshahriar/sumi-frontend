@@ -53,7 +53,7 @@ const SprintListCard: React.FC<Props> = ({ sprint, deleteSprint }) => {
   return (
     <div className="single-sprint-list-card-wrapper">
       <div className="sprint-details-wrapper">
-        <Link to={`/sprints/${sprint._id}`}>
+        <Link to={`/sprints/${sprint.ProjectId}/${sprint._id}`}>
           <div className="sprint-title">{sprint.SprintName}</div>
         </Link>
         <div>
