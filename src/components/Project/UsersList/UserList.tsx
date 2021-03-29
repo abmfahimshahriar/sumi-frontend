@@ -11,17 +11,20 @@ import {
   UIState,
   IProjectMapStateToProps,
 } from "../../../interfaces/GlobalTypes";
-import {selectUser} from "../../../store/actions/projectAction"
+import { selectUser, selectUserFromTask } from "../../../store/actions/projectAction";
 
 type Props = {
   project: ProjectState;
   ui: UIState;
   selectUser: Function;
+  selectUserFromTask: Function;
+  fromTask?: boolean;
 };
 
-const UserList: React.FC<Props> = ({ project, selectUser }) => {
+const UserList: React.FC<Props> = ({ project, selectUser, fromTask, selectUserFromTask }) => {
   const handleUserSelect = (userId: string) => {
-    selectUser(userId);
+    if (!fromTask) selectUser(userId);
+    else selectUserFromTask(userId);
   };
 
   const userListMarkup = project.usersList.map((item) => (
@@ -33,16 +36,17 @@ const UserList: React.FC<Props> = ({ project, selectUser }) => {
       <div>
         {item.Name}({item.Email})
       </div>
-      <div>
-        {item.IsSelected && <CheckIcon />}
-      </div>
+      <div>{item.IsSelected && <CheckIcon />}</div>
     </div>
   ));
-  const noUsersMarkup = <div>There are currently no users on the list. Please type user name or email to add.</div>
+  const noUsersMarkup = (
+    <div>
+      There are currently no users on the list. Please type user name or email
+      to add.
+    </div>
+  );
   return (
-      <div>
-          {project.usersList.length > 0 ? userListMarkup : noUsersMarkup}
-      </div>
+    <div>{project.usersList.length > 0 ? userListMarkup : noUsersMarkup}</div>
   );
 };
 
@@ -52,7 +56,8 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 });
 
 const mapActionToProps = {
-  selectUser
+  selectUser,
+  selectUserFromTask,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(UserList);

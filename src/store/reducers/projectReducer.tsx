@@ -44,7 +44,9 @@ export default function (
         item.IsSelected = false;
         return item;
       });
-      const usersFromState = state.usersList.filter(item => item.IsSelected === true);
+      const usersFromState = state.usersList.filter(
+        (item) => item.IsSelected === true
+      );
       const combinedUserList = [...usersFromState, ...usersListData].filter(
         ((
           set // store the set and return the actual callback
@@ -72,6 +74,21 @@ export default function (
 
       return {
         ...state,
+      };
+    case actionTypes.SELECT_USER_FROM_TASK:
+      let mainUserList = state.usersList.map((item) => {
+        item.IsSelected = false;
+        return item;
+      });
+      const selectedUserFromTask = mainUserList.find(
+        (item) => item._id === action.payload
+      );
+      if (selectedUserFromTask)
+        selectedUserFromTask.IsSelected = !selectedUserFromTask.IsSelected;
+
+      return {
+        ...state,
+        usersList: [...mainUserList],
       };
     case actionTypes.EMPTY_USERS_LIST:
       return {

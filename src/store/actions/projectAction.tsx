@@ -177,6 +177,15 @@ export const selectUser = (
   });
 };
 
+export const selectUserFromTask = (
+  userId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({
+    type: actionTypes.SELECT_USER_FROM_TASK,
+    payload: userId,
+  });
+};
+
 export const emptyUserslist = (): ThunkAction<
   void,
   {},

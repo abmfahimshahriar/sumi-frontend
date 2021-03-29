@@ -2,11 +2,9 @@ import React, { FormEvent, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import {
   Assignee,
-  CreateSprintPayload,
   CreateTaskPayload,
   IProjectMapStateToProps,
   ProjectState,
-  Sprint,
   Task,
   UIState,
 } from "../../../interfaces/GlobalTypes";
@@ -14,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import "./CreateTaskDialog.css";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
-import { TaskBucketList } from "../../../components";
 // redux stuff
 import { connect } from "react-redux";
 import {
@@ -23,7 +20,13 @@ import {
 } from "../../../store/actions/sprintActions";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import {
+  getUsersList,
+} from "../../../store/actions/projectAction";
+import {
+  createTask,
+} from "../../../store/actions/taskActions";
+import { UserList } from "../..";
 
 type Props = {
   open: boolean;
@@ -34,14 +37,10 @@ type Props = {
   ui: UIState;
   selectedTask?: Task;
   updateSprint: Function;
+  getUsersList: Function;
+  createTask: Function;
 };
 
-interface TaskBucket {
-  TaskBucketId: string;
-  TaskBucketName: string;
-  IsStartBucket: boolean;
-  IsEndBucket: boolean;
-}
 
 interface ParamTypes {
   projectId: string;
@@ -56,6 +55,9 @@ const CreateTaskDialog: React.FC<Props> = ({
   selectedTask,
   createSprint,
   updateSprint,
+  getUsersList,
+  project,
+  createTask
 }) => {
   const { projectId, sprintId } = useParams<ParamTypes>();
   const [dialogTitle, setDialogTile] = useState("Create Task");
@@ -72,6 +74,7 @@ const CreateTaskDialog: React.FC<Props> = ({
   const [endDate, setEndDate] = useState(
     moment(new Date().toISOString()).format("YYYY-MM-DD")
   );
+  const [searchText, setSearchText] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
 
   const inputs = [
@@ -135,34 +138,53 @@ const CreateTaskDialog: React.FC<Props> = ({
     if (name === "storyPoints") setStoryPoints(+value);
     if (name === "startDate") setStartDate(value);
     if (name === "endDate") setEndDate(value);
+    if (name === "searchUserText") {
+      setSearchText(value);
+      setTimeout(() => {
+        getUsersList(false, value);
+      }, 2000);
+    }
   };
 
   const handleCreateSprint = () => {
-    const taskData: CreateTaskPayload = {
-      ProjectId: projectId,
-      SprintId: sprintId,
-      TaskName: taskName,
-      TaskDescription: taskDescription,
-      StartDate: startDate,
-      EndDate: endDate,
-      StoryPoints: storyPoints,
-      Assignee: assignee,
-    };
-    // createSprint(taskData);
+    const assignedUser = project.usersList.find(
+      (item) => item.IsSelected === true
+    );
+    if(assignedUser) {
+      const taskData: CreateTaskPayload = {
+        ProjectId: projectId,
+        SprintId: sprintId,
+        TaskName: taskName,
+        TaskDescription: taskDescription,
+        StartDate: startDate,
+        EndDate: endDate,
+        StoryPoints: storyPoints,
+        Assignee: assignedUser,
+      };
+      console.log(taskData);
+      createTask(taskData);
+    }
+    
   };
 
   const handleUpdateSprint = () => {
-    const taskData: CreateTaskPayload = {
-      ProjectId: projectId,
-      SprintId: sprintId,
-      TaskName: taskName,
-      TaskDescription: taskDescription,
-      StartDate: startDate,
-      EndDate: endDate,
-      StoryPoints: storyPoints,
-      Assignee: assignee,
-    };
-    // updateSprint(taskData);
+    const assignedUser = project.usersList.find(
+      (item) => item.IsSelected === true
+    );
+    if(assignedUser) {
+      const taskData: CreateTaskPayload = {
+        ProjectId: projectId,
+        SprintId: sprintId,
+        TaskName: taskName,
+        TaskDescription: taskDescription,
+        StartDate: startDate,
+        EndDate: endDate,
+        StoryPoints: storyPoints,
+        Assignee: assignedUser,
+      };
+      // updateSprint(taskData);
+    }
+    
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -281,8 +303,8 @@ const CreateTaskDialog: React.FC<Props> = ({
               name="storyPoints"
               type="number"
               value={storyPoints}
-              placeholder="Task description"
-              label="Task description"
+              placeholder="Story points"
+              label="Story points"
               error={formErrors.storyPoints?.errors.length > 0 ? true : false}
               helperText={
                 formErrors.storyPoints?.errors.length > 0
@@ -292,6 +314,23 @@ const CreateTaskDialog: React.FC<Props> = ({
               onChange={handleInputChange}
             />
           </div>
+
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="searchUserText"
+              name="searchUserText"
+              type="text"
+              value={searchText}
+              placeholder="Search users"
+              label="Search users"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-item">
+            <UserList fromTask={true}/>
+          </div>
+          
           <div className="form-item btn-container">
             <Button variant="contained" color="primary" type="submit">
               Submit
@@ -319,6 +358,8 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 const mapActionToProps = {
   createSprint,
   updateSprint,
+  getUsersList,
+  createTask,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(CreateTaskDialog);

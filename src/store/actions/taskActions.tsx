@@ -3,6 +3,7 @@ import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
   ChangeBucketPayload,
+  CreateTaskPayload,
   SumiBackendResponse,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
@@ -56,6 +57,29 @@ export const changeBucket = (
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+      }
+    });
+};
+
+
+export const createTask = (
+  taskData: CreateTaskPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .post("/task/createTask", taskData)
+    .then((res: AxiosResponse) => {
+      dispatch(getTasks(taskData.SprintId));
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({
+        type: actionTypes.EMPTY_USERS_LIST,
+      });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
       }
     });
 };

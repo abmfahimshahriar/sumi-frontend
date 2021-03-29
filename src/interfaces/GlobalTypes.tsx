@@ -172,5 +172,5 @@ export interface CreateTaskPayload {
   StartDate: string;
   EndDate: string;
   StoryPoints: number;
-  Assignee: Assignee;
+  Assignee: UsersListItem;
 }
