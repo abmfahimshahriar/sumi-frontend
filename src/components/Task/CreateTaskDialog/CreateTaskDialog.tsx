@@ -127,6 +127,7 @@ const CreateTaskDialog: React.FC<Props> = ({
       setStoryPoints(selectedTask.StoryPoints);
       setStartDate(selectedTask.StartDate);
       setEndDate(selectedTask.EndDate);
+      getUsersList(true, "", [selectedTask.Assignee]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdate]);

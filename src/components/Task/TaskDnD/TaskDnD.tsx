@@ -8,6 +8,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { getTasks, changeBucket } from "../../../store/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { CreateTaskDialog } from "../..";
 
 type Props = {
   task: TaskState;
@@ -15,6 +16,15 @@ type Props = {
 };
 const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
   const [data, setData] = useState<any[]>([]);
+  const [open, setOpen] = useState(false);
+  const isUpdate = true;
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     handleStructureData();
@@ -149,7 +159,15 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    <div>{item.TaskName}</div>
+                                    <div onClick={handleClickOpen}>
+                                      {item.TaskName}
+                                    </div>
+                                    <CreateTaskDialog
+                                      open={open}
+                                      onClose={handleClose}
+                                      isUpdate={isUpdate}
+                                      selectedTask={item}
+                                    />
                                   </li>
                                 )}
                               </Draggable>
