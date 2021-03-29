@@ -160,7 +160,8 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
                                     {...provided.dragHandleProps}
                                   >
                                     <div onClick={handleClickOpen}>
-                                      {item.TaskName}
+                                      <div>{item.TaskName}</div>
+                                      <div>{item.TaskDescription}</div>
                                     </div>
                                     <CreateTaskDialog
                                       open={open}
