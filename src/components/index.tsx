@@ -14,6 +14,9 @@ import CreateSprintDialog from "../components/Sprint/CreateSprintDialog/CreateSp
 import TaskBucketList from "../components/Sprint/TaskBucketList/TaskBucketList";
 import TaskList from "../components/Task/TaskList/TaskList";
 import TaskDnD from "../components/Task/TaskDnD/TaskDnD";
+import TaskListToolbar from "../components/Task/TaskListToolbar/TaskListToolbar";
+import CreateTaskDialog from "../components/Task/CreateTaskDialog/CreateTaskDialog";
+
 export {
   Navbar,
   Login,
@@ -31,4 +34,6 @@ export {
   TaskBucketList,
   TaskList,
   TaskDnD,
+  TaskListToolbar,
+  CreateTaskDialog
 };

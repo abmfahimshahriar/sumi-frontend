@@ -1,0 +1,10 @@
+.toolbar-wrapper {
+    background-color: #ffffff;
+    width: 100%;
+    height: 10vh;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}

@@ -163,3 +163,14 @@ export interface ChangeBucketPayload {
   TaskId: string;
   NewBucket: string;
 }
+
+export interface CreateTaskPayload {
+  ProjectId: string;
+  SprintId: string;
+  TaskName: string;
+  TaskDescription: string;
+  StartDate: string;
+  EndDate: string;
+  StoryPoints: number;
+  Assignee: Assignee;
+}
