@@ -1,0 +1,20 @@
+.task-item-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-details-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mb-16 {
+    margin-bottom: 16px;
+}
+
+.task-name {
+    font-weight: bold;
+}

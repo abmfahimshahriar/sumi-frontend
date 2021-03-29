@@ -8,7 +8,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { getTasks, changeBucket } from "../../../store/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { CreateTaskDialog } from "../..";
+import { CreateTaskDialog, TaskItem } from "../../../components";
 
 type Props = {
   task: TaskState;
@@ -159,9 +159,8 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    <div onClick={handleClickOpen}>
-                                      <div>{item.TaskName}</div>
-                                      <div>{item.TaskDescription}</div>
+                                    <div onClick={handleClickOpen} className="full-width">
+                                      <TaskItem selectedTask={item}/>
                                     </div>
                                     <CreateTaskDialog
                                       open={open}
