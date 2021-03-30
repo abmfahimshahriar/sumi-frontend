@@ -17,6 +17,7 @@ import TaskDnD from "../components/Task/TaskDnD/TaskDnD";
 import TaskListToolbar from "../components/Task/TaskListToolbar/TaskListToolbar";
 import CreateTaskDialog from "../components/Task/CreateTaskDialog/CreateTaskDialog";
 import TaskItem from "../components/Task/TaskItem/TaskItem";
+import TaskDetails from "../components/Task/TaskDetails/TaskDetails";
 
 export {
   Navbar,
@@ -37,5 +38,6 @@ export {
   TaskDnD,
   TaskListToolbar,
   CreateTaskDialog,
-  TaskItem
+  TaskItem,
+  TaskDetails,
 };
