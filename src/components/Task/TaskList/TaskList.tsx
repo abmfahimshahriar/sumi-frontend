@@ -22,7 +22,7 @@ const TaskList: React.FC<Props> = ({ getTasks }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-      <div>
+      <div className="task-list-parent">
           <TaskListToolbar/>
           <TaskDnD/>
       </div>

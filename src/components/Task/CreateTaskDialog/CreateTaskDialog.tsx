@@ -1,7 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import {
-  Assignee,
   CreateTaskPayload,
   IProjectMapStateToProps,
   ProjectState,
@@ -189,7 +188,7 @@ const CreateTaskDialog: React.FC<Props> = ({
       }
       onClose();
     }
-  };;
+  };
 
   return (
     <Dialog
@@ -198,144 +197,146 @@ const CreateTaskDialog: React.FC<Props> = ({
       open={open}
     >
       <div className="create-sprint-dialog-wrapper">
-          <h2>{dialogTitle}</h2>
-          <form
-            className="create-sprint-form"
-            autoComplete="off"
-            onSubmit={handleSubmit}
-          >
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="taskName"
-                name="taskName"
-                type="text"
-                value={taskName}
-                placeholder="Task name"
-                label="Task name"
-                error={formErrors.taskName?.errors.length > 0 ? true : false}
-                helperText={
-                  formErrors.taskName?.errors.length > 0
-                    ? formErrors.taskName?.errors[0]
-                    : null
-                }
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="taskDescription"
-                name="taskDescription"
-                type="text"
-                value={taskDescription}
-                placeholder="Task description"
-                label="Task description"
-                error={
-                  formErrors.taskDescription?.errors.length > 0 ? true : false
-                }
-                helperText={
-                  formErrors.taskDescription?.errors.length > 0
-                    ? formErrors.taskDescription?.errors[0]
-                    : null
-                }
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="startDate"
-                name="startDate"
-                label="Start date"
-                type="date"
-                defaultValue={moment(
-                  isUpdate ? selectedTask?.StartDate : new Date().toISOString()
-                ).format("YYYY-MM-DD")}
-                onChange={handleInputChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={formErrors.startDate?.errors.length > 0 ? true : false}
-                helperText={
-                  formErrors.startDate?.errors.length > 0
-                    ? formErrors.startDate?.errors[0]
-                    : null
-                }
-              />
-            </div>
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="endDate"
-                name="endDate"
-                label="End date"
-                type="date"
-                defaultValue={moment(
-                  isUpdate ? selectedTask?.EndDate : new Date().toISOString()
-                ).format("YYYY-MM-DD")}
-                onChange={handleInputChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                error={formErrors.endDate?.errors.length > 0 ? true : false}
-                helperText={
-                  formErrors.endDate?.errors.length > 0
-                    ? formErrors.endDate?.errors[0]
-                    : null
-                }
-              />
-            </div>
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="storyPoints"
-                name="storyPoints"
-                type="number"
-                value={storyPoints}
-                placeholder="Story points"
-                label="Story points"
-                error={formErrors.storyPoints?.errors.length > 0 ? true : false}
-                helperText={
-                  formErrors.storyPoints?.errors.length > 0
-                    ? formErrors.storyPoints?.errors[0]
-                    : null
-                }
-                onChange={handleInputChange}
-              />
-            </div>
+        <h2>{dialogTitle}</h2>
+        <form
+          className="create-sprint-form"
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="taskName"
+              name="taskName"
+              type="text"
+              value={taskName}
+              placeholder="Task name"
+              label="Task name"
+              error={formErrors.taskName?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.taskName?.errors.length > 0
+                  ? formErrors.taskName?.errors[0]
+                  : null
+              }
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="taskDescription"
+              name="taskDescription"
+              type="text"
+              value={taskDescription}
+              placeholder="Task description"
+              label="Task description"
+              multiline
+              rows={4}
+              error={
+                formErrors.taskDescription?.errors.length > 0 ? true : false
+              }
+              helperText={
+                formErrors.taskDescription?.errors.length > 0
+                  ? formErrors.taskDescription?.errors[0]
+                  : null
+              }
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="startDate"
+              name="startDate"
+              label="Start date"
+              type="date"
+              defaultValue={moment(
+                isUpdate ? selectedTask?.StartDate : new Date().toISOString()
+              ).format("YYYY-MM-DD")}
+              onChange={handleInputChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={formErrors.startDate?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.startDate?.errors.length > 0
+                  ? formErrors.startDate?.errors[0]
+                  : null
+              }
+            />
+          </div>
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="endDate"
+              name="endDate"
+              label="End date"
+              type="date"
+              defaultValue={moment(
+                isUpdate ? selectedTask?.EndDate : new Date().toISOString()
+              ).format("YYYY-MM-DD")}
+              onChange={handleInputChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              error={formErrors.endDate?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.endDate?.errors.length > 0
+                  ? formErrors.endDate?.errors[0]
+                  : null
+              }
+            />
+          </div>
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="storyPoints"
+              name="storyPoints"
+              type="number"
+              value={storyPoints}
+              placeholder="Story points"
+              label="Story points"
+              error={formErrors.storyPoints?.errors.length > 0 ? true : false}
+              helperText={
+                formErrors.storyPoints?.errors.length > 0
+                  ? formErrors.storyPoints?.errors[0]
+                  : null
+              }
+              onChange={handleInputChange}
+            />
+          </div>
 
-            <div className="form-item">
-              <TextField
-                className="full-width"
-                id="searchUserText"
-                name="searchUserText"
-                type="text"
-                value={searchText}
-                placeholder="Search users"
-                label="Search users"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-item">
-              <UserList fromTask={true} />
-            </div>
+          <div className="form-item">
+            <TextField
+              className="full-width"
+              id="searchUserText"
+              name="searchUserText"
+              type="text"
+              value={searchText}
+              placeholder="Search users"
+              label="Search users"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-item">
+            <UserList fromTask={true} />
+          </div>
 
-            <div className="form-item btn-container">
-              <Button variant="contained" color="primary" type="submit">
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                type="button"
-                onClick={handleClose}
-              >
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
+          <div className="form-item btn-container">
+            <Button variant="contained" color="primary" type="submit">
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              type="button"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
     </Dialog>
   );
 };

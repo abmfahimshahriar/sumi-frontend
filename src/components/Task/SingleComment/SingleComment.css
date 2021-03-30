@@ -1,0 +1,26 @@
+.single-comment-wrapper {
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgb(87, 85, 85);
+}
+
+.commenter-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.comment-text {
+    margin-left: 8px;
+    margin-top: 8px;
+}
+
+.commenter-name {
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.comment-date {
+    margin-left: 16px;
+}

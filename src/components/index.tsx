@@ -18,6 +18,8 @@ import TaskListToolbar from "../components/Task/TaskListToolbar/TaskListToolbar"
 import CreateTaskDialog from "../components/Task/CreateTaskDialog/CreateTaskDialog";
 import TaskItem from "../components/Task/TaskItem/TaskItem";
 import TaskDetails from "../components/Task/TaskDetails/TaskDetails";
+import TaskComments from "../components/Task/TaskComments/TaskComments";
+import SingleComment from "../components/Task/SingleComment/SingleComment";
 
 export {
   Navbar,
@@ -40,4 +42,6 @@ export {
   CreateTaskDialog,
   TaskItem,
   TaskDetails,
+  TaskComments,
+  SingleComment
 };

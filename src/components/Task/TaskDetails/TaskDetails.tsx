@@ -8,7 +8,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Dialog from "@material-ui/core/Dialog";
-
+import {TaskComments} from "../../../components";
 type Props = {
   selectedTask: Task;
   open: boolean;
@@ -90,7 +90,9 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
             </Menu>
           </div>
         </div>
-        <div className="comments-wrapper">comments</div>
+        <div className="comments-wrapper">
+            <TaskComments/>
+        </div>
       </div>
     </Dialog>
   );

@@ -158,7 +158,6 @@ export interface CreateSprintPayload {
   SprintId?: string;
 }
 
-
 export interface ChangeBucketPayload {
   TaskId: string;
   NewBucket: string;
@@ -173,4 +172,10 @@ export interface CreateTaskPayload {
   EndDate: string;
   StoryPoints: number;
   Assignee: UsersListItem;
+}
+
+export interface Comment {
+  Commenter: string;
+  CommentContent: string;
+  CommentedAt: string;
 }
