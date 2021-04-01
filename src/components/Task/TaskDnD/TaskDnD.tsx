@@ -8,7 +8,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { getTasks, changeBucket } from "../../../store/actions/taskActions";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { TaskDetails, TaskItem } from "../../../components";
+import { TaskItem } from "../../../components";
 
 type Props = {
   task: TaskState;
@@ -16,14 +16,14 @@ type Props = {
 };
 const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
   const [data, setData] = useState<any[]>([]);
-  const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const [open, setOpen] = useState(false);
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   useEffect(() => {
     handleStructureData();
@@ -158,7 +158,7 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    <div onClick={handleClickOpen} className="full-width">
+                                    <div className="full-width">
                                       <TaskItem selectedTask={item}/>
                                     </div>
                                     {/* <CreateTaskDialog
@@ -167,9 +167,7 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
                                       isUpdate={isUpdate}
                                       selectedTask={item}
                                     /> */}
-                                    <TaskDetails open={open}
-                                      onClose={handleClose}
-                                      selectedTask={item} />
+                                    
                                   </li>
                                 )}
                               </Draggable>

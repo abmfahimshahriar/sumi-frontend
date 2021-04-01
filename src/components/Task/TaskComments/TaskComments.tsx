@@ -1,34 +1,36 @@
-import React, { useState } from "react";
-import { Comment } from "../../../interfaces/GlobalTypes";
+import React, { useEffect, useState } from "react";
+import { Comment, CreateCommentPayload, ITaskMapStateToProps, Task, TaskState } from "../../../interfaces/GlobalTypes";
 import "./TaskComments.css";
 import { SingleComment } from "../../../components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import {createComment, getComments} from "../../../store/actions/taskActions";
+const comments: Comment[] = [];
 
-const comments: Comment[] = [
-  {
-    Commenter: "Fahim",
-    CommentContent: "1st comment",
-    CommentedAt: "2021-03-15T00:57:33.049Z",
-  },
-  {
-    Commenter: "Shahriar",
-    CommentContent: "2nd comment",
-    CommentedAt: "2021-03-15T00:57:33.049Z",
-  },
-  {
-    Commenter: "Reed",
-    CommentContent: "3rd comment",
-    CommentedAt: "2021-03-15T00:57:33.049Z",
-  },
-  {
-    Commenter: "Tahia",
-    CommentContent: "4th comment",
-    CommentedAt: "2021-03-15T00:57:33.049Z",
-  },
-];
-const TaskComments = () => {
+type Props = {
+  open: boolean;
+  task: TaskState;
+  getComments: Function;
+  createComment: Function;
+  selectedTask: Task;
+}
+
+const TaskComments: React.FC<Props> = ({open, task, getComments, createComment, selectedTask}) => {
   const [commentContent, setCommentContent] = useState("");
+
+  useEffect(() => {
+    console.log(open);
+    if(open) {
+      const payload: CreateCommentPayload = {
+        ProjectId: selectedTask.ProjectId,
+        SprintId: selectedTask.SprintId,
+        TaskId: selectedTask._id
+      };
+      getComments(payload);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
   const handleComment = () => {
     console.log("commented");
   };
@@ -40,14 +42,11 @@ const TaskComments = () => {
     <div>
       <div>
         {comments.map((item) => (
-          <SingleComment key={item.Commenter} comment={item} />
+          <SingleComment key={item.Commenter._id} comment={item} />
         ))}
       </div>
       <div>
-        <form
-          className="create-sprint-form"
-          autoComplete="off"
-        >
+        <form className="create-sprint-form" autoComplete="off">
           <div className="form-item">
             <TextField
               className="full-width"
@@ -63,7 +62,12 @@ const TaskComments = () => {
             />
           </div>
           <div className="comment-btn">
-            <Button variant="contained" color="primary" type="button" onClick={handleComment}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={handleComment}
+            >
               Comment
             </Button>
           </div>
@@ -73,4 +77,14 @@ const TaskComments = () => {
   );
 };
 
-export default TaskComments;
+const mapStateToProps = (state: ITaskMapStateToProps) => ({
+  task: state.task,
+  ui: state.ui,
+});
+
+const mapActionToProps = {
+  getComments,
+  createComment,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(TaskComments);

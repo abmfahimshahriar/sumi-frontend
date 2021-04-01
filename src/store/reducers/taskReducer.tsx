@@ -10,6 +10,7 @@ const initialSprintState: TaskState = {
   SprintDetails: {} as Sprint,
   hasTaskErrors: false,
   taskErrors: [],
+  comments: [],
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -37,6 +38,16 @@ export default function (
         ...state,
         hasTaskErrors: true,
         taskErrors: [...action.payload],
+      };
+    case actionTypes.GET_COMMENTS:
+      return {
+        ...state,
+        comments: [...action.payload],
+      };
+    case actionTypes.CLEAR_COMMENTS:
+      return {
+        ...state,
+        comments: [],
       };
     default:
       return state;

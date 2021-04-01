@@ -24,6 +24,8 @@ export const SPRINT_ERROR = "SPRINT_ERROR";
 export const GET_TASKS = "GET_TASKS";
 export const TASK_ERROR = "TASK_ERROR";
 export const GET_SPRINT_DETAILS = "GET_SPRINT_DETAILS";
+export const GET_COMMENTS = "GET_COMMENTS";
+export const CLEAR_COMMENTS = "CLEAR_COMMENTS";
 
 // UI types
 export const START_LOCAL_LOADING = "START_LOCAL_LOADING";

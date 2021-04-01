@@ -53,6 +53,7 @@ export interface TaskState {
   SprintDetails: Sprint;
   taskErrors: string[];
   hasTaskErrors: boolean;
+  comments: Comment[];
 }
 
 export interface UIState {
@@ -175,7 +176,18 @@ export interface CreateTaskPayload {
 }
 
 export interface Comment {
-  Commenter: string;
+  _id: string;
+  ProjectId: string;
+  SprintId: string;
+  TaskId: string;
+  Commenter: Assignee;
   CommentContent: string;
   CommentedAt: string;
+}
+
+export interface CreateCommentPayload {
+  ProjectId: string;
+  SprintId: string;
+  TaskId: string;
+  CommentContent?: string;
 }

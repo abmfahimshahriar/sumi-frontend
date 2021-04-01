@@ -91,7 +91,7 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
           </div>
         </div>
         <div className="comments-wrapper">
-            <TaskComments/>
+            <TaskComments open={open} selectedTask={selectedTask}/>
         </div>
       </div>
     </Dialog>

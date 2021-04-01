@@ -3,6 +3,7 @@ import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
   ChangeBucketPayload,
+  CreateCommentPayload,
   CreateTaskPayload,
   SumiBackendResponse,
 } from "../../interfaces/GlobalTypes";
@@ -74,6 +75,51 @@ export const createTask = (
       dispatch({
         type: actionTypes.EMPTY_USERS_LIST,
       });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const createComment = (
+  commentData: CreateCommentPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .post("/task/createComment", commentData)
+    .then((res: AxiosResponse) => {
+      dispatch(getComments(commentData));
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({
+        type: actionTypes.EMPTY_USERS_LIST,
+      });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      }
+    });
+};
+
+export const getComments = (
+  commentData: CreateCommentPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  axios
+    .post("/task/getComments", commentData)
+    .then((res: AxiosResponse) => {
+      const data: SumiBackendResponse = res.data;
+      dispatch({
+        type: actionTypes.GET_COMMENTS,
+        payload: data.Result.Comments,
+      });
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;

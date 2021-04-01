@@ -12,9 +12,9 @@ const SingleComment: React.FC<Props> = ({ comment }) => {
     <div className="single-comment-wrapper">
       <div className="commenter-details">
         <div>
-          <Chip label={comment.Commenter.slice(0, 1)} color="secondary" />
+          <Chip label={comment.Commenter.Name.slice(0, 1)} color="secondary" />
         </div>
-        <div className="commenter-name">{comment.Commenter}</div>
+        <div className="commenter-name">{comment.Commenter.Name}</div>
         <div className="comment-date">{moment(comment.CommentedAt).format("MM-DD-YYYY")}</div>
       </div>
       <div className="comment-text">{comment.CommentContent}</div>
