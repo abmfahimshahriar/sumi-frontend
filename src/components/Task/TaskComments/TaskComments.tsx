@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Comment, CreateCommentPayload, ITaskMapStateToProps, Task, TaskState } from "../../../interfaces/GlobalTypes";
+import {
+  Comment,
+  CreateCommentPayload,
+  ITaskMapStateToProps,
+  Task,
+  TaskState,
+} from "../../../interfaces/GlobalTypes";
 import "./TaskComments.css";
 import { SingleComment } from "../../../components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import {createComment, getComments} from "../../../store/actions/taskActions";
+import {
+  createComment,
+  getComments,
+  clearComments,
+} from "../../../store/actions/taskActions";
 const comments: Comment[] = [];
 
 type Props = {
@@ -14,23 +24,33 @@ type Props = {
   getComments: Function;
   createComment: Function;
   selectedTask: Task;
-}
+  clearComments: Function;
+};
 
-const TaskComments: React.FC<Props> = ({open, task, getComments, createComment, selectedTask}) => {
+const TaskComments: React.FC<Props> = ({
+  open,
+  task,
+  getComments,
+  createComment,
+  selectedTask,
+  clearComments,
+}) => {
   const [commentContent, setCommentContent] = useState("");
 
   useEffect(() => {
     console.log(open);
-    if(open) {
+    if (open) {
       const payload: CreateCommentPayload = {
         ProjectId: selectedTask.ProjectId,
         SprintId: selectedTask.SprintId,
-        TaskId: selectedTask._id
+        TaskId: selectedTask._id,
       };
       getComments(payload);
+    } else {
+      clearComments();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
   const handleComment = () => {
     console.log("commented");
   };
@@ -41,8 +61,8 @@ const TaskComments: React.FC<Props> = ({open, task, getComments, createComment, 
   return (
     <div>
       <div>
-        {comments.map((item) => (
-          <SingleComment key={item.Commenter._id} comment={item} />
+        {task.comments.map((item) => (
+          <SingleComment key={item._id} comment={item} />
         ))}
       </div>
       <div>
@@ -85,6 +105,7 @@ const mapStateToProps = (state: ITaskMapStateToProps) => ({
 const mapActionToProps = {
   getComments,
   createComment,
+  clearComments,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskComments);

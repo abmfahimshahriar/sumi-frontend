@@ -62,7 +62,6 @@ export const changeBucket = (
     });
 };
 
-
 export const createTask = (
   taskData: CreateTaskPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
@@ -128,4 +127,13 @@ export const getComments = (
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
       }
     });
+};
+
+export const clearComments = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  dispatch({ type: actionTypes.CLEAR_COMMENTS });
 };
