@@ -4,7 +4,7 @@ import { ITaskMapStateToProps } from "../../../interfaces/GlobalTypes";
 import { useParams } from "react-router-dom";
 import { getTasks } from "../../../store/actions/taskActions";
 import "./TaskList.css";
-import { TaskDnD, TaskListToolbar, Sidebar } from "../../../components";
+import { TaskDnD, TaskListToolbar } from "../../../components";
 
 interface ParamTypes {
   projectId: string;
@@ -24,7 +24,6 @@ const TaskList: React.FC<Props> = ({ getTasks }) => {
   return (
       <div className="task-list-parent">
           <TaskListToolbar/>
-          {/* <Sidebar/> */}
           <TaskDnD/>
       </div>
   );
