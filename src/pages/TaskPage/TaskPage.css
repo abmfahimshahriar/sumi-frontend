@@ -1,4 +1,11 @@
 .task-page-wrapper {
   min-height: 100vh;
   background-color: #303c8091;
+  margin-left: 73px;
+}
+
+@media only screen and (max-width: 600px) {
+  .task-page-wrapper {
+    margin-left: 57px;
+  }
 }

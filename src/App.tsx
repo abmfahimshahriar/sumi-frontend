@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { LoginPage, LandingPage, SignupPage, ProjectPage, SprintPage, TaskPage } from "./pages";
-import { Navbar } from "./components";
+import { Navbar, Sidebar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthRoute } from "./utility/components";
 // redux
@@ -29,6 +29,7 @@ function App() {
                 <SprintPage />
               </AuthRoute>
               <AuthRoute exact path="/sprints/:projectId/:sprintId">
+                <Sidebar/>
                 <TaskPage/>
               </AuthRoute>
             </Switch>

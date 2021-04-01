@@ -20,6 +20,7 @@ import TaskItem from "../components/Task/TaskItem/TaskItem";
 import TaskDetails from "../components/Task/TaskDetails/TaskDetails";
 import TaskComments from "../components/Task/TaskComments/TaskComments";
 import SingleComment from "../components/Task/SingleComment/SingleComment";
+import Sidebar from "../components/Task/Sidebar/Sidebar";
 
 export {
   Navbar,
@@ -43,5 +44,6 @@ export {
   TaskItem,
   TaskDetails,
   TaskComments,
-  SingleComment
+  SingleComment,
+  Sidebar
 };
