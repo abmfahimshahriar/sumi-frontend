@@ -50,7 +50,7 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
         structuredData.push(item);
       }
       else {
-        endBucket = item;
+        endBucket = {...item};
       }
     }
     structuredData.push(endBucket);
@@ -137,13 +137,13 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
   };
   return (
     <div>
-      {task.tasks.length > 0 && (
+      {data.length > 0 && (
         <div className="dnd-wrapper">
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <div className="lists-container">
               {data.map((list) => {
                 return (
-                  <div className="list-item" key={list.listName}>
+                  <div className="list-item" key={list.listId}>
                     <div className="list-header">{list.listName}</div>
                     <Droppable droppableId={list.listId}>
                       {(provided) => (

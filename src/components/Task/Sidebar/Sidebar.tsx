@@ -16,7 +16,7 @@ import StorageIcon from '@material-ui/icons/Storage';
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import { Link, useParams } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
-import InsertChartIcon from '@material-ui/icons/InsertChart';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 const drawerWidth = 240;
 
@@ -146,7 +146,7 @@ const Sidebar = () => {
           <Tooltip title="Reports" placement="top">
             <ListItem button component={Link} to={`/projects/${projectId}`}>
               <ListItemIcon>
-                <InsertChartIcon />
+                <BarChartIcon />
               </ListItemIcon>
               <ListItemText primary="Reports" />
             </ListItem>
