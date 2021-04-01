@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Comment,
   CreateCommentPayload,
   ITaskMapStateToProps,
   Task,
@@ -16,7 +15,6 @@ import {
   getComments,
   clearComments,
 } from "../../../store/actions/taskActions";
-const comments: Comment[] = [];
 
 type Props = {
   open: boolean;
@@ -38,7 +36,6 @@ const TaskComments: React.FC<Props> = ({
   const [commentContent, setCommentContent] = useState("");
 
   useEffect(() => {
-    console.log(open);
     if (open) {
       const payload: CreateCommentPayload = {
         ProjectId: selectedTask.ProjectId,
@@ -52,7 +49,14 @@ const TaskComments: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   const handleComment = () => {
-    console.log("commented");
+    const payload: CreateCommentPayload = {
+      ProjectId: selectedTask.ProjectId,
+      SprintId: selectedTask.SprintId,
+      TaskId: selectedTask._id,
+      CommentContent: commentContent,
+    };
+    createComment(payload);
+    setCommentContent("");
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -77,7 +81,7 @@ const TaskComments: React.FC<Props> = ({
               placeholder="Comment"
               label="Comment"
               multiline
-              rows={4}
+              rows={2}
               onChange={handleInputChange}
             />
           </div>
