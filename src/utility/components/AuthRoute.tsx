@@ -29,6 +29,7 @@ const AuthRoute: React.FC<Props> = ({ children, user, path, exact }) => {
 
 const mapStateToProps = (state: IUserMapStateToProps) => ({
   user: state.user,
+  ui: state.ui,
 });
 
 const mapActionToProps = {};

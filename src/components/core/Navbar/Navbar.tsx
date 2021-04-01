@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MyButton } from "../../../utility/components";
 import jwtDecode from "jwt-decode";
+import "./Navbar.css";
 // MUI stuffs
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -13,6 +14,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 // redux stuff
 import { connect } from "react-redux";
@@ -22,6 +24,7 @@ import {
 } from "../../../store/actions/userActions";
 import {
   IUserMapStateToProps,
+  UIState,
   UserState,
 } from "../../../interfaces/GlobalTypes";
 
@@ -43,9 +46,15 @@ type Props = {
   logoutUser: Function;
   setAuthenticated: Function;
   user: UserState;
+  ui: UIState;
 };
 
-const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
+const Navbar: React.FC<Props> = ({
+  user,
+  logoutUser,
+  setAuthenticated,
+  ui,
+}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -82,56 +91,63 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
   };
   return (
     <div className={classes.root}>
+      <div className="loader-wrapper">
+        {ui.globalLoading && <LinearProgress color="secondary" />}
+      </div>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Typography variant="h6" className={classes.title}>
-            Sumi
-          </Typography>
-
-          {!user.isAuthenticated && (
-            <Button
-              variant="contained"
-              color="secondary"
-              component={Link}
-              to="/login"
-            >
-              Login
-            </Button>
-          )}
-
-          {user.isAuthenticated && (
-            <Fragment>
-              <MyButton tip="profile" onClick={openProfileMenu}>
-                <Avatar>{user.username?.slice(0,1)}</Avatar>
-              </MyButton>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={closeProfileMenu}
+          <div className="navbar-wrapper">
+            <div className="navigation-wrapper">
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="menu"
               >
-                <MenuItem onClick={closeProfileMenu}>Profile</MenuItem>
-                <MenuItem
-                  onClick={closeProfileMenu}
+                <MenuIcon />
+              </IconButton>
+
+              <Typography variant="h6" className={classes.title}>
+                Sumi
+              </Typography>
+
+              {!user.isAuthenticated && (
+                <Button
+                  variant="contained"
+                  color="secondary"
                   component={Link}
-                  to="/projects"
+                  to="/login"
                 >
-                  Projects
-                </MenuItem>
-                <MenuItem onClick={logOut}>Logout</MenuItem>
-              </Menu>
-            </Fragment>
-          )}
+                  Login
+                </Button>
+              )}
+
+              {user.isAuthenticated && (
+                <Fragment>
+                  <MyButton tip="profile" onClick={openProfileMenu}>
+                    <Avatar>{user.username?.slice(0, 1)}</Avatar>
+                  </MyButton>
+                  <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={closeProfileMenu}
+                  >
+                    <MenuItem onClick={closeProfileMenu}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={closeProfileMenu}
+                      component={Link}
+                      to="/projects"
+                    >
+                      Projects
+                    </MenuItem>
+                    <MenuItem onClick={logOut}>Logout</MenuItem>
+                  </Menu>
+                </Fragment>
+              )}
+            </div>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
@@ -140,6 +156,7 @@ const Navbar: React.FC<Props> = ({ user, logoutUser, setAuthenticated }) => {
 
 const mapStateToProps = (state: IUserMapStateToProps) => ({
   user: state.user,
+  ui: state.ui,
 });
 
 const mapActionToProps = {

@@ -20,6 +20,7 @@ export const getSprints = (
   projectId: string
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .get(`/sprint/getSprints/${projectId}`)
     .then((res: AxiosResponse) => {
@@ -29,12 +30,14 @@ export const getSprints = (
         payload: data.Result.Sprints,
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -43,17 +46,20 @@ export const createSprint = (
   sprintData: CreateSprintPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/sprint/createSprint", sprintData)
     .then((res: AxiosResponse) => {
       dispatch(getSprints(sprintData.ProjectId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -62,34 +68,40 @@ export const updateSprint = (
   sprintData: CreateSprintPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .put("/sprint/updateSprint", sprintData)
     .then((res: AxiosResponse) => {
       dispatch(getSprints(sprintData.ProjectId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
 
 export const deleteSprint = (payload: any): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/sprint/deleteSprint", payload)
     .then((res: AxiosResponse) => {
       dispatch(getSprints(payload.ProjectId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.SPRINT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };

@@ -17,6 +17,7 @@ export const loginUser = (
   userData: IUser
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.SET_DEFAULT });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/auth/login", userData)
     .then((res: AxiosResponse) => {
@@ -28,11 +29,13 @@ export const loginUser = (
         Username: data.Result.Username,
       };
       dispatch({ type: actionTypes.LOGIN, payload: payload });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -41,6 +44,7 @@ export const signupUser = (
   userData: IUser
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.SET_DEFAULT });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/auth/signup", userData)
     .then((res: AxiosResponse) => {
@@ -52,11 +56,13 @@ export const signupUser = (
         Username: data.Result.Username,
       };
       dispatch({ type: actionTypes.SIGNUP, payload: payload });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };

@@ -1,0 +1,17 @@
+.navbar-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.navigation-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.loader-wrapper {
+    width: 100%;
+    z-index: 2000;
+}

@@ -187,6 +187,7 @@ const Signup: React.FC<Props> = ({ signupUser, user, setDefaults }) => {
 
 const mapStateToProps = (state: IUserMapStateToProps) => ({
   user: state.user,
+  ui: state.ui,
 });
 
 const mapActionToProps = {

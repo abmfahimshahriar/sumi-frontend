@@ -70,6 +70,7 @@ export interface DispatchActionTypes {
 
 export interface IUserMapStateToProps {
   user: UserState;
+  ui: UIState;
 }
 
 export interface IProjectMapStateToProps {

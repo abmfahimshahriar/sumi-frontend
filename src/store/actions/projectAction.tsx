@@ -24,6 +24,7 @@ export const getMyCreatedProjects = (): ThunkAction<
   Action<string>
 > => async (dispatch) => {
   dispatch({ type: actionTypes.START_CREATED_PROJECT_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .get("/project/myCreatedProjects")
     .then((res: AxiosResponse) => {
@@ -33,12 +34,14 @@ export const getMyCreatedProjects = (): ThunkAction<
         payload: data.Result.myCreatedProjects,
       });
       dispatch({ type: actionTypes.END_CREATED_PROJECT_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_CREATED_PROJECT_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -50,6 +53,7 @@ export const getMyInvolvedProjects = (): ThunkAction<
   Action<string>
 > => async (dispatch) => {
   dispatch({ type: actionTypes.START_INVOLVED_PROJECT_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .get("/project/myInvolvedProjects")
     .then((res: AxiosResponse) => {
@@ -59,12 +63,14 @@ export const getMyInvolvedProjects = (): ThunkAction<
         payload: data.Result.myInvolvedProjects,
       });
       dispatch({ type: actionTypes.END_INVOLVED_PROJECT_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_INVOLVED_PROJECT_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -73,11 +79,13 @@ export const createProject = (
   projectData: CreateProjectPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/project/createProject", projectData)
     .then((res: AxiosResponse) => {
       dispatch(getMyCreatedProjects());
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch({
         type: actionTypes.EMPTY_USERS_LIST,
       });
@@ -87,6 +95,7 @@ export const createProject = (
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -96,11 +105,13 @@ export const updateProject = (
   projectId: string
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .put(`/project/updateProject/${projectId}`, projectData)
     .then((res: AxiosResponse) => {
       dispatch(getMyCreatedProjects());
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch({
         type: actionTypes.EMPTY_USERS_LIST,
       });
@@ -110,6 +121,7 @@ export const updateProject = (
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -118,17 +130,20 @@ export const deleteProject = (
   projectId: string
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .delete(`/project/deleteProject/${projectId}`)
     .then((res: AxiosResponse) => {
       dispatch(getMyCreatedProjects());
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -145,6 +160,7 @@ export const getUsersList = (
     });
   } else {
     dispatch({ type: actionTypes.START_LOCAL_LOADING });
+    dispatch({ type: actionTypes.START_GLOBAL_LOADING });
     const payload = {
       SearchText: searchText,
     };
@@ -157,12 +173,14 @@ export const getUsersList = (
           payload: data.Result.Users,
         });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       })
       .catch((err: AxiosError) => {
         const data = err.response?.data;
         if (data) {
           dispatch({ type: actionTypes.PROJECT_ERROR, payload: data.Errors });
           dispatch({ type: actionTypes.END_LOCAL_LOADING });
+          dispatch({ type: actionTypes.END_GLOBAL_LOADING });
         }
       });
   }

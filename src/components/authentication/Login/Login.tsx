@@ -160,6 +160,7 @@ const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
 
 const mapStateToProps = (state: IUserMapStateToProps) => ({
   user: state.user,
+  ui: state.ui,
 });
 
 const mapActionToProps = {

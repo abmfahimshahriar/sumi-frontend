@@ -22,6 +22,7 @@ export const getTasks = (
   sprintId: string
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .get(`/task/getTasks/${sprintId}`)
     .then((res: AxiosResponse) => {
@@ -35,12 +36,14 @@ export const getTasks = (
         payload: data.Result.Sprint,
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -49,15 +52,18 @@ export const changeBucket = (
   payload: ChangeBucketPayload,
   sprintId: string
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/task/bucketChange", payload)
     .then((res: AxiosResponse) => {
       dispatch(getTasks(sprintId));
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -66,11 +72,13 @@ export const createTask = (
   taskData: CreateTaskPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/task/createTask", taskData)
     .then((res: AxiosResponse) => {
       dispatch(getTasks(taskData.SprintId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch({
         type: actionTypes.EMPTY_USERS_LIST,
       });
@@ -80,6 +88,7 @@ export const createTask = (
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -88,11 +97,13 @@ export const createComment = (
   commentData: CreateCommentPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/task/createComment", commentData)
     .then((res: AxiosResponse) => {
       dispatch(getComments(commentData));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch({
         type: actionTypes.EMPTY_USERS_LIST,
       });
@@ -102,6 +113,7 @@ export const createComment = (
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
@@ -110,6 +122,7 @@ export const getComments = (
   commentData: CreateCommentPayload
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .post("/task/getComments", commentData)
     .then((res: AxiosResponse) => {
@@ -119,12 +132,14 @@ export const getComments = (
         payload: data.Result.Comments,
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
         dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       }
     });
 };
