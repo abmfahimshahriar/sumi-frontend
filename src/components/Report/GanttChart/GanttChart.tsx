@@ -49,8 +49,11 @@ const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
       const item = sprints[i];
       const chartDataItem = [];
       let percentDone;
-      if(item.TotalStoryPoints === 0) percentDone = 0;
-      else percentDone = Math.round((item.CompletedStoryPoints/item.TotalStoryPoints) * 100);
+      if (item.TotalStoryPoints === 0) percentDone = 0;
+      else
+        percentDone = Math.round(
+          (item.CompletedStoryPoints / item.TotalStoryPoints) * 100
+        );
       chartDataItem.push(item._id);
       chartDataItem.push(item.SprintName);
       chartDataItem.push(new Date(item.StartDate));
@@ -69,6 +72,11 @@ const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
         chartType="Gantt"
         loader={<div>Loading Chart</div>}
         data={chartData}
+        options={{
+          gantt: {
+            criticalPathEnabled: false,
+          },
+        }}
         rootProps={{ "data-testid": "1" }}
       />
     </div>

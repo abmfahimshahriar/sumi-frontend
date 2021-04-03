@@ -8,17 +8,37 @@
   height: 60vh;
   padding: 32px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.graph-card-wrapper {
+  width: 100%;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 
 .graph-card {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border: 1px solid black;
+  padding: 16px;
   box-shadow: 0 0 1px 0 rgb(0 0 0 / 70%), 0 3px 4px -2px rgb(0 0 0 / 50%);
   border-radius: 8px;
+}
+
+.chart-header {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 24px;
+}
+
+.chart-img {
+  height: 135px;
+  width: 135px;
 }
 
 .graph-card:hover {
