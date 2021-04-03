@@ -15,7 +15,7 @@ const ReportList = () => {
       <div className="graph-card-wrapper">
         <div className="graph-card">
           <Link to={`/sprints/${projectId}/${sprintId}/reports/ganttChart`}>
-            <div className="chart-header">gnaat chart</div>
+            <div className="chart-header">gnatt chart</div>
           </Link>
           <img className="chart-img" src={ganttChartImage} alt="ganttChart" />
         </div>
