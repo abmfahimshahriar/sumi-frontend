@@ -23,6 +23,7 @@ import SingleComment from "../components/Task/SingleComment/SingleComment";
 import Sidebar from "./core/Sidebar/Sidebar";
 import ReportList from "./Report/ReportList/ReportList";
 import GanttChart from "./Report/GanttChart/GanttChart";
+import VelocityChart from "./Report/VelocityChart/VelocityChart";
 
 export {
   Navbar,
@@ -49,5 +50,6 @@ export {
   SingleComment,
   Sidebar,
   ReportList,
-  GanttChart
+  GanttChart,
+  VelocityChart
 };

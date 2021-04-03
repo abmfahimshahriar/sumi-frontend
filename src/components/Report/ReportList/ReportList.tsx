@@ -20,7 +20,7 @@ const ReportList = () => {
           <img className="chart-img" src={ganttChartImage} alt="ganttChart" />
         </div>
         <div className="graph-card">
-          <Link to={`/sprints/${projectId}/${sprintId}/reports/ganttChart`}>
+          <Link to={`/sprints/${projectId}/${sprintId}/reports/velocityChart`}>
             <div className="chart-header">Velocity chart</div>
           </Link>
           <img className="chart-img" src={ganttChartImage} alt="ganttChart" />

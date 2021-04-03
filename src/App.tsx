@@ -9,6 +9,7 @@ import {
   TaskPage,
   ReportPage,
   GanttChartPage,
+  VelocityChartPage
 } from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -48,6 +49,10 @@ function App() {
               <AuthRoute exact path="/sprints/:projectId/:sprintId/reports/ganttChart">
                 <Sidebar />
                 <GanttChartPage />
+              </AuthRoute>
+              <AuthRoute exact path="/sprints/:projectId/:sprintId/reports/velocityChart">
+                <Sidebar />
+                <VelocityChartPage />
               </AuthRoute>
             </Switch>
           </div>
