@@ -5,6 +5,7 @@ import ProjectPage from "./ProjectPage/ProjectPage";
 import SprintPage from "./SprintPage/SprintPage";
 import TaskPage from "./TaskPage/TaskPage";
 import ReportPage from "./ReportPage/ReportPage";
+import GanttChartPage from "./GanntChartPage/GanttChartPage";
 
 export {
   LoginPage,
@@ -13,5 +14,6 @@ export {
   ProjectPage,
   SprintPage,
   TaskPage,
-  ReportPage
+  ReportPage,
+  GanttChartPage
 };

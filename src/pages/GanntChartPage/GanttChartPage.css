@@ -1,0 +1,15 @@
+.gantt-page-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #303c8091;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 73px;
+}
+
+@media only screen and (max-width: 600px) {
+  .gantt-page-wrapper {
+    margin-left: 57px;
+  }
+}

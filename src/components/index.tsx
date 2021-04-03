@@ -22,6 +22,7 @@ import TaskComments from "../components/Task/TaskComments/TaskComments";
 import SingleComment from "../components/Task/SingleComment/SingleComment";
 import Sidebar from "./core/Sidebar/Sidebar";
 import ReportList from "./Report/ReportList/ReportList";
+import GanttChart from "./Report/GanttChart/GanttChart";
 
 export {
   Navbar,
@@ -47,5 +48,6 @@ export {
   TaskComments,
   SingleComment,
   Sidebar,
-  ReportList
+  ReportList,
+  GanttChart
 };

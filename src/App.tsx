@@ -1,6 +1,15 @@
 import React from "react";
 import "./App.css";
-import { LoginPage, LandingPage, SignupPage, ProjectPage, SprintPage, TaskPage, ReportPage } from "./pages";
+import {
+  LoginPage,
+  LandingPage,
+  SignupPage,
+  ProjectPage,
+  SprintPage,
+  TaskPage,
+  ReportPage,
+  GanttChartPage,
+} from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthRoute } from "./utility/components";
@@ -29,12 +38,16 @@ function App() {
                 <SprintPage />
               </AuthRoute>
               <AuthRoute exact path="/sprints/:projectId/:sprintId">
-                <Sidebar/>
-                <TaskPage/>
+                <Sidebar />
+                <TaskPage />
               </AuthRoute>
               <AuthRoute exact path="/sprints/:projectId/:sprintId/reports">
-                <Sidebar/>
-                <ReportPage/>
+                <Sidebar />
+                <ReportPage />
+              </AuthRoute>
+              <AuthRoute exact path="/sprints/:projectId/:sprintId/reports/ganttChart">
+                <Sidebar />
+                <GanttChartPage />
               </AuthRoute>
             </Switch>
           </div>
