@@ -49,11 +49,13 @@ export interface SprintState {
 }
 
 export interface TaskState {
+  fullTaskList: Task[];
   tasks: Task[];
   SprintDetails: Sprint;
   taskErrors: string[];
   hasTaskErrors: boolean;
   comments: Comment[];
+  searchText: string;
 }
 
 export interface UIState {

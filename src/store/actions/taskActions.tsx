@@ -35,6 +35,9 @@ export const getTasks = (
         type: actionTypes.GET_SPRINT_DETAILS,
         payload: data.Result.Sprint,
       });
+      dispatch({
+        type: actionTypes.FILTER_TASKS
+      });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
@@ -151,4 +154,19 @@ export const clearComments = (): ThunkAction<
   Action<string>
 > => async (dispatch) => {
   dispatch({ type: actionTypes.CLEAR_COMMENTS });
+};
+
+
+export const filterTasks = (
+  text: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  dispatch({
+    type: actionTypes.SET_FILTER,
+    payload: text,
+  });
+  dispatch({
+    type: actionTypes.FILTER_TASKS
+  });
+  dispatch({ type: actionTypes.END_GLOBAL_LOADING });
 };

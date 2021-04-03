@@ -6,11 +6,13 @@ import {
 import * as actionTypes from "../actionTypes";
 
 const initialSprintState: TaskState = {
+  fullTaskList: [],
   tasks: [],
   SprintDetails: {} as Sprint,
   hasTaskErrors: false,
   taskErrors: [],
   comments: [],
+  searchText: "",
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -26,6 +28,7 @@ export default function (
     case actionTypes.GET_TASKS:
       return {
         ...state,
+        fullTaskList: [...action.payload],
         tasks: [...action.payload],
       };
     case actionTypes.GET_SPRINT_DETAILS:
@@ -48,6 +51,23 @@ export default function (
       return {
         ...state,
         comments: [],
+      };
+    case actionTypes.SET_FILTER:
+      return {
+        ...state,
+        searchText: action.payload,
+      };
+    case actionTypes.FILTER_TASKS:
+      const text = state.searchText;
+      let tempTasks = [...state.fullTaskList];
+      if (text) {
+        tempTasks = tempTasks.filter((item) => {
+          return item.TaskName.toLowerCase().includes(text);
+        });
+      }
+      return {
+        ...state,
+        tasks: [...tempTasks],
       };
     default:
       return state;
