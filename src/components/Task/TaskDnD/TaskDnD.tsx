@@ -33,8 +33,6 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
   const handleStructureData = () => {
     const tasks = [...task.tasks];
     const taskBuckets = task.SprintDetails.TaskBuckets;
-    const endBucketId = task.SprintDetails.EndBucket;
-    let endBucket;
     let structuredData: any[] = [];
     for (let i in taskBuckets) {
       const bucketId = taskBuckets[i].TaskBucketId;
@@ -46,14 +44,8 @@ const TaskDnD: React.FC<Props> = ({ task, changeBucket }) => {
         listName: taskBuckets[i].TaskBucketName,
         listArray: [...filteredTasks],
       };
-      if(item.listId !== endBucketId) {
-        structuredData.push(item);
-      }
-      else {
-        endBucket = {...item};
-      }
+      structuredData.push(item);
     }
-    structuredData.push(endBucket);
     setData(structuredData);
   };
   const handleOnDragEnd = (result: any) => {

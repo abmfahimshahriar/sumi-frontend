@@ -95,7 +95,7 @@ interface ParamTypes {
 const Sidebar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const { projectId } = useParams<ParamTypes>();
+  const { projectId, sprintId } = useParams<ParamTypes>();
   const handleDrawerToogle = () => {
     setOpen(!open);
   };
@@ -144,7 +144,7 @@ const Sidebar = () => {
           <Divider />
 
           <Tooltip title="Reports" placement="top">
-            <ListItem button component={Link} to={`/projects/${projectId}`}>
+            <ListItem button component={Link} to={`/sprints/${projectId}/${sprintId}/reports`}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
