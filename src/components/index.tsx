@@ -26,6 +26,7 @@ import GanttChart from "./Report/GanttChart/GanttChart";
 import VelocityChart from "./Report/VelocityChart/VelocityChart";
 import UpperPart from "./Landing/UpperPart/UpperPart";
 import MiddlePart from "./Landing/MiddlePart/MiddlePart";
+import LowerPart from "./Landing/LowerPart/LowerPart";
 
 export {
   Navbar,
@@ -56,4 +57,5 @@ export {
   VelocityChart,
   UpperPart,
   MiddlePart,
+  LowerPart,
 };

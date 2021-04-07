@@ -12,8 +12,9 @@ const MiddlePart = () => {
                     Plan
                 </h1>
                 <p>
-                    Create user stories and issues, plan sprints,
-                    and distribute tasks across your software team.
+                    Create user tasks, plan sprints, take a look at
+                    sprint reports, and distribute tasks across
+                    your project's team.
                 </p>
 
                 <h1>
