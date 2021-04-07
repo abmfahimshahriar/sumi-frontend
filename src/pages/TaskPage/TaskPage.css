@@ -2,6 +2,7 @@
   min-height: 100vh;
   background-color: #303c8091;
   margin-left: 73px;
+  margin-top: 64px;
 }
 
 @media only screen and (max-width: 600px) {
