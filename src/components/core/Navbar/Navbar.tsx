@@ -94,7 +94,7 @@ const Navbar: React.FC<Props> = ({
       <div className="loader-wrapper">
         {ui.globalLoading && <LinearProgress color="secondary" />}
       </div>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <div className="navbar-wrapper">
             <div className="navigation-wrapper">
