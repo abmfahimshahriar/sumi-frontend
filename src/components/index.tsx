@@ -24,6 +24,8 @@ import Sidebar from "./core/Sidebar/Sidebar";
 import ReportList from "./Report/ReportList/ReportList";
 import GanttChart from "./Report/GanttChart/GanttChart";
 import VelocityChart from "./Report/VelocityChart/VelocityChart";
+import UpperPart from "./Landing/UpperPart/UpperPart";
+import MiddlePart from "./Landing/MiddlePart/MiddlePart";
 
 export {
   Navbar,
@@ -51,5 +53,7 @@ export {
   Sidebar,
   ReportList,
   GanttChart,
-  VelocityChart
+  VelocityChart,
+  UpperPart,
+  MiddlePart,
 };

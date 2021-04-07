@@ -3,5 +3,7 @@
     min-height: 100vh;
     background-color: #303c8091;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     margin-top: 64px;
   }
