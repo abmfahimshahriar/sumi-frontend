@@ -118,3 +118,25 @@ export const getUserDetails = (
       }
     });
 };
+
+
+export const updateUser = (
+  userData: FormData
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  axios
+    .post("/user/updateUser", userData)
+    .then((res: AxiosResponse) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const data: SumiBackendResponse = res.data;
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      dispatch(getUserDetails());
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      }
+    });
+};

@@ -10,14 +10,17 @@ import {
   UserState,
 } from "../../../interfaces/GlobalTypes";
 import { connect } from "react-redux";
-import { getUserDetails } from "../../../store/actions/userActions";
+import { getUserDetails, updateUser } from "../../../store/actions/userActions";
 
 type Props = {
   user: UserState;
   getUserDetails: Function;
+  updateUser: Function;
 };
-const ProfileCard: React.FC<Props> = ({ user, getUserDetails }) => {
-  const [imageUrl, setImageUrl] = useState("https://res.cloudinary.com/fshahriar008/image/upload/v1609701702/user_bccush.png");
+const ProfileCard: React.FC<Props> = ({ user, getUserDetails, updateUser }) => {
+  const [imageUrl, setImageUrl] = useState(
+    "https://res.cloudinary.com/fshahriar008/image/upload/v1609701702/user_bccush.png"
+  );
   const hidden = true;
   const [profileImage, setProfileImage] = useState<any>(null);
   const [userName, setUserName] = useState("");
@@ -25,12 +28,16 @@ const ProfileCard: React.FC<Props> = ({ user, getUserDetails }) => {
   const [formErrors, setFormErrors] = useState<any>({});
 
   useEffect(() => {
-      getUserDetails();
-      setUserName(user.userDetails.Name);
-      setUserEmail(user.userDetails.Email);
-      if(user.userDetails.ProfileImageUrl) setImageUrl(user.userDetails.ProfileImageUrl);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    getUserDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setUserName(user.userDetails.Name);
+    setUserEmail(user.userDetails.Email);
+    if (user.userDetails.ProfileImageUrl)
+      setImageUrl(user.userDetails.ProfileImageUrl);
+  }, [user.userDetails]);
   const inputs = [
     {
       fieldValue: userName,
@@ -74,8 +81,7 @@ const ProfileCard: React.FC<Props> = ({ user, getUserDetails }) => {
       formData.append("image", profileImage);
       formData.append("Name", userName);
       formData.append("Email", userEmail);
-      console.log(formData);
-      console.log(profileImage, userName, userEmail);
+      updateUser(formData);
     }
   };
   return (
@@ -159,6 +165,7 @@ const mapStateToProps = (state: IUserMapStateToProps) => ({
 
 const mapActionToProps = {
   getUserDetails,
+  updateUser,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(ProfileCard);
