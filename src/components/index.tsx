@@ -27,6 +27,7 @@ import VelocityChart from "./Report/VelocityChart/VelocityChart";
 import UpperPart from "./Landing/UpperPart/UpperPart";
 import MiddlePart from "./Landing/MiddlePart/MiddlePart";
 import LowerPart from "./Landing/LowerPart/LowerPart";
+import ProfileCard from "./Profile/ProfileCard/ProfileCard";
 
 export {
   Navbar,
@@ -58,4 +59,5 @@ export {
   UpperPart,
   MiddlePart,
   LowerPart,
+  ProfileCard,
 };

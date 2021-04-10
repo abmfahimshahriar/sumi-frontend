@@ -9,7 +9,8 @@ import {
   TaskPage,
   ReportPage,
   GanttChartPage,
-  VelocityChartPage
+  VelocityChartPage,
+  ProfilePage
 } from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -32,6 +33,9 @@ function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/signup" component={SignupPage} />
+              <AuthRoute exact path="/profile">
+                <ProfilePage />
+              </AuthRoute>
               <AuthRoute exact path="/projects">
                 <ProjectPage />
               </AuthRoute>

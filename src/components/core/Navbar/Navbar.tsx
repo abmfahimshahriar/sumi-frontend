@@ -134,7 +134,13 @@ const Navbar: React.FC<Props> = ({
                     open={Boolean(anchorEl)}
                     onClose={closeProfileMenu}
                   >
-                    <MenuItem onClick={closeProfileMenu}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={closeProfileMenu}
+                      component={Link}
+                      to="/profile"
+                    >
+                      Profile
+                    </MenuItem>
                     <MenuItem
                       onClick={closeProfileMenu}
                       component={Link}
