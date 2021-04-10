@@ -9,8 +9,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+// import IconButton from "@material-ui/core/IconButton";
+// import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
@@ -95,26 +95,26 @@ const Navbar: React.FC<Props> = ({
         {ui.globalLoading && <LinearProgress color="secondary" />}
       </div>
       <AppBar position="fixed">
-        <Toolbar>
+        <Toolbar className="navbar-main">
           <div className="navbar-wrapper">
             <div className="navigation-wrapper">
-              <IconButton
+              {/* <IconButton
                 edge="start"
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="menu"
               >
                 <MenuIcon />
-              </IconButton>
+              </IconButton> */}
 
               <Typography variant="h6" className={classes.title}>
-                Sumi
+                <Link to="/">Sumi</Link>
               </Typography>
 
               {!user.isAuthenticated && (
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   component={Link}
                   to="/login"
                 >

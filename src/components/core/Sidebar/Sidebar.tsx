@@ -12,11 +12,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import StorageIcon from '@material-ui/icons/Storage';
+import StorageIcon from "@material-ui/icons/Storage";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import { Link, useParams } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
-import BarChartIcon from '@material-ui/icons/BarChart';
+import BarChartIcon from "@material-ui/icons/BarChart";
 
 const drawerWidth = 240;
 
@@ -116,6 +116,7 @@ const Sidebar = () => {
           }),
         }}
       >
+        <Divider />
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerToogle}>
             {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -144,7 +145,11 @@ const Sidebar = () => {
           <Divider />
 
           <Tooltip title="Reports" placement="top">
-            <ListItem button component={Link} to={`/sprints/${projectId}/${sprintId}/reports`}>
+            <ListItem
+              button
+              component={Link}
+              to={`/sprints/${projectId}/${sprintId}/reports`}
+            >
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
