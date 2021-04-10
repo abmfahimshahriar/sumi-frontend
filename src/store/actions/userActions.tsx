@@ -30,6 +30,7 @@ export const loginUser = (
       };
       dispatch({ type: actionTypes.LOGIN, payload: payload });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      dispatch(getUserDetails());
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
@@ -57,6 +58,7 @@ export const signupUser = (
       };
       dispatch({ type: actionTypes.SIGNUP, payload: payload });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      dispatch(getUserDetails());
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
@@ -95,4 +97,24 @@ const setAuthorizationHeader = (token: string, userId: string, username: string)
   const userToken = `Bearer ${token}`;
   localStorage.setItem("UserId", userId);
   axios.defaults.headers.common["Authorization"] = userToken;
+};
+
+
+export const getUserDetails = (
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  axios
+    .get("/user/userDetails")
+    .then((res: AxiosResponse) => {
+      const data: SumiBackendResponse = res.data;
+      dispatch({ type: actionTypes.SET_USER_DETAILS, payload: data.Result.UserDetails});
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      }
+    });
 };

@@ -26,6 +26,14 @@ export interface UserState {
   hasAuthErrors: boolean;
   authErrors: string[];
   authSuccessMessage: string;
+  userDetails: UserProfile;
+}
+
+export interface UserProfile {
+  _id: string;
+  Name: string;
+  Email: string;
+  ProfileImageUrl: string;
 }
 
 export interface UsersListItem {

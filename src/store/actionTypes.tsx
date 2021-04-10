@@ -1,9 +1,10 @@
-// login types
+// user types
 export const LOGIN = "LOGIN";
 export const SIGNUP = "SIGNUP";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const SET_UNAUTHENTICATED = "SET_UNAUTHENTICATED";
+export const SET_USER_DETAILS = "SET_USER_DETAILS";
 
 // project types
 export const GET_MY_CREATED_PROJECTS = "GET_MY_CREATED_PROJECTS";

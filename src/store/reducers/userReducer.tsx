@@ -9,6 +9,12 @@ const initialUserState: UserState = {
   hasAuthErrors: false,
   authErrors: [],
   authSuccessMessage: "",
+  userDetails: {
+    _id: "",
+    Name: "",
+    Email: "",
+    ProfileImageUrl: "",
+  },
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -63,6 +69,11 @@ export default function (
         isAuthenticated: false,
         userId: "",
         token: "",
+      };
+      case actionTypes.SET_USER_DETAILS:
+      return {
+        ...state,
+        userDetails: action.payload,
       };
     default:
       return state;

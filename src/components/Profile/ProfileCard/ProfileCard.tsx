@@ -1,20 +1,36 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { MyButton } from "../../../utility/components";
 import "./ProfileCard.css";
 import Edit from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import Button from "@material-ui/core/Button";
+import {
+  IUserMapStateToProps,
+  UserState,
+} from "../../../interfaces/GlobalTypes";
+import { connect } from "react-redux";
+import { getUserDetails } from "../../../store/actions/userActions";
 
-const ProfileCard = () => {
-  const imageUrl =
-    "https://res.cloudinary.com/fshahriar008/image/upload/v1609701702/user_bccush.png";
+type Props = {
+  user: UserState;
+  getUserDetails: Function;
+};
+const ProfileCard: React.FC<Props> = ({ user, getUserDetails }) => {
+  const [imageUrl, setImageUrl] = useState("https://res.cloudinary.com/fshahriar008/image/upload/v1609701702/user_bccush.png");
   const hidden = true;
   const [profileImage, setProfileImage] = useState<any>(null);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
 
+  useEffect(() => {
+      getUserDetails();
+      setUserName(user.userDetails.Name);
+      setUserEmail(user.userDetails.Email);
+      if(user.userDetails.ProfileImageUrl) setImageUrl(user.userDetails.ProfileImageUrl);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   const inputs = [
     {
       fieldValue: userName,
@@ -59,7 +75,7 @@ const ProfileCard = () => {
       formData.append("Name", userName);
       formData.append("Email", userEmail);
       console.log(formData);
-      console.log(profileImage,userName,userEmail);
+      console.log(profileImage, userName, userEmail);
     }
   };
   return (
@@ -124,20 +140,25 @@ const ProfileCard = () => {
           />
         </div>
         <div className="form-item btn-container">
-            <Button variant="contained" color="primary" type="submit">
-              Submit
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              type="button"
-            >
-              Cancel
-            </Button>
-          </div>
+          <Button variant="contained" color="primary" type="submit">
+            Submit
+          </Button>
+          <Button variant="contained" color="secondary" type="button">
+            Cancel
+          </Button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default ProfileCard;
+const mapStateToProps = (state: IUserMapStateToProps) => ({
+  user: state.user,
+  ui: state.ui,
+});
+
+const mapActionToProps = {
+  getUserDetails,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(ProfileCard);
