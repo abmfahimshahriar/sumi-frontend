@@ -14,7 +14,7 @@ type Props = {
 
 const MyButton: React.FC<Props> = ({ children,onClick,tip,btnClassName,tipClassName }) => (
     <Tooltip title={tip ? tip : false} className={tipClassName} placement="top">
-        <IconButton onClick={onClick} className={btnClassName}>
+        <IconButton onClick={onClick} className={btnClassName} style={{"padding": "4px"}}>
             {children}
         </IconButton>
     </Tooltip>

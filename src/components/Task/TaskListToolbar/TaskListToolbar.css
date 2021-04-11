@@ -16,10 +16,17 @@
 }
 
 .user-avatar {
-    margin-right: 8px;
+    margin-right: 0;
 }
 .selected-avatar {
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 50%;
-    padding: 4px;
+    margin-right: 2px;
+}
+
+.menu-item-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }

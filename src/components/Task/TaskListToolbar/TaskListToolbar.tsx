@@ -13,8 +13,11 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import "./TaskListToolbar.css";
 import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
 import { selectUser } from "../../../store/actions/projectAction";
+import { MyButton } from "../../../utility/components";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Checkbox from "@material-ui/core/Checkbox";
 
 type Props = {
   project: ProjectState;
@@ -28,8 +31,10 @@ const TaskListToolbar: React.FC<Props> = ({
   selectUser,
   filterTasksByUser,
 }) => {
+  const maxLen = 3;
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isUpdate = false;
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,6 +42,14 @@ const TaskListToolbar: React.FC<Props> = ({
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const openProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closeProfileMenu = () => {
+    setAnchorEl(null);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,32 +96,74 @@ const TaskListToolbar: React.FC<Props> = ({
         />
       </div>
       <div className="users-avatar-wrapper">
-        {project.usersList.map((item) => {
+        {project.usersList.slice(0, maxLen).map((item) => {
           let avatarMarkup;
           if (item.ProfileImageUrl) {
             avatarMarkup = (
-              <Avatar
-                key={item._id}
-                alt={item.Name}
-                src={item.ProfileImageUrl}
-              />
+              <Avatar alt={item.Name} src={item.ProfileImageUrl} />
             );
           } else {
-            avatarMarkup = (
-              <Avatar key={item._id}>{item.Name.slice(0, 1)}</Avatar>
-            );
+            avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
           }
           return (
             <div
+              key={item._id}
               className={
                 item.IsSelected ? "user-avatar selected-avatar" : "user-avatar"
               }
-              onClick={() => handleUserSelect(item._id)}
             >
-              <Tooltip title={item.Name}>{avatarMarkup}</Tooltip>
+              <MyButton
+                tip={item.Name}
+                btnClassName={
+                  item.IsSelected
+                    ? "user-avatar selected-avatar"
+                    : "user-avatar"
+                }
+                onClick={() => handleUserSelect(item._id)}
+              >
+                {avatarMarkup}
+              </MyButton>
             </div>
           );
         })}
+        <div className="user-avatar">
+          <MyButton tip="more users" onClick={openProfileMenu}>
+            <Avatar>+{project.usersList.length - maxLen}</Avatar>
+          </MyButton>
+        </div>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={closeProfileMenu}
+        >
+          {project.usersList
+            .slice(maxLen, project.usersList.length)
+            .map((item) => {
+              let avatarMarkup;
+              if (item.ProfileImageUrl) {
+                avatarMarkup = (
+                  <Avatar alt={item.Name} src={item.ProfileImageUrl} />
+                );
+              } else {
+                avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
+              }
+              return (
+                <MenuItem key={item._id} onClick={() => handleUserSelect(item._id)}>
+                  <div style={{marginRight: "8px"}}>{avatarMarkup}</div>
+                  <div>{item.Name}</div>
+                  <div>
+                    <Checkbox
+                      checked={item.IsSelected}
+                      color="primary"
+                      disabled
+                    />
+                  </div>
+                </MenuItem>
+              );
+            })}
+        </Menu>
       </div>
     </div>
   );
