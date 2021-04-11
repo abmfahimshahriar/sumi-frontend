@@ -6,6 +6,7 @@ import {
   CreateCommentPayload,
   CreateTaskPayload,
   SumiBackendResponse,
+  UsersListItem,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
@@ -200,4 +201,18 @@ export const getUsersListWithDetails = (
           dispatch({ type: actionTypes.END_GLOBAL_LOADING });
         }
       });
+};
+
+export const filterTasksByUser = (
+  usersList: UsersListItem[]
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  dispatch({
+    type: actionTypes.SET_FILTER_BY_USER,
+    payload: usersList,
+  });
+  dispatch({
+    type: actionTypes.FILTER_TASKS
+  });
+  dispatch({ type: actionTypes.END_GLOBAL_LOADING });
 };

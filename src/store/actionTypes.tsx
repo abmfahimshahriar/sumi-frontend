@@ -29,6 +29,7 @@ export const GET_COMMENTS = "GET_COMMENTS";
 export const CLEAR_COMMENTS = "CLEAR_COMMENTS";
 export const FILTER_TASKS = "FILTER_TASKS";
 export const SET_FILTER = "SET_FILTER";
+export const SET_FILTER_BY_USER = "SET_FILTER_BY_USER";
 // UI types
 export const START_LOCAL_LOADING = "START_LOCAL_LOADING";
 export const END_LOCAL_LOADING = "END_LOCAL_LOADING";

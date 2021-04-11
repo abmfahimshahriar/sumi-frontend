@@ -2,7 +2,10 @@ import Button from "@material-ui/core/Button/Button";
 import TextField from "@material-ui/core/TextField";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { filterTasks } from "../../../store/actions/taskActions";
+import {
+  filterTasks,
+  filterTasksByUser,
+} from "../../../store/actions/taskActions";
 import { CreateTaskDialog } from "../../../components";
 import {
   IProjectMapStateToProps,
@@ -17,8 +20,14 @@ type Props = {
   project: ProjectState;
   filterTasks: Function;
   selectUser: Function;
+  filterTasksByUser: Function;
 };
-const TaskListToolbar: React.FC<Props> = ({ filterTasks, project, selectUser }) => {
+const TaskListToolbar: React.FC<Props> = ({
+  filterTasks,
+  project,
+  selectUser,
+  filterTasksByUser,
+}) => {
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const isUpdate = false;
@@ -42,6 +51,10 @@ const TaskListToolbar: React.FC<Props> = ({ filterTasks, project, selectUser }) 
 
   const handleUserSelect = (userId: string) => {
     selectUser(userId);
+    const selectedUsers = project.usersList.filter(
+      (item) => item.IsSelected === true
+    );
+    filterTasksByUser(selectedUsers);
   };
 
   return (
@@ -86,7 +99,12 @@ const TaskListToolbar: React.FC<Props> = ({ filterTasks, project, selectUser }) 
             );
           }
           return (
-            <div className={item.IsSelected? "user-avatar selected-avatar" : "user-avatar"} onClick={() => handleUserSelect(item._id)}>
+            <div
+              className={
+                item.IsSelected ? "user-avatar selected-avatar" : "user-avatar"
+              }
+              onClick={() => handleUserSelect(item._id)}
+            >
               <Tooltip title={item.Name}>{avatarMarkup}</Tooltip>
             </div>
           );
@@ -103,7 +121,8 @@ const mapStateToProps = (state: IProjectMapStateToProps) => ({
 
 const mapActionToProps = {
   filterTasks,
-  selectUser
+  selectUser,
+  filterTasksByUser,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskListToolbar);

@@ -1,7 +1,9 @@
 import {
   DispatchActionTypes,
   Sprint,
+  Task,
   TaskState,
+  UsersListItem,
 } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
@@ -13,6 +15,7 @@ const initialSprintState: TaskState = {
   taskErrors: [],
   comments: [],
   searchText: "",
+  usersList: [],
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -64,11 +67,54 @@ export default function (
         tempTasks = tempTasks.filter((item) => {
           return item.TaskName.toLowerCase().includes(text);
         });
+      } else {
+        tempTasks = [...state.fullTaskList];
+      }
+      const usersList: UsersListItem[] = [...state.usersList];
+      if (usersList.length > 0) {
+        let filteredTaskForUser: Task[] = [];
+        // eslint-disable-next-line array-callback-return
+        usersList.map((item) => {
+          if (item.IsSelected) {
+            const tasksForThisUser = tempTasks.filter(
+              (task) => task.Assignee._id === item._id
+            );
+            filteredTaskForUser = [...filteredTaskForUser, ...tasksForThisUser];
+          }
+        });
+        tempTasks = [...filteredTaskForUser];
+      } else {
+        tempTasks = [...state.fullTaskList];
       }
       return {
         ...state,
         tasks: [...tempTasks],
       };
+    case actionTypes.SET_FILTER_BY_USER:
+      return {
+        ...state,
+        usersList: action.payload,
+      };
+    // const usersList: UsersListItem[] = action.payload;
+    // let tempTaskForUserFilter = [...state.tasks];
+    // let filteredTaskForUser: Task[] = [];
+    // if (usersList.length > 0) {
+    //   // eslint-disable-next-line array-callback-return
+    //   usersList.map((item) => {
+    //     if (item.IsSelected) {
+    //       const taskForThisUser = tempTaskForUserFilter.filter(
+    //         (task) => task.Assignee._id === item._id
+    //       );
+    //       filteredTaskForUser = [...filteredTaskForUser, ...taskForThisUser];
+    //     }
+    //   });
+    // } else {
+    //   filteredTaskForUser = [...state.fullTaskList];
+    // }
+    // return {
+    //   ...state,
+    //   tasks: [...filteredTaskForUser],
+    // };
     default:
       return state;
   }

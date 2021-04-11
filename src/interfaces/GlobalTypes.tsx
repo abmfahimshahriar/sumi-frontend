@@ -65,6 +65,7 @@ export interface TaskState {
   hasTaskErrors: boolean;
   comments: Comment[];
   searchText: string;
+  usersList: UsersListItem[];
 }
 
 export interface UIState {
