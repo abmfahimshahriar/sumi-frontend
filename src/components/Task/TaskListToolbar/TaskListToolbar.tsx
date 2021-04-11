@@ -5,16 +5,20 @@ import { connect } from "react-redux";
 import { filterTasks } from "../../../store/actions/taskActions";
 import { CreateTaskDialog } from "../../../components";
 import {
-  ITaskMapStateToProps,
-  TaskState,
+  IProjectMapStateToProps,
+  ProjectState,
 } from "../../../interfaces/GlobalTypes";
 import "./TaskListToolbar.css";
+import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
+import { selectUser } from "../../../store/actions/projectAction";
 
 type Props = {
-  task: TaskState;
+  project: ProjectState;
   filterTasks: Function;
+  selectUser: Function;
 };
-const TaskListToolbar: React.FC<Props> = ({filterTasks}) => {
+const TaskListToolbar: React.FC<Props> = ({ filterTasks, project, selectUser }) => {
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const isUpdate = false;
@@ -35,6 +39,11 @@ const TaskListToolbar: React.FC<Props> = ({filterTasks}) => {
       }, 2000);
     }
   };
+
+  const handleUserSelect = (userId: string) => {
+    selectUser(userId);
+  };
+
   return (
     <div className="toolbar-wrapper">
       <div>
@@ -60,17 +69,41 @@ const TaskListToolbar: React.FC<Props> = ({filterTasks}) => {
           onChange={handleInputChange}
         />
       </div>
+      <div className="users-avatar-wrapper">
+        {project.usersList.map((item) => {
+          let avatarMarkup;
+          if (item.ProfileImageUrl) {
+            avatarMarkup = (
+              <Avatar
+                key={item._id}
+                alt={item.Name}
+                src={item.ProfileImageUrl}
+              />
+            );
+          } else {
+            avatarMarkup = (
+              <Avatar key={item._id}>{item.Name.slice(0, 1)}</Avatar>
+            );
+          }
+          return (
+            <div className={item.IsSelected? "user-avatar selected-avatar" : "user-avatar"} onClick={() => handleUserSelect(item._id)}>
+              <Tooltip title={item.Name}>{avatarMarkup}</Tooltip>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state: ITaskMapStateToProps) => ({
-  task: state.task,
+const mapStateToProps = (state: IProjectMapStateToProps) => ({
+  project: state.project,
   ui: state.ui,
 });
 
 const mapActionToProps = {
-  filterTasks
+  filterTasks,
+  selectUser
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskListToolbar);
