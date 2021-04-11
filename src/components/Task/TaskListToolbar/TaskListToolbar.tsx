@@ -1,6 +1,6 @@
 import Button from "@material-ui/core/Button/Button";
 import TextField from "@material-ui/core/TextField";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import {
   filterTasks,
@@ -82,7 +82,7 @@ const TaskListToolbar: React.FC<Props> = ({
           isUpdate={isUpdate}
         />
       </div>
-      <div style={{ marginLeft: "32px" }}>
+      <div className="task-search-filter">
         <TextField
           className="full-width"
           id="searchText"
@@ -126,44 +126,51 @@ const TaskListToolbar: React.FC<Props> = ({
             </div>
           );
         })}
-        <div className="user-avatar">
-          <MyButton tip="more users" onClick={openProfileMenu}>
-            <Avatar>+{project.usersList.length - maxLen}</Avatar>
-          </MyButton>
-        </div>
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={closeProfileMenu}
-        >
-          {project.usersList
-            .slice(maxLen, project.usersList.length)
-            .map((item) => {
-              let avatarMarkup;
-              if (item.ProfileImageUrl) {
-                avatarMarkup = (
-                  <Avatar alt={item.Name} src={item.ProfileImageUrl} />
-                );
-              } else {
-                avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
-              }
-              return (
-                <MenuItem key={item._id} onClick={() => handleUserSelect(item._id)}>
-                  <div style={{marginRight: "8px"}}>{avatarMarkup}</div>
-                  <div>{item.Name}</div>
-                  <div>
-                    <Checkbox
-                      checked={item.IsSelected}
-                      color="primary"
-                      disabled
-                    />
-                  </div>
-                </MenuItem>
-              );
-            })}
-        </Menu>
+        {project.usersList.length > 0 && (
+          <Fragment>
+            <div className="user-avatar">
+              <MyButton tip="more users" onClick={openProfileMenu}>
+                <Avatar>+{project.usersList.length - maxLen}</Avatar>
+              </MyButton>
+            </div>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={closeProfileMenu}
+            >
+              {project.usersList
+                .slice(maxLen, project.usersList.length)
+                .map((item) => {
+                  let avatarMarkup;
+                  if (item.ProfileImageUrl) {
+                    avatarMarkup = (
+                      <Avatar alt={item.Name} src={item.ProfileImageUrl} />
+                    );
+                  } else {
+                    avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
+                  }
+                  return (
+                    <MenuItem
+                      key={item._id}
+                      onClick={() => handleUserSelect(item._id)}
+                    >
+                      <div style={{ marginRight: "8px" }}>{avatarMarkup}</div>
+                      <div>{item.Name}</div>
+                      <div>
+                        <Checkbox
+                          checked={item.IsSelected}
+                          color="primary"
+                          disabled
+                        />
+                      </div>
+                    </MenuItem>
+                  );
+                })}
+            </Menu>
+          </Fragment>
+        )}
       </div>
     </div>
   );
