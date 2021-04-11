@@ -64,7 +64,6 @@ const CreateTaskDialog: React.FC<Props> = ({
   const [endDate, setEndDate] = useState(
     moment(new Date().toISOString()).format("YYYY-MM-DD")
   );
-  const [searchText, setSearchText] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
   const inputs = [
     {
@@ -128,12 +127,6 @@ const CreateTaskDialog: React.FC<Props> = ({
     if (name === "storyPoints") setStoryPoints(+value);
     if (name === "startDate") setStartDate(value);
     if (name === "endDate") setEndDate(value);
-    if (name === "searchUserText") {
-      setSearchText(value);
-      setTimeout(() => {
-        getUsersList(false, value);
-      }, 2000);
-    }
   };
 
   const handleCreateSprint = () => {
@@ -306,18 +299,6 @@ const CreateTaskDialog: React.FC<Props> = ({
             />
           </div>
 
-          <div className="form-item">
-            <TextField
-              className="full-width"
-              id="searchUserText"
-              name="searchUserText"
-              type="text"
-              value={searchText}
-              placeholder="Search users"
-              label="Search users"
-              onChange={handleInputChange}
-            />
-          </div>
           <div className="form-item">
             <UserList fromTask={true} />
           </div>

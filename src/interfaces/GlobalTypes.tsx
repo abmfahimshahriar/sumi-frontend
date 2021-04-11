@@ -41,6 +41,7 @@ export interface UsersListItem {
   Email: string;
   Name: string;
   IsSelected: boolean;
+  ProfileImageUrl?: string;
 }
 export interface ProjectState {
   myCreatedProjects: Project[];

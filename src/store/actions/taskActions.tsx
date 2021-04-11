@@ -170,3 +170,34 @@ export const filterTasks = (
   });
   dispatch({ type: actionTypes.END_GLOBAL_LOADING });
 };
+
+export const getUsersListWithDetails = (
+  projectId: string,
+  sprintId: string,
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+    dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+    const payload = {
+      ProjectId: projectId,
+      SprintId: sprintId,
+    };
+    axios
+      .post("/task/getUsersList", payload)
+      .then((res: AxiosResponse) => {
+        const data: SumiBackendResponse = res.data;
+        dispatch({
+          type: actionTypes.SET_USERS_LIST,
+          payload: data.Result.UsersList,
+        });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      })
+      .catch((err: AxiosError) => {
+        const data = err.response?.data;
+        if (data) {
+          dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+          dispatch({ type: actionTypes.END_LOCAL_LOADING });
+          dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+        }
+      });
+};
