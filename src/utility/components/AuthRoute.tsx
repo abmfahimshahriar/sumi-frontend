@@ -11,7 +11,9 @@ type Props = {
   children: any;
 };
 const AuthRoute: React.FC<Props> = ({ children, user, path, exact }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [authenticated, setAuthenticated] = useState(user?.isAuthenticated);
+  const token = localStorage.Token;
   useEffect(() => {
     setAuthenticated(user?.isAuthenticated);
   }, [user]);
@@ -21,7 +23,7 @@ const AuthRoute: React.FC<Props> = ({ children, user, path, exact }) => {
       exact
       path={path}
       render={() => {
-        return authenticated ? children : <Redirect to="/"></Redirect>;
+        return token ? children : <Redirect to="/"></Redirect>;
       }}
     ></Route>
   );
