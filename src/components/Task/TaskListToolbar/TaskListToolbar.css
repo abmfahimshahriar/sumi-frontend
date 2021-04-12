@@ -3,6 +3,11 @@
   width: 100%;
   padding: 16px;
   display: flex;
+  flex-direction: column;
+}
+
+.toolbar-filter-wrapper {
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -35,7 +40,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .toolbar-wrapper {
+  .toolbar-filter-wrapper {
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;

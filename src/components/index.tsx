@@ -28,6 +28,7 @@ import UpperPart from "./Landing/UpperPart/UpperPart";
 import MiddlePart from "./Landing/MiddlePart/MiddlePart";
 import LowerPart from "./Landing/LowerPart/LowerPart";
 import ProfileCard from "./Profile/ProfileCard/ProfileCard";
+import TaskNavigation from "./Task/TaskNavigation/TaskNavigation";
 
 export {
   Navbar,
@@ -60,4 +61,5 @@ export {
   MiddlePart,
   LowerPart,
   ProfileCard,
+  TaskNavigation,
 };

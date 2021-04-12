@@ -1,5 +1,6 @@
 import {
   DispatchActionTypes,
+  Project,
   Sprint,
   Task,
   TaskState,
@@ -16,6 +17,7 @@ const initialSprintState: TaskState = {
   comments: [],
   searchText: "",
   usersList: [],
+  projectDetails: {} as Project,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -38,6 +40,11 @@ export default function (
       return {
         ...state,
         SprintDetails: action.payload,
+      };
+    case actionTypes.GET_PROJECT_DETAILS_FOR_TASK:
+      return {
+        ...state,
+        projectDetails: action.payload,
       };
     case actionTypes.TASK_ERROR:
       return {

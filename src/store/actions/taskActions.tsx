@@ -37,6 +37,10 @@ export const getTasks = (
         payload: data.Result.Sprint,
       });
       dispatch({
+        type: actionTypes.GET_PROJECT_DETAILS_FOR_TASK,
+        payload: data.Result.Project,
+      });
+      dispatch({
         type: actionTypes.FILTER_TASKS
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });

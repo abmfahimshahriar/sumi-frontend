@@ -5,6 +5,16 @@ const initialSprintState: SprintState = {
   sprints: [],
   hasSprintErrors: false,
   sprintErrors: [],
+  projectDetails: {
+    _id: "",
+    ProjectName: "",
+    StartDate: "",
+    EndDate: "",
+    CreatedBy: "",
+    TotalStoryPoints: 0,
+    CompletedStoryPoints: 0,
+    InvolvedUsers: [],
+  },
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -20,7 +30,8 @@ export default function (
     case actionTypes.GET_SPRINTS:
       return {
         ...state,
-        sprints: [...action.payload],
+        sprints: [...action.payload.Sprints],
+        projectDetails: action.payload.Project,
       };
     case actionTypes.SPRINT_ERROR:
       return {

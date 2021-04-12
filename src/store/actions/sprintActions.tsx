@@ -27,7 +27,7 @@ export const getSprints = (
       const data: SumiBackendResponse = res.data;
       dispatch({
         type: actionTypes.GET_SPRINTS,
-        payload: data.Result.Sprints,
+        payload: data.Result,
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });

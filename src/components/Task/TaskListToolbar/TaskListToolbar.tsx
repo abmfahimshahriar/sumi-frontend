@@ -6,7 +6,7 @@ import {
   filterTasks,
   filterTasksByUser,
 } from "../../../store/actions/taskActions";
-import { CreateTaskDialog } from "../../../components";
+import { CreateTaskDialog, TaskNavigation } from "../../../components";
 import {
   IProjectMapStateToProps,
   ProjectState,
@@ -72,105 +72,110 @@ const TaskListToolbar: React.FC<Props> = ({
 
   return (
     <div className="toolbar-wrapper">
-      <div>
-        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-          Create Task
-        </Button>
-        <CreateTaskDialog
-          open={open}
-          onClose={handleClose}
-          isUpdate={isUpdate}
-        />
-      </div>
-      <div className="task-search-filter">
-        <TextField
-          className="full-width"
-          id="searchText"
-          name="searchText"
-          type="text"
-          value={searchText}
-          placeholder="Search tasks"
-          label="Search tasks"
-          variant="outlined"
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="users-avatar-wrapper">
-        {project.usersList.slice(0, maxLen).map((item) => {
-          let avatarMarkup;
-          if (item.ProfileImageUrl) {
-            avatarMarkup = (
-              <Avatar alt={item.Name} src={item.ProfileImageUrl} />
-            );
-          } else {
-            avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
-          }
-          return (
-            <div
-              key={item._id}
-              className={
-                item.IsSelected ? "user-avatar selected-avatar" : "user-avatar"
-              }
-            >
-              <MyButton
-                tip={item.Name}
-                btnClassName={
+      <TaskNavigation/>
+      <div className="toolbar-filter-wrapper">
+        <div>
+          <Button variant="contained" color="primary" onClick={handleClickOpen}>
+            Create Task
+          </Button>
+          <CreateTaskDialog
+            open={open}
+            onClose={handleClose}
+            isUpdate={isUpdate}
+          />
+        </div>
+        <div className="task-search-filter">
+          <TextField
+            className="full-width"
+            id="searchText"
+            name="searchText"
+            type="text"
+            value={searchText}
+            placeholder="Search tasks"
+            label="Search tasks"
+            variant="outlined"
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="users-avatar-wrapper">
+          {project.usersList.slice(0, maxLen).map((item) => {
+            let avatarMarkup;
+            if (item.ProfileImageUrl) {
+              avatarMarkup = (
+                <Avatar alt={item.Name} src={item.ProfileImageUrl} />
+              );
+            } else {
+              avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
+            }
+            return (
+              <div
+                key={item._id}
+                className={
                   item.IsSelected
                     ? "user-avatar selected-avatar"
                     : "user-avatar"
                 }
-                onClick={() => handleUserSelect(item._id)}
               >
-                {avatarMarkup}
-              </MyButton>
-            </div>
-          );
-        })}
-        {project.usersList.length > 0 && (
-          <Fragment>
-            <div className="user-avatar">
-              <MyButton tip="more users" onClick={openProfileMenu}>
-                <Avatar>+{project.usersList.length - maxLen}</Avatar>
-              </MyButton>
-            </div>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={closeProfileMenu}
-            >
-              {project.usersList
-                .slice(maxLen, project.usersList.length)
-                .map((item) => {
-                  let avatarMarkup;
-                  if (item.ProfileImageUrl) {
-                    avatarMarkup = (
-                      <Avatar alt={item.Name} src={item.ProfileImageUrl} />
-                    );
-                  } else {
-                    avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
+                <MyButton
+                  tip={item.Name}
+                  btnClassName={
+                    item.IsSelected
+                      ? "user-avatar selected-avatar"
+                      : "user-avatar"
                   }
-                  return (
-                    <MenuItem
-                      key={item._id}
-                      onClick={() => handleUserSelect(item._id)}
-                    >
-                      <div style={{ marginRight: "8px" }}>{avatarMarkup}</div>
-                      <div>{item.Name}</div>
-                      <div>
-                        <Checkbox
-                          checked={item.IsSelected}
-                          color="primary"
-                          disabled
-                        />
-                      </div>
-                    </MenuItem>
-                  );
-                })}
-            </Menu>
-          </Fragment>
-        )}
+                  onClick={() => handleUserSelect(item._id)}
+                >
+                  {avatarMarkup}
+                </MyButton>
+              </div>
+            );
+          })}
+          {project.usersList.length > 0 && (
+            <Fragment>
+              <div className="user-avatar">
+                <MyButton tip="more users" onClick={openProfileMenu}>
+                  <Avatar>+{project.usersList.length - maxLen}</Avatar>
+                </MyButton>
+              </div>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={closeProfileMenu}
+              >
+                {project.usersList
+                  .slice(maxLen, project.usersList.length)
+                  .map((item) => {
+                    let avatarMarkup;
+                    if (item.ProfileImageUrl) {
+                      avatarMarkup = (
+                        <Avatar alt={item.Name} src={item.ProfileImageUrl} />
+                      );
+                    } else {
+                      avatarMarkup = <Avatar>{item.Name.slice(0, 1)}</Avatar>;
+                    }
+                    return (
+                      <MenuItem
+                        key={item._id}
+                        onClick={() => handleUserSelect(item._id)}
+                      >
+                        <div style={{ marginRight: "8px" }}>{avatarMarkup}</div>
+                        <div>{item.Name}</div>
+                        <div>
+                          <Checkbox
+                            checked={item.IsSelected}
+                            color="primary"
+                            disabled
+                          />
+                        </div>
+                      </MenuItem>
+                    );
+                  })}
+              </Menu>
+            </Fragment>
+          )}
+        </div>
       </div>
     </div>
   );

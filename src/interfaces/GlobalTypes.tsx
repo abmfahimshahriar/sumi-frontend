@@ -55,6 +55,7 @@ export interface SprintState {
   sprints: Sprint[];
   sprintErrors: string[];
   hasSprintErrors: boolean;
+  projectDetails: Project;
 }
 
 export interface TaskState {
@@ -66,6 +67,7 @@ export interface TaskState {
   comments: Comment[];
   searchText: string;
   usersList: UsersListItem[];
+  projectDetails: Project;
 }
 
 export interface UIState {
