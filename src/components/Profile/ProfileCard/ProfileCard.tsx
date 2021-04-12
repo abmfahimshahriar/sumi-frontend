@@ -11,6 +11,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { connect } from "react-redux";
 import { getUserDetails, updateUser } from "../../../store/actions/userActions";
+import { Link } from "react-router-dom";
 
 type Props = {
   user: UserState;
@@ -149,7 +150,7 @@ const ProfileCard: React.FC<Props> = ({ user, getUserDetails, updateUser }) => {
           <Button variant="contained" color="primary" type="submit">
             Submit
           </Button>
-          <Button variant="contained" color="secondary" type="button">
+          <Button variant="contained" color="secondary" type="button" component={Link} to="/projects">
             Cancel
           </Button>
         </div>
