@@ -1,6 +1,6 @@
 import Chip from "@material-ui/core/Chip";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Task } from "../../../interfaces/GlobalTypes";
 import { MyButton } from "../../../utility/components";
 import "./TaskDetails.css";
@@ -8,17 +8,49 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Dialog from "@material-ui/core/Dialog";
-import {TaskComments} from "../../../components";
+import { TaskComments } from "../../../components";
+import { useParams } from "react-router-dom";
+
 type Props = {
   selectedTask: Task;
   open: boolean;
   onClose: Function;
 };
+
+interface ParamTypes {
+  projectId: string;
+  sprintId: string;
+  taskId: string;
+}
+
 const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
+  const { projectId, sprintId, taskId } = useParams<ParamTypes>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openDialog, setOpenDialog] = useState(open);
+  const [oldPath, setOldPath] = useState("");
   const openMoreMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  useEffect(() => {
+    if (taskId === selectedTask._id) {
+      setOpenDialog(true);
+      const oldUrl =  `/sprints/${projectId}/${sprintId}`;
+      setOldPath(oldUrl);
+    }
+    else setOpenDialog(open);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  // const handleOpen = () => {
+  //   let oldUrl = window.location.pathname;
+  //   const newUrl = `/sprints/${projectId}/${sprintId}/${taskId}`;
+  //   if (oldUrl === newUrl) oldUrl =  `/sprints/${projectId}/${sprintId}`;
+  //   window.history.pushState(null, "", newUrl);
+  //   setOpenDialog(true);
+  //   setOldPath(oldUrl);
+  //   setNewPath(newUrl);
+  // };
 
   const closeMoreMenu = () => {
     setAnchorEl(null);
@@ -33,13 +65,15 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
   };
 
   const handleClose = () => {
+    window.history.pushState(null, "", oldPath);
+    setOpenDialog(false);
     onClose();
   };
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
-      open={open}
+      open={openDialog}
     >
       <div className="task-details-parent">
         <div className="task-details">
@@ -91,7 +125,7 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
           </div>
         </div>
         <div className="comments-wrapper">
-            <TaskComments open={open} selectedTask={selectedTask}/>
+          <TaskComments open={openDialog} selectedTask={selectedTask} />
         </div>
       </div>
     </Dialog>

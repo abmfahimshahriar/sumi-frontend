@@ -58,6 +58,10 @@ function App() {
                 <Sidebar />
                 <VelocityChartPage />
               </AuthRoute>
+              <AuthRoute exact path="/sprints/:projectId/:sprintId/:taskId">
+                <Sidebar />
+                <TaskPage />
+              </AuthRoute>
             </Switch>
           </div>
         </Router>
