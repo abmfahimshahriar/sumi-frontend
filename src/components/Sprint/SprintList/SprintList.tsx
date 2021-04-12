@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./SprintList.css";
 import { CreateSprintDialog, SprintListCard } from "../../../components";
 import { ProjectListCardSkeleton } from "../../../utility/components";
@@ -52,7 +52,21 @@ const SprintList: React.FC<Props> = ({ getSprints, sprint, ui }) => {
   ));
   return (
     <div className="sprint-list-card">
-      <h2>Sprints</h2>
+      <div className="navigation-link">
+        <Link to="/projects" style={{ marginRight: "8px" }}>
+          Projects
+        </Link>
+        \
+        <Link
+          to={`/projects/${sprint.projectDetails._id}`}
+          style={{ margin: "0 8px" }}
+        >
+          {sprint.projectDetails.ProjectName}
+        </Link>
+      </div>
+      <div className="navigation-title">
+        {sprint.projectDetails.ProjectName}'s sprints
+      </div>
       <div className="custom-header">
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
           Create Sprint

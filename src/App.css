@@ -29,3 +29,15 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.navigation-link {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: large;
+}
+
+.navigation-title {
+  text-transform: uppercase;
+  font-size: x-large;
+  margin: 16px 0;
+}

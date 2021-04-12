@@ -34,7 +34,7 @@ const TaskNavigation: React.FC<Props> = ({ task }) => {
             {task.SprintDetails.SprintName}
           </Link>
         </div>
-        <div className="task-navigation-sprint-title">
+        <div className="navigation-title">
           {task.SprintDetails.SprintName}
         </div>
       </div>

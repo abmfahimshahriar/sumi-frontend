@@ -8,25 +8,11 @@
 .task-navigation-link {
   display: flex;
   flex-direction: column;
-  margin-bottom: 32px;
-}
-
-.navigation-link {
-  font-weight: bold;
-  text-transform: capitalize;
-  font-size: large;
-}
-
-.task-navigation-sprint-title {
-  text-transform: uppercase;
-  font-size: x-large;
-  margin-top: 16px;
 }
 
 .task-navigation-sprint-details {
   display: flex;
   flex-direction: column;
-  margin-bottom: 32px;
 }
 
 @media only screen and (max-width: 600px) {
