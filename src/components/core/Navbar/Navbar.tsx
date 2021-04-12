@@ -108,7 +108,7 @@ const Navbar: React.FC<Props> = ({
               </IconButton> */}
 
               <Typography variant="h6" className={classes.title}>
-                <Link to="/">Sumi</Link>
+                <Link to="/">Sumi TaskIt</Link>
               </Typography>
 
               {!user.isAuthenticated && (

@@ -3,7 +3,7 @@ import { Login } from "../../components";
 import "./LoginPage.css";
 const LoginPage: React.FC = () => {
   return (
-    <div className="login-page-wrapper">
+    <div className="page-wrapper">
       <Login />
     </div>
   );

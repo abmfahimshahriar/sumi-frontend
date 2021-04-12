@@ -4,7 +4,7 @@ import {ProfileCard} from "../../components";
 
 const ProfilePage = () => {
     return (
-        <div className="profile-page-wrapper">
+        <div className="page-wrapper">
             <ProfileCard/>
         </div>
     )

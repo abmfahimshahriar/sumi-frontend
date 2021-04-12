@@ -3,7 +3,7 @@ import "./ProjectPage.css";
 import {ProjectList} from "../../components"
 const ProjectPage = () => {
     return (
-        <div className="project-page-wrapper">
+        <div className="page-wrapper">
             <ProjectList/>
         </div>
     )

@@ -4,7 +4,7 @@ import "./SprintPage.css";
 
 const SprintPage = () => {
     return (
-        <div className="sprint-page-wrapper">
+        <div className="page-wrapper">
             <SprintList/>
         </div>
     )

@@ -1,9 +1,15 @@
 .landing-page-wrapper {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f7f3eb;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 64px;
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f3eb;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 64px;
+}
+
+@media only screen and (max-width: 600px) {
+  .landing-page-wrapper {
+    margin-top: 56px;
   }
+}

@@ -12,5 +12,6 @@
 @media only screen and (max-width: 600px) {
   .velocity-page-wrapper {
     margin-left: 57px;
+    margin-top: 56px;
   }
 }
