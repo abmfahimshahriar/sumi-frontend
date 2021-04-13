@@ -57,8 +57,7 @@ const VelocityChart: React.FC<Props> = ({ getSprints, sprint }) => {
         options={{
           // Material design options
           chart: {
-            title: "Velocity chart",
-            subtitle: "total and completed story points in this project",
+            title: sprint.projectDetails.ProjectName,
           },
         }}
         // For tests

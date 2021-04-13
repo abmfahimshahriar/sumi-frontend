@@ -67,6 +67,7 @@ const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
   };
   return (
     <div className="gantt-chart-card">
+      <h3>{sprint.projectDetails.ProjectName}</h3>
       <Chart
         width={"100%"}
         chartType="Gantt"
