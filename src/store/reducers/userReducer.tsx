@@ -15,6 +15,7 @@ const initialUserState: UserState = {
     Email: "",
     ProfileImageUrl: "",
   },
+  notifications: [],
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -70,10 +71,15 @@ export default function (
         userId: "",
         token: "",
       };
-      case actionTypes.SET_USER_DETAILS:
+    case actionTypes.SET_USER_DETAILS:
       return {
         ...state,
         userDetails: action.payload,
+      };
+    case actionTypes.SET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
       };
     default:
       return state;

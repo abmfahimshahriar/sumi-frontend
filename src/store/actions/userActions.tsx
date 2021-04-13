@@ -22,7 +22,11 @@ export const loginUser = (
     .post("/auth/login", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      setAuthorizationHeader(data.Result.Token, data.Result.UserId, data.Result.Username);
+      setAuthorizationHeader(
+        data.Result.Token,
+        data.Result.UserId,
+        data.Result.Username
+      );
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
@@ -31,6 +35,7 @@ export const loginUser = (
       dispatch({ type: actionTypes.LOGIN, payload: payload });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch(getUserDetails());
+      dispatch(getUserNotifications(1));
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
@@ -50,7 +55,11 @@ export const signupUser = (
     .post("/auth/signup", userData)
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      setAuthorizationHeader(data.Result.Token, data.Result.UserId, data.Result.Username);
+      setAuthorizationHeader(
+        data.Result.Token,
+        data.Result.UserId,
+        data.Result.Username
+      );
       const payload = {
         UserId: data.Result.UserId,
         Token: data.Result.Token,
@@ -59,6 +68,7 @@ export const signupUser = (
       dispatch({ type: actionTypes.SIGNUP, payload: payload });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch(getUserDetails());
+      dispatch(getUserNotifications(1));
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
@@ -69,8 +79,12 @@ export const signupUser = (
     });
 };
 
-
-export const logoutUser = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+export const logoutUser = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
   localStorage.removeItem("Token");
   localStorage.removeItem("UserId");
   localStorage.removeItem("Username");
@@ -78,7 +92,12 @@ export const logoutUser = (): ThunkAction<void, {}, unknown, Action<string>> => 
   dispatch({ type: actionTypes.SET_DEFAULT });
 };
 
-export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+export const setAuthenticated = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
   const token = localStorage.Token;
   const userId = localStorage.UserId;
   const username = localStorage.Username;
@@ -89,9 +108,15 @@ export const setAuthenticated = (): ThunkAction<void, {}, unknown, Action<string
   };
   dispatch({ type: actionTypes.SET_AUTHENTICATED, payload: payload });
   setAuthorizationHeader(token, userId, username);
+  dispatch(getUserDetails());
+  dispatch(getUserNotifications(1));
 };
 
-const setAuthorizationHeader = (token: string, userId: string, username: string) => {
+const setAuthorizationHeader = (
+  token: string,
+  userId: string,
+  username: string
+) => {
   localStorage.setItem("Token", token);
   localStorage.setItem("Username", username);
   const userToken = `Bearer ${token}`;
@@ -99,15 +124,21 @@ const setAuthorizationHeader = (token: string, userId: string, username: string)
   axios.defaults.headers.common["Authorization"] = userToken;
 };
 
-
-export const getUserDetails = (
-): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+export const getUserDetails = (): ThunkAction<
+  void,
+  {},
+  unknown,
+  Action<string>
+> => async (dispatch) => {
   dispatch({ type: actionTypes.START_GLOBAL_LOADING });
   axios
     .get("/user/userDetails")
     .then((res: AxiosResponse) => {
       const data: SumiBackendResponse = res.data;
-      dispatch({ type: actionTypes.SET_USER_DETAILS, payload: data.Result.UserDetails});
+      dispatch({
+        type: actionTypes.SET_USER_DETAILS,
+        payload: data.Result.UserDetails,
+      });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
@@ -118,7 +149,6 @@ export const getUserDetails = (
       }
     });
 };
-
 
 export const updateUser = (
   userData: FormData
@@ -131,6 +161,54 @@ export const updateUser = (
       const data: SumiBackendResponse = res.data;
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
       dispatch(getUserDetails());
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      }
+    });
+};
+
+export const getUserNotifications = (
+  pageNumber: number
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  axios
+    .get(`/notification/getNotifications/${pageNumber}`)
+    .then((res: AxiosResponse) => {
+      const data: SumiBackendResponse = res.data;
+      dispatch({
+        type: actionTypes.SET_NOTIFICATIONS,
+        payload: data.Result.Notifications,
+      });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      }
+    });
+};
+
+export const readNotification = (
+  notificationId: string,
+  pageNumber: number,
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  const payload = {
+    NotificationId: notificationId
+  }
+  axios
+    .post("/notification/readNotification", payload)
+    .then((res: AxiosResponse) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const data: SumiBackendResponse = res.data;
+      dispatch(getUserNotifications(pageNumber));
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;

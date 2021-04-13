@@ -27,6 +27,7 @@ export interface UserState {
   authErrors: string[];
   authSuccessMessage: string;
   userDetails: UserProfile;
+  notifications: Notification[],
 }
 
 export interface UserProfile {
@@ -205,4 +206,19 @@ export interface CreateCommentPayload {
   SprintId: string;
   TaskId: string;
   CommentContent?: string;
+}
+
+export interface Notification {
+  _id: string;
+  ProjectId: string;
+  SprintId: string;
+  TaskId: string;
+  TaskName:string;
+  SenderId: string;
+  SenderName: string;
+  ReceiverId: string;
+  ReceiverName: string;
+  Action: string;
+  CreatedAt: string;
+  UnreadStatus: boolean;
 }
