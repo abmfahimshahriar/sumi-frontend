@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { MyButton } from "../../../utility/components";
 import jwtDecode from "jwt-decode";
 import "./Navbar.css";
+import { Notification } from "../../../components";
 // MUI stuffs
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -124,6 +125,7 @@ const Navbar: React.FC<Props> = ({
 
               {user.isAuthenticated && (
                 <Fragment>
+                  <Notification/>
                   <MyButton tip="profile" onClick={openProfileMenu}>
                     <Avatar>{user.username?.slice(0, 1)}</Avatar>
                   </MyButton>

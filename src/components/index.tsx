@@ -29,6 +29,7 @@ import MiddlePart from "./Landing/MiddlePart/MiddlePart";
 import LowerPart from "./Landing/LowerPart/LowerPart";
 import ProfileCard from "./Profile/ProfileCard/ProfileCard";
 import TaskNavigation from "./Task/TaskNavigation/TaskNavigation";
+import Notification from "./core/Notification/Notification";
 
 export {
   Navbar,
@@ -62,4 +63,5 @@ export {
   LowerPart,
   ProfileCard,
   TaskNavigation,
+  Notification,
 };
