@@ -1,3 +1,25 @@
 .notification-wrapper {
     margin-right: 16px;
 }
+
+.notification-menu {
+    overflow: auto;
+    height: 180px;
+}
+
+.notification-item {
+    display: flex;
+    white-space: pre-wrap;
+}
+
+.load-more-notification-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-loader {
+    position: absolute;
+}

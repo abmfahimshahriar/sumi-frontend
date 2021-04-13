@@ -174,7 +174,7 @@ export const updateUser = (
 export const getUserNotifications = (
   pageNumber: number
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
-  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  dispatch({ type: actionTypes.START_NOTIFICATION_LOADING });
   axios
     .get(`/notification/getNotifications/${pageNumber}`)
     .then((res: AxiosResponse) => {
@@ -183,13 +183,13 @@ export const getUserNotifications = (
         type: actionTypes.SET_NOTIFICATIONS,
         payload: data.Result.Notifications,
       });
-      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      dispatch({ type: actionTypes.END_NOTIFICATION_LOADING });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;
       if (data) {
         dispatch({ type: actionTypes.AUTH_ERROR, payload: data.Errors });
-        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+        dispatch({ type: actionTypes.END_NOTIFICATION_LOADING });
       }
     });
 };

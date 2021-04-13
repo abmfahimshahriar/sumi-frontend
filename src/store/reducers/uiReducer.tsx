@@ -6,6 +6,7 @@ const initialProjectState: UIState = {
   globalLoading: false,
   createdProjectLoading: false,
   involvedProjectLoading: false,
+  notificationLoading: false,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -57,6 +58,16 @@ export default function (
       return {
         ...state,
         involvedProjectLoading: false,
+      };
+    case actionTypes.START_NOTIFICATION_LOADING:
+      return {
+        ...state,
+        notificationLoading: true,
+      };
+    case actionTypes.END_NOTIFICATION_LOADING:
+      return {
+        ...state,
+        notificationLoading: false,
       };
     default:
       return state;

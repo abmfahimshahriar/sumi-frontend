@@ -76,6 +76,7 @@ export interface UIState {
   globalLoading: boolean;
   createdProjectLoading: boolean;
   involvedProjectLoading: boolean;
+  notificationLoading: boolean;
 }
 
 export interface DispatchActionTypes {
