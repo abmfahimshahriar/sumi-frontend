@@ -22,7 +22,7 @@ const TaskList: React.FC<Props> = ({ getTasks, getUsersListWithDetails }) => {
     getTasks(sprintId);
     getUsersListWithDetails(projectId, sprintId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [window.location.pathname]);
   return (
       <div className="task-list-parent">
           <TaskListToolbar/>
