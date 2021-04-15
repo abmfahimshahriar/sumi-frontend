@@ -151,13 +151,22 @@ export const deleteProject = (
 export const getUsersList = (
   isUpdate: boolean,
   searchText?: string,
-  usersListForUpdate?: UsersListItem[]
+  usersListForUpdate?: UsersListItem[],
+  fromTask?: boolean,
 ): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   if (isUpdate) {
-    dispatch({
-      type: actionTypes.MARK_ALREADY_SELECTED_USER,
-      payload: usersListForUpdate,
-    });
+    if(fromTask) {
+      dispatch({
+        type: actionTypes.MARK_ALREDY_SELECTED_USER_FOR_TASK,
+        payload: usersListForUpdate,
+      });
+    }
+    else {
+      dispatch({
+        type: actionTypes.MARK_ALREADY_SELECTED_USER,
+        payload: usersListForUpdate,
+      });
+    }
   } else {
     dispatch({ type: actionTypes.START_LOCAL_LOADING });
     dispatch({ type: actionTypes.START_GLOBAL_LOADING });

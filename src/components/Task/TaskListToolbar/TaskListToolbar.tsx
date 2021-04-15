@@ -8,7 +8,7 @@ import {
 } from "../../../store/actions/taskActions";
 import { CreateTaskDialog, TaskNavigation } from "../../../components";
 import {
-  IProjectMapStateToProps,
+  IAllMapStateToProps,
   ProjectState,
 } from "../../../interfaces/GlobalTypes";
 import "./TaskListToolbar.css";
@@ -18,30 +18,37 @@ import { MyButton } from "../../../utility/components";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
+import {openTaskCUDialog,closeTaskCUDialog} from "../../../store/actions/taskActions";
 
 type Props = {
   project: ProjectState;
   filterTasks: Function;
   selectUser: Function;
   filterTasksByUser: Function;
+  openTaskCUDialog: Function;
+  closeTaskCUDialog: Function;
 };
 const TaskListToolbar: React.FC<Props> = ({
   filterTasks,
   project,
   selectUser,
   filterTasksByUser,
+  openTaskCUDialog,
+  closeTaskCUDialog
 }) => {
   const maxLen = 3;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const isUpdate = false;
   const handleClickOpen = () => {
-    setOpen(true);
+    // setOpen(true);
+    openTaskCUDialog();
   };
 
   const handleClose = () => {
-    setOpen(false);
+    // setOpen(false);
+    closeTaskCUDialog();
   };
 
   const openProfileMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,7 +88,6 @@ const TaskListToolbar: React.FC<Props> = ({
           <CreateTaskDialog
             open={open}
             onClose={handleClose}
-            isUpdate={isUpdate}
           />
         </div>
         <div className="task-search-filter">
@@ -181,8 +187,11 @@ const TaskListToolbar: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: IProjectMapStateToProps) => ({
+const mapStateToProps = (state: IAllMapStateToProps) => ({
   project: state.project,
+  sprint: state.sprint,
+  task: state.task,
+  user: state.user,
   ui: state.ui,
 });
 
@@ -190,6 +199,8 @@ const mapActionToProps = {
   filterTasks,
   selectUser,
   filterTasksByUser,
+  openTaskCUDialog,
+  closeTaskCUDialog
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskListToolbar);

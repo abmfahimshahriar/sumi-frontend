@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import {
   DispatchActionTypes,
   ProjectState,
@@ -61,6 +62,17 @@ export default function (
         usersList: [...combinedUserList],
         hasProjectErrors: false,
         projectErrors: [],
+      };
+    case actionTypes.MARK_ALREDY_SELECTED_USER_FOR_TASK:
+      let usersForUpdateForTask = [...state.usersList];
+      usersForUpdateForTask.filter(item => {
+        if(item._id === action.payload._id) {
+          item.IsSelected = true;
+        }
+      });
+      return {
+        ...state,
+        usersList: [...usersForUpdateForTask],
       };
     case actionTypes.MARK_ALREADY_SELECTED_USER:
       let usersForUpdate = [...action.payload];

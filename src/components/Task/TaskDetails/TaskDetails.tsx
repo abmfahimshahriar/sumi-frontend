@@ -1,7 +1,7 @@
 import Chip from "@material-ui/core/Chip";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { Task } from "../../../interfaces/GlobalTypes";
+import { ITaskMapStateToProps, Task } from "../../../interfaces/GlobalTypes";
 import { MyButton } from "../../../utility/components";
 import "./TaskDetails.css";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -10,11 +10,14 @@ import Menu from "@material-ui/core/Menu";
 import Dialog from "@material-ui/core/Dialog";
 import { TaskComments } from "../../../components";
 import { useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import { setSelectedTaskForUpdate } from "../../../store/actions/taskActions";
 
 type Props = {
   selectedTask: Task;
   open: boolean;
   onClose: Function;
+  setSelectedTaskForUpdate: Function;
 };
 
 interface ParamTypes {
@@ -23,7 +26,12 @@ interface ParamTypes {
   taskId: string;
 }
 
-const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
+const TaskDetails: React.FC<Props> = ({
+  selectedTask,
+  open,
+  onClose,
+  setSelectedTaskForUpdate,
+}) => {
   const { projectId, sprintId, taskId } = useParams<ParamTypes>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(open);
@@ -35,16 +43,15 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
 
   useEffect(() => {
     handleDialogOpen();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open,window.location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, window.location.pathname]);
 
   const handleDialogOpen = () => {
     const newUrl = window.location.pathname;
     if (taskId === selectedTask._id && newUrl !== oldPath) {
       setOpenDialog(true);
-    }
-    else setOpenDialog(open);
-  }
+    } else setOpenDialog(open);
+  };
 
   // const handleOpen = () => {
   //   let oldUrl = window.location.pathname;
@@ -61,7 +68,9 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
   };
 
   const handleUpdateTask = () => {
+    setSelectedTaskForUpdate(selectedTask);
     closeMoreMenu();
+    handleClose();
   };
 
   const handleDeleteTask = () => {
@@ -136,4 +145,13 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
   );
 };
 
-export default TaskDetails;
+const mapStateToProps = (state: ITaskMapStateToProps) => ({
+  task: state.task,
+  ui: state.ui,
+});
+
+const mapActionToProps = {
+  setSelectedTaskForUpdate,
+};
+
+export default connect(mapStateToProps, mapActionToProps)(TaskDetails);

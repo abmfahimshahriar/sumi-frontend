@@ -18,6 +18,9 @@ const initialSprintState: TaskState = {
   searchText: "",
   usersList: [],
   projectDetails: {} as Project,
+  openTaskCUDialog: false,
+  selectedTaskToUpdate: {} as Task,
+  isUpdate: false,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -109,6 +112,28 @@ export default function (
       return {
         ...state,
         usersList: action.payload,
+      };
+    case actionTypes.SET_OPEN_TASK_CU_DIALOG:
+      return {
+        ...state,
+        openTaskCUDialog: true,
+      };
+    case actionTypes.SET_CLOSE_TASK_CU_DIALOG:
+      return {
+        ...state,
+        openTaskCUDialog: false,
+      };
+    case actionTypes.SET_SELECTED_TASK_FOR_UPDATE:
+      return {
+        ...state,
+        selectedTaskToUpdate: action.payload,
+        isUpdate: true,
+      };
+    case actionTypes.REMOVE_SELECTED_TASK_FOR_UPDATE:
+      return {
+        ...state,
+        selectedTaskToUpdate: {} as Task,
+        isUpdate: false,
       };
     // const usersList: UsersListItem[] = action.payload;
     // let tempTaskForUserFilter = [...state.tasks];

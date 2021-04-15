@@ -71,6 +71,9 @@ export interface TaskState {
   searchText: string;
   usersList: UsersListItem[];
   projectDetails: Project;
+  openTaskCUDialog: boolean;
+  selectedTaskToUpdate: Task;
+  isUpdate: boolean;
 }
 
 export interface UIState {
@@ -107,6 +110,8 @@ export interface ITaskMapStateToProps {
 }
 
 export interface IAllMapStateToProps {
+  project: ProjectState;
+  task: TaskState;
   sprint: SprintState;
   user: UserState;
   ui: UIState;
@@ -198,6 +203,7 @@ export interface CreateTaskPayload {
   EndDate: string;
   StoryPoints: number;
   Assignee: UsersListItem;
+  TaskId?: string;
 }
 
 export interface Comment {

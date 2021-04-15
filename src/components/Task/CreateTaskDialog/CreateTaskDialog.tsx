@@ -2,9 +2,9 @@ import React, { FormEvent, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import {
   CreateTaskPayload,
-  IProjectMapStateToProps,
+  IAllMapStateToProps,
   ProjectState,
-  Task,
+  TaskState,
   UIState,
 } from "../../../interfaces/GlobalTypes";
 import TextField from "@material-ui/core/TextField";
@@ -20,20 +20,20 @@ import {
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
 import { getUsersList } from "../../../store/actions/projectAction";
-import { createTask } from "../../../store/actions/taskActions";
+import { createTask, updateTask } from "../../../store/actions/taskActions";
 import { UserList } from "../../../components";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  isUpdate: boolean;
   createSprint: Function;
   project: ProjectState;
   ui: UIState;
-  selectedTask?: Task;
   updateSprint: Function;
   getUsersList: Function;
   createTask: Function;
+  task: TaskState;
+  updateTask: Function;
 };
 
 interface ParamTypes {
@@ -44,14 +44,14 @@ interface ParamTypes {
 const CreateTaskDialog: React.FC<Props> = ({
   open,
   onClose,
-  isUpdate,
   ui,
-  selectedTask,
   createSprint,
   updateSprint,
   getUsersList,
   project,
   createTask,
+  updateTask,
+  task,
 }) => {
   const { projectId, sprintId } = useParams<ParamTypes>();
   const [dialogTitle, setDialogTile] = useState("Create Task");
@@ -110,17 +110,17 @@ const CreateTaskDialog: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (isUpdate && selectedTask) {
+    if (task.isUpdate && task.selectedTaskToUpdate) {
       setDialogTile("Update Task");
-      setTaskName(selectedTask.TaskName);
-      setTaskDescription(selectedTask.TaskDescription);
-      setStoryPoints(selectedTask.StoryPoints);
-      setStartDate(selectedTask.StartDate);
-      setEndDate(selectedTask.EndDate);
-      getUsersList(true, "", [selectedTask.Assignee]);
+      setTaskName(task.selectedTaskToUpdate.TaskName);
+      setTaskDescription(task.selectedTaskToUpdate.TaskDescription);
+      setStoryPoints(task.selectedTaskToUpdate.StoryPoints);
+      setStartDate(task.selectedTaskToUpdate.StartDate);
+      setEndDate(task.selectedTaskToUpdate.EndDate);
+      getUsersList(true, "", task.selectedTaskToUpdate.Assignee, true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [task.isUpdate, task.selectedTaskToUpdate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -131,7 +131,7 @@ const CreateTaskDialog: React.FC<Props> = ({
     if (name === "endDate") setEndDate(value);
   };
 
-  const handleCreateSprint = () => {
+  const handleCreateTask = () => {
     const assignedUser = project.usersList.find(
       (item) => item.IsSelected === true
     );
@@ -146,7 +146,6 @@ const CreateTaskDialog: React.FC<Props> = ({
         StoryPoints: storyPoints,
         Assignee: assignedUser,
       };
-      console.log(taskData);
       createTask(taskData);
       setTaskName("");
       setTaskDescription("");
@@ -155,7 +154,7 @@ const CreateTaskDialog: React.FC<Props> = ({
     }
   };
 
-  const handleUpdateSprint = () => {
+  const handleUpdateTask = () => {
     const assignedUser = project.usersList.find(
       (item) => item.IsSelected === true
     );
@@ -163,6 +162,7 @@ const CreateTaskDialog: React.FC<Props> = ({
       const taskData: CreateTaskPayload = {
         ProjectId: projectId,
         SprintId: sprintId,
+        TaskId: task.selectedTaskToUpdate._id,
         TaskName: taskName,
         TaskDescription: taskDescription,
         StartDate: startDate,
@@ -170,8 +170,11 @@ const CreateTaskDialog: React.FC<Props> = ({
         StoryPoints: storyPoints,
         Assignee: assignedUser,
       };
-      console.log(taskData);
-      // updateSprint(taskData);
+      updateTask(taskData);
+      setTaskName("");
+      setTaskDescription("");
+      setStoryPoints(0);
+      setAssignedUserError([]);
     }
   };
 
@@ -185,10 +188,10 @@ const CreateTaskDialog: React.FC<Props> = ({
     const errorsObject = inputValidator(inputs);
     setFormErrors(errorsObject);
     if (!errorsObject.hasError && assignedUser) {
-      if (isUpdate) {
-        handleUpdateSprint();
+      if (task.isUpdate) {
+        handleUpdateTask();
       } else {
-        handleCreateSprint();
+        handleCreateTask();
       }
       onClose();
     }
@@ -197,7 +200,7 @@ const CreateTaskDialog: React.FC<Props> = ({
     <Dialog
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
-      open={open}
+      open={task.openTaskCUDialog}
     >
       <div className="create-sprint-dialog-wrapper">
         <h2>{dialogTitle}</h2>
@@ -254,7 +257,7 @@ const CreateTaskDialog: React.FC<Props> = ({
               label="Start date"
               type="date"
               defaultValue={moment(
-                isUpdate ? selectedTask?.StartDate : new Date().toISOString()
+                task.isUpdate ? task.selectedTaskToUpdate.StartDate : new Date().toISOString()
               ).format("YYYY-MM-DD")}
               onChange={handleInputChange}
               InputLabelProps={{
@@ -276,7 +279,7 @@ const CreateTaskDialog: React.FC<Props> = ({
               label="End date"
               type="date"
               defaultValue={moment(
-                isUpdate ? selectedTask?.EndDate : new Date().toISOString()
+                task.isUpdate ? task.selectedTaskToUpdate.EndDate : new Date().toISOString()
               ).format("YYYY-MM-DD")}
               onChange={handleInputChange}
               InputLabelProps={{
@@ -339,8 +342,11 @@ const CreateTaskDialog: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: IProjectMapStateToProps) => ({
+const mapStateToProps = (state: IAllMapStateToProps) => ({
   project: state.project,
+  sprint: state.sprint,
+  task: state.task,
+  user: state.user,
   ui: state.ui,
 });
 
@@ -349,6 +355,7 @@ const mapActionToProps = {
   updateSprint,
   getUsersList,
   createTask,
+  updateTask,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(CreateTaskDialog);
