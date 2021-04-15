@@ -4,7 +4,6 @@
 
 .notification-menu {
     overflow: auto;
-    height: 180px;
 }
 
 .notification-item {
@@ -18,4 +17,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.no-notification {
+    padding: 16px;
 }

@@ -58,4 +58,14 @@
   .skeleton-story-point {
     margin-right: 4px;
   }
+
+  @media only screen and (max-width: 600px) {
+    .project-skeleton-title {
+      width: 150px;
+    }
+
+    .project-skeleton-date-content {
+      width: 60px;
+    }
+  }
   

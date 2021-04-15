@@ -72,39 +72,46 @@ const Notification: React.FC<Props> = ({
         open={Boolean(anchorEl)}
         onClose={closeNotificationMenu}
       >
-        <div className="notification-menu">
-          {user.notifications.map((item) => {
-            return (
-              <MenuItem
-                key={item._id}
-                onClick={() => handleReadNotification(item._id)}
-                component={Link}
-                to={`/sprints/${item.ProjectId}/${item.SprintId}/${item.TaskId}`}
+        {user.notifications.length > 0 && (
+          <div className="notification-menu">
+            {user.notifications.map((item) => {
+              return (
+                <MenuItem
+                  key={item._id}
+                  onClick={() => handleReadNotification(item._id)}
+                  component={Link}
+                  to={`/sprints/${item.ProjectId}/${item.SprintId}/${item.TaskId}`}
+                >
+                  <div className="notification-item">
+                    {" "}
+                    {item.UnreadStatus && (
+                      <RadioButtonCheckedIcon style={{ marginRight: "8px" }} />
+                    )}{" "}
+                    {item.SenderName} {item.Action} {item.TaskName}
+                  </div>
+                </MenuItem>
+              );
+            })}
+            <div className="load-more-notification-btn">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={loadMoreNotifications}
+                disabled={ui.notificationLoading}
               >
-                <div className="notification-item">
-                  {" "}
-                  {item.UnreadStatus && (
-                    <RadioButtonCheckedIcon style={{ marginRight: "8px" }} />
-                  )}{" "}
-                  {item.SenderName} {item.Action} {item.TaskName}
-                </div>
-              </MenuItem>
-            );
-          })}
-          <div className="load-more-notification-btn">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={loadMoreNotifications}
-              disabled={ui.notificationLoading}
-            >
-              Load more
-              {ui.notificationLoading && (
-                <CircularProgress size={30} className="btn-loader" />
-              )}
-            </Button>
+                Load more
+                {ui.notificationLoading && (
+                  <CircularProgress size={30} className="btn-loader" />
+                )}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
+        {user.notifications.length === 0 && (
+          <div className="no-notification">
+            You currently do not have any notifications
+          </div>
+        )}
       </Menu>
     </div>
   );
