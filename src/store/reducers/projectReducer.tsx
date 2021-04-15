@@ -69,6 +69,7 @@ export default function (
         if(item._id === action.payload._id) {
           item.IsSelected = true;
         }
+        else item.IsSelected = false;
       });
       return {
         ...state,

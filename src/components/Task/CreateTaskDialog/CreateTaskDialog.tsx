@@ -13,10 +13,6 @@ import moment from "moment";
 import Button from "@material-ui/core/Button";
 // redux stuff
 import { connect } from "react-redux";
-import {
-  createSprint,
-  updateSprint,
-} from "../../../store/actions/sprintActions";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
 import { getUsersList } from "../../../store/actions/projectAction";
@@ -26,10 +22,8 @@ import { UserList } from "../../../components";
 type Props = {
   open: boolean;
   onClose: () => void;
-  createSprint: Function;
   project: ProjectState;
   ui: UIState;
-  updateSprint: Function;
   getUsersList: Function;
   createTask: Function;
   task: TaskState;
@@ -42,11 +36,7 @@ interface ParamTypes {
 }
 
 const CreateTaskDialog: React.FC<Props> = ({
-  open,
   onClose,
-  ui,
-  createSprint,
-  updateSprint,
   getUsersList,
   project,
   createTask,
@@ -351,8 +341,6 @@ const mapStateToProps = (state: IAllMapStateToProps) => ({
 });
 
 const mapActionToProps = {
-  createSprint,
-  updateSprint,
   getUsersList,
   createTask,
   updateTask,
