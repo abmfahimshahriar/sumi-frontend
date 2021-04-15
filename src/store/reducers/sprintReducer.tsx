@@ -32,6 +32,8 @@ export default function (
         ...state,
         sprints: [...action.payload.Sprints],
         projectDetails: action.payload.Project,
+        hasSprintErrors: false,
+        sprintErrors: [],
       };
     case actionTypes.SPRINT_ERROR:
       return {

@@ -14,7 +14,7 @@
 }
 
 .single-project-list-card-wrapper:hover {
-  box-shadow: 2px 2px 5px rgb(11, 139, 33);
+  background-color: #bdbdbd;
 }
 
 .project-title {

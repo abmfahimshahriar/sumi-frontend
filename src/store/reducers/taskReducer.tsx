@@ -35,16 +35,22 @@ export default function (
         ...state,
         fullTaskList: [...action.payload],
         tasks: [...action.payload],
+        hasTaskErrors: false,
+        taskErrors: [],
       };
     case actionTypes.GET_SPRINT_DETAILS:
       return {
         ...state,
         SprintDetails: action.payload,
+        hasTaskErrors: false,
+        taskErrors: [],
       };
     case actionTypes.GET_PROJECT_DETAILS_FOR_TASK:
       return {
         ...state,
         projectDetails: action.payload,
+        hasTaskErrors: false,
+        taskErrors: [],
       };
     case actionTypes.TASK_ERROR:
       return {
@@ -56,6 +62,8 @@ export default function (
       return {
         ...state,
         comments: [...action.payload],
+        hasTaskErrors: false,
+        taskErrors: [],
       };
     case actionTypes.CLEAR_COMMENTS:
       return {

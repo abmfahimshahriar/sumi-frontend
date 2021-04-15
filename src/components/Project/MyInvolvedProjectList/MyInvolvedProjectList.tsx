@@ -7,7 +7,7 @@ import {
 } from "../../../interfaces/GlobalTypes";
 import { ProjectListCard } from "../../../components";
 import "./MyInvolvedProjectList.css";
-import {ProjectListCardSkeleton} from "../../../utility/components";
+import { ProjectListCardSkeleton } from "../../../utility/components";
 
 // redux stuff
 import { connect } from "react-redux";
@@ -29,23 +29,29 @@ const MyInvolvedProjectList: React.FC<Props> = ({
   }, []);
 
   const projectsMarkup = project.myInvolvedProjects.map((item: Project) => {
-    return <ProjectListCard key={item._id} project={item} isInvolvedProjectProp={true}/>;
+    return (
+      <ProjectListCard
+        key={item._id}
+        project={item}
+        isInvolvedProjectProp={true}
+      />
+    );
   });
   const errorMarkup = <div>{project.projectErrors[0]}</div>;
   const noProjectsMarkup = (
     <div>You are currently not involved in any other projects.</div>
   );
-  const loadingCounter = [1,2];
-  const loadingMarkup = loadingCounter.map((item: number) => <ProjectListCardSkeleton key={item}/>)
+  const loadingCounter = [1, 2];
+  const loadingMarkup = loadingCounter.map((item: number) => (
+    <ProjectListCardSkeleton key={item} />
+  ));
   return (
     <div className="my-involved-project-wrapper">
       <h2>Involved Projects</h2>
-      {!project.hasProjectErrors &&
-        !ui.involvedProjectLoading &&
+      {!ui.involvedProjectLoading &&
         project.myInvolvedProjects.length > 0 &&
         projectsMarkup}
-      {!project.hasProjectErrors &&
-        !ui.involvedProjectLoading &&
+      {!ui.involvedProjectLoading &&
         project.myInvolvedProjects.length === 0 &&
         noProjectsMarkup}
       {project.hasProjectErrors && !ui.involvedProjectLoading && errorMarkup}

@@ -26,11 +26,15 @@ export default function (
       return {
         ...state,
         myCreatedProjects: [...action.payload],
+        hasProjectErrors: false,
+        projectErrors: [],
       };
     case actionTypes.GET_MY_INVOLVED_PROJECTS:
       return {
         ...state,
         myInvolvedProjects: [...action.payload],
+        hasProjectErrors: false,
+        projectErrors: [],
       };
     case actionTypes.PROJECT_ERROR:
       return {
@@ -55,6 +59,8 @@ export default function (
       return {
         ...state,
         usersList: [...combinedUserList],
+        hasProjectErrors: false,
+        projectErrors: [],
       };
     case actionTypes.MARK_ALREADY_SELECTED_USER:
       let usersForUpdate = [...action.payload];

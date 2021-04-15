@@ -100,7 +100,7 @@ const Notification: React.FC<Props> = ({
             >
               Load more
               {ui.notificationLoading && (
-                <CircularProgress size={30} className="notification-loader" />
+                <CircularProgress size={30} className="btn-loader" />
               )}
             </Button>
           </div>

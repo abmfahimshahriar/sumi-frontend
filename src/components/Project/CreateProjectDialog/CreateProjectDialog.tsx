@@ -22,6 +22,8 @@ import {
 } from "../../../store/actions/projectAction";
 import { UserList } from "../..";
 import { inputValidator } from "../../../utility/validators/inputValidator";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { ENTITY_END_DATE, ENTITY_START_DATE, ENTITY_TITLE } from "../../../utility/constants/formConstants";
 
 type Props = {
   open: boolean;
@@ -64,28 +66,31 @@ const CreateProjectDialog: React.FC<Props> = ({
       fieldValue: projectName,
       fieldName: "projectName",
       validations: ["required"],
-      minLength: 8,
-      maxLength: 20,
+      minLength: 1,
+      maxLength: ENTITY_TITLE,
     },
     {
       fieldValue: startDate,
       fieldName: "startDate",
       validations: ["required"],
-      minLength: 8,
-      maxLength: 20,
+      minLength: 1,
+      maxLength: ENTITY_START_DATE,
     },
     {
       fieldValue: endDate,
       fieldName: "endDate",
       validations: ["required"],
-      minLength: 4,
-      maxLength: 10,
+      minLength: 1,
+      maxLength: ENTITY_END_DATE,
     },
   ];
 
   const handleClose = () => {
-    emptyUserslist();
-    onClose();
+    if (!ui.localLoading && !project.hasProjectErrors) {
+      setProjectName("");
+      emptyUserslist();
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -150,7 +155,7 @@ const CreateProjectDialog: React.FC<Props> = ({
       } else {
         handleCreateProject();
       }
-      onClose();
+      handleClose();
     }
   };
 
@@ -246,8 +251,16 @@ const CreateProjectDialog: React.FC<Props> = ({
             <UserList />
           </div>
           <div className="form-item btn-container">
-            <Button variant="contained" color="primary" type="submit">
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={ui.localLoading}
+            >
               Submit
+              {ui.localLoading && (
+                <CircularProgress size={30} className="btn-loader" />
+              )}
             </Button>
             <Button
               variant="contained"
