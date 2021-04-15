@@ -41,6 +41,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .lower-part-wrapper {
+    width: 85%;
+  }
   .workflow-text-wrapper {
     flex-direction: column;
     justify-content: space-around;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./LandingPage.css";
-import { UpperPart, MiddlePart, LowerPart } from "../../components";
+import { UpperPart, MiddlePart, LowerPart, Footer } from "../../components";
 
 const LandingPage: React.FC = () => {
   return (
@@ -8,6 +8,7 @@ const LandingPage: React.FC = () => {
       <UpperPart />
       <MiddlePart/>
       <LowerPart/>
+      <Footer/>
     </div>
   );
 };
