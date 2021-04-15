@@ -19,6 +19,7 @@ import {
 } from "../../../store/actions/userActions";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Badge from "@material-ui/core/Badge";
 
 type Props = {
   user: UserState;
@@ -60,7 +61,9 @@ const Notification: React.FC<Props> = ({
   return (
     <div className="notification-wrapper">
       <MyButton tip="notifications" onClick={openNotificationMenu}>
-        <NotificationsIcon></NotificationsIcon>
+        <Badge badgeContent={user.unreadNotifications} color="secondary">
+          <NotificationsIcon />
+        </Badge>
       </MyButton>
       <Menu
         id="simple-menu"

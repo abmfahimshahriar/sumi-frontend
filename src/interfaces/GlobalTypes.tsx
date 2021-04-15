@@ -27,7 +27,8 @@ export interface UserState {
   authErrors: string[];
   authSuccessMessage: string;
   userDetails: UserProfile;
-  notifications: Notification[],
+  notifications: UserNotification[];
+  unreadNotifications: number;
 }
 
 export interface UserProfile {
@@ -209,7 +210,7 @@ export interface CreateCommentPayload {
   CommentContent?: string;
 }
 
-export interface Notification {
+export interface UserNotification {
   _id: string;
   ProjectId: string;
   SprintId: string;

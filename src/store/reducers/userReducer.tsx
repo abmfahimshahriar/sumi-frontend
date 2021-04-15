@@ -1,4 +1,4 @@
-import { DispatchActionTypes, UserState } from "../../interfaces/GlobalTypes";
+import { DispatchActionTypes, UserNotification, UserState } from "../../interfaces/GlobalTypes";
 import * as actionTypes from "../actionTypes";
 
 const initialUserState: UserState = {
@@ -16,6 +16,7 @@ const initialUserState: UserState = {
     ProfileImageUrl: "",
   },
   notifications: [],
+  unreadNotifications: 0,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -77,9 +78,12 @@ export default function (
         userDetails: action.payload,
       };
     case actionTypes.SET_NOTIFICATIONS:
+      const notifications: UserNotification[] = action.payload;
+      const unreadNotifications = notifications.filter(item => item.UnreadStatus === true);
       return {
         ...state,
         notifications: action.payload,
+        unreadNotifications: unreadNotifications.length,
       };
     default:
       return state;
