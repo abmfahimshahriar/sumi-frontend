@@ -108,7 +108,7 @@ const CreateSprintDialog: React.FC<Props> = ({
   }, [isUpdate]);
 
   useEffect(() => {
-    if(taskBuckets.length > 0) {
+    if(taskBuckets.length > 0 && !isUpdate) {
       handleTaskBucketValidation();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,6 +122,7 @@ const CreateSprintDialog: React.FC<Props> = ({
   };
 
   const handleCreateSprint = () => {
+    handleTaskBucketValidation();
     const sprintData: CreateSprintPayload = {
       ProjectId: projectId,
       SprintName: sprintName,
@@ -160,7 +161,6 @@ const CreateSprintDialog: React.FC<Props> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleTaskBucketValidation();
     const errorsObject = inputValidator(inputs);
     setFormErrors(errorsObject);
     if (!errorsObject.hasError && taskBucketerror.length === 0) {

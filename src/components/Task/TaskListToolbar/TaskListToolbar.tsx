@@ -130,7 +130,7 @@ const TaskListToolbar: React.FC<Props> = ({
               </div>
             );
           })}
-          {project.usersList.length > 0 && (
+          {project.usersList.length > maxLen && (
             <Fragment>
               <div className="user-avatar">
                 <MyButton tip="more users" onClick={openProfileMenu}>

@@ -87,9 +87,6 @@ export const createTask = (
       dispatch(getTasks(taskData.SprintId));
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
-      dispatch({
-        type: actionTypes.EMPTY_USERS_LIST,
-      });
     })
     .catch((err: AxiosError) => {
       const data = err.response?.data;

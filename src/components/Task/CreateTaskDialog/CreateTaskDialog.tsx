@@ -65,6 +65,8 @@ const CreateTaskDialog: React.FC<Props> = ({
     moment(new Date().toISOString()).format("YYYY-MM-DD")
   );
   const [formErrors, setFormErrors] = useState<any>({});
+  const [assignedUserError, setAssignedUserError] = useState<string[]>([]);
+
   const inputs = [
     {
       fieldValue: taskName,
@@ -146,6 +148,10 @@ const CreateTaskDialog: React.FC<Props> = ({
       };
       console.log(taskData);
       createTask(taskData);
+      setTaskName("");
+      setTaskDescription("");
+      setStoryPoints(0);
+      setAssignedUserError([]);
     }
   };
 
@@ -171,9 +177,14 @@ const CreateTaskDialog: React.FC<Props> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const assignedUser = project.usersList.find(
+      (item) => item.IsSelected === true
+    );
+    if(!assignedUser) setAssignedUserError(["You must assign this task to an user"]);
+
     const errorsObject = inputValidator(inputs);
     setFormErrors(errorsObject);
-    if (!errorsObject.hasError) {
+    if (!errorsObject.hasError && assignedUser) {
       if (isUpdate) {
         handleUpdateSprint();
       } else {
@@ -182,7 +193,6 @@ const CreateTaskDialog: React.FC<Props> = ({
       onClose();
     }
   };
-
   return (
     <Dialog
       onClose={handleClose}
@@ -301,6 +311,13 @@ const CreateTaskDialog: React.FC<Props> = ({
 
           <div className="form-item">
             <UserList fromTask={true} />
+          </div>
+
+          <div>
+            <ul>
+              {assignedUserError.length > 0 &&
+                assignedUserError.map((item, index) => <li key={index}>{item}</li>)}
+            </ul>
           </div>
 
           <div className="form-item btn-container">
