@@ -21,6 +21,7 @@ import {
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import { useParams } from "react-router-dom";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { ENTITY_END_DATE, ENTITY_END_DATE_MIN, ENTITY_START_DATE, ENTITY_START_DATE_MIN, ENTITY_TITLE, ENTITY_TITLE_MIN } from "../../../utility/constants/formConstants";
 
 type Props = {
   open: boolean;
@@ -66,28 +67,29 @@ const CreateSprintDialog: React.FC<Props> = ({
   const [endBucket, setEndBucket] = useState("");
   const [taskBuckets, setTaskBuckets] = useState<TaskBucket[]>([]);
   const [formErrors, setFormErrors] = useState<any>({});
+  const [taskBucketerror, setTaskBucketError] = useState<string[]>([]);
 
   const inputs = [
     {
       fieldValue: sprintName,
       fieldName: "sprintName",
       validations: ["required"],
-      minLength: 8,
-      maxLength: 20,
+      minLength: ENTITY_TITLE_MIN,
+      maxLength: ENTITY_TITLE,
     },
     {
       fieldValue: startDate,
       fieldName: "startDate",
       validations: ["required"],
-      minLength: 8,
-      maxLength: 20,
+      minLength: ENTITY_START_DATE_MIN,
+      maxLength: ENTITY_START_DATE,
     },
     {
       fieldValue: endDate,
       fieldName: "endDate",
       validations: ["required"],
-      minLength: 4,
-      maxLength: 10,
+      minLength: ENTITY_END_DATE_MIN,
+      maxLength: ENTITY_END_DATE,
     },
   ];
 
@@ -104,6 +106,13 @@ const CreateSprintDialog: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdate]);
+
+  useEffect(() => {
+    if(taskBuckets.length > 0) {
+      handleTaskBucketValidation();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskBuckets]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -123,6 +132,10 @@ const CreateSprintDialog: React.FC<Props> = ({
       EndBucket: endBucket,
     };
     createSprint(sprintData);
+    setSprintName("");
+    setTaskBuckets([]);
+    setStartBucket("");
+    setEndBucket("");
   };
 
   const handleUpdateSprint = () => {
@@ -147,9 +160,10 @@ const CreateSprintDialog: React.FC<Props> = ({
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleTaskBucketValidation();
     const errorsObject = inputValidator(inputs);
     setFormErrors(errorsObject);
-    if (!errorsObject.hasError) {
+    if (!errorsObject.hasError && taskBucketerror.length === 0) {
       if (isUpdate) {
         handleUpdateSprint();
       } else {
@@ -157,6 +171,15 @@ const CreateSprintDialog: React.FC<Props> = ({
       }
       onClose();
     }
+  };
+
+  const handleTaskBucketValidation = () => {
+    const tempTaskBucketErrors: string[] = [];
+    if (!startBucket)
+      tempTaskBucketErrors.push("You must create / select one start bucket");
+    if (!endBucket)
+      tempTaskBucketErrors.push("You must create / select one end bucket");
+    setTaskBucketError([...tempTaskBucketErrors]);
   };
 
   return (
@@ -259,6 +282,12 @@ const CreateSprintDialog: React.FC<Props> = ({
               onSelectTaskBucket={handleTaskBucketList}
               isUpdate={isUpdate}
             />
+          </div>
+          <div>
+            <ul>
+              {taskBucketerror.length > 0 &&
+                taskBucketerror.map((item, index) => <li key={index}>{item}</li>)}
+            </ul>
           </div>
 
           <div className="form-item btn-container">

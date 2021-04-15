@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./SprintList.css";
 import { CreateSprintDialog, SprintListCard } from "../../../components";
-import { ProjectListCardSkeleton } from "../../../utility/components";
+import {
+  LinkSkeleton,
+  ProjectListCardSkeleton,
+  TitleSkeleton,
+} from "../../../utility/components";
 // redux stuff
 import { connect } from "react-redux";
 import { getSprints } from "../../../store/actions/sprintActions";
 import {
-  ISprintMapStateToProps,
+  IAllMapStateToProps,
   SprintState,
   UIState,
+  UserState,
 } from "../../../interfaces/GlobalTypes";
 import { Button } from "@material-ui/core";
 
@@ -21,8 +26,9 @@ type Props = {
   getSprints: Function;
   sprint: SprintState;
   ui: UIState;
+  user: UserState;
 };
-const SprintList: React.FC<Props> = ({ getSprints, sprint, ui }) => {
+const SprintList: React.FC<Props> = ({ getSprints, sprint, ui, user }) => {
   const { projectId } = useParams<ParamTypes>();
 
   const [open, setOpen] = useState(false);
@@ -52,46 +58,57 @@ const SprintList: React.FC<Props> = ({ getSprints, sprint, ui }) => {
   ));
   return (
     <div className="sprint-list-card">
-      <div className="navigation-link">
-        <Link to="/projects" style={{ marginRight: "8px" }}>
-          Projects
-        </Link>
-        \
-        <Link
-          to={`/projects/${sprint.projectDetails._id}`}
-          style={{ margin: "0 8px" }}
-        >
-          {sprint.projectDetails.ProjectName}
-        </Link>
-      </div>
-      <div className="navigation-title">
-        {sprint.projectDetails.ProjectName}'s sprints
-      </div>
+      {ui.globalLoading ? (
+        <LinkSkeleton />
+      ) : (
+        <div className="navigation-link">
+          <Link to="/projects" style={{ marginRight: "8px" }}>
+            Projects
+          </Link>
+          \
+          <Link
+            to={`/projects/${sprint.projectDetails._id}`}
+            style={{ margin: "0 8px" }}
+          >
+            {sprint.projectDetails.ProjectName}
+          </Link>
+        </div>
+      )}
+      {ui.globalLoading ? (
+        <TitleSkeleton />
+      ) : (
+        <div className="navigation-title">
+          {sprint.projectDetails.ProjectName}'s sprints
+        </div>
+      )}
       <div className="custom-header">
-        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-          Create Sprint
-        </Button>
-        <CreateSprintDialog
-          open={open}
-          onClose={handleClose}
-          isUpdate={isUpdate}
-        />
+        {sprint.projectDetails.CreatedBy === user.userId && (
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleClickOpen}
+            >
+              Create Sprint
+            </Button>
+            <CreateSprintDialog
+              open={open}
+              onClose={handleClose}
+              isUpdate={isUpdate}
+            />
+          </div>
+        )}
       </div>
-      {!sprint.hasSprintErrors &&
-        !ui.localLoading &&
-        sprint.sprints.length > 0 &&
-        sprintsMarkup}
-      {!sprint.hasSprintErrors &&
-        !ui.localLoading &&
-        sprint.sprints.length === 0 &&
-        noSprintMarkup}
+      {!ui.localLoading && sprint.sprints.length > 0 && sprintsMarkup}
+      {!ui.localLoading && sprint.sprints.length === 0 && noSprintMarkup}
       {sprint.hasSprintErrors && !ui.localLoading && errorMarkup}
       {ui.localLoading && loadingMarkup}
     </div>
   );
 };
-const mapStateToProps = (state: ISprintMapStateToProps) => ({
+const mapStateToProps = (state: IAllMapStateToProps) => ({
   sprint: state.sprint,
+  user: state.user,
   ui: state.ui,
 });
 

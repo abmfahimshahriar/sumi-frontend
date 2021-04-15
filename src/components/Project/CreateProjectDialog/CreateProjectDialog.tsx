@@ -23,7 +23,7 @@ import {
 import { UserList } from "../..";
 import { inputValidator } from "../../../utility/validators/inputValidator";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { ENTITY_END_DATE, ENTITY_START_DATE, ENTITY_TITLE } from "../../../utility/constants/formConstants";
+import { ENTITY_END_DATE, ENTITY_END_DATE_MIN, ENTITY_START_DATE, ENTITY_START_DATE_MIN, ENTITY_TITLE, ENTITY_TITLE_MIN } from "../../../utility/constants/formConstants";
 
 type Props = {
   open: boolean;
@@ -66,21 +66,21 @@ const CreateProjectDialog: React.FC<Props> = ({
       fieldValue: projectName,
       fieldName: "projectName",
       validations: ["required"],
-      minLength: 1,
+      minLength: ENTITY_TITLE_MIN,
       maxLength: ENTITY_TITLE,
     },
     {
       fieldValue: startDate,
       fieldName: "startDate",
       validations: ["required"],
-      minLength: 1,
+      minLength: ENTITY_START_DATE_MIN,
       maxLength: ENTITY_START_DATE,
     },
     {
       fieldValue: endDate,
       fieldName: "endDate",
       validations: ["required"],
-      minLength: 1,
+      minLength: ENTITY_END_DATE_MIN,
       maxLength: ENTITY_END_DATE,
     },
   ];

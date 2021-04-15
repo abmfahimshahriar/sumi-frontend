@@ -106,6 +106,12 @@ export interface ITaskMapStateToProps {
   ui: UIState;
 }
 
+export interface IAllMapStateToProps {
+  sprint: SprintState;
+  user: UserState;
+  ui: UIState;
+}
+
 export type DispatchType = (args: UserAction) => UserAction;
 
 export interface Project {

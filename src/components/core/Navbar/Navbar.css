@@ -13,7 +13,7 @@
 
 .loader-wrapper {
     width: 100%;
-    z-index: 2000;
+    z-index: 1100;
     position: fixed;
 }
 

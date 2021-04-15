@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import { CustomSnackbar } from "../../../components";
 // utility functions
 import { inputValidator } from "../../../utility/validators/inputValidator";
+import { USER_EMAIL, USER_NAME_MIN, USER_PASSWORD, USER_PASSWORD_MIN } from "../../../utility/constants/formConstants";
 
 type Props = {
   loginUser: Function;
@@ -52,15 +53,15 @@ const Login: React.FC<Props> = ({ loginUser, setDefaults, user }) => {
       fieldValue: email,
       fieldName: "email",
       validations: ["required"],
-      minLength: 8,
-      maxLength: 20,
+      minLength: USER_NAME_MIN,
+      maxLength: USER_EMAIL,
     },
     {
       fieldValue: password,
       fieldName: "password",
       validations: ["required", "minLength", "maxLength"],
-      minLength: 4,
-      maxLength: 10,
+      minLength: USER_PASSWORD_MIN,
+      maxLength: USER_PASSWORD,
     },
   ];
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
