@@ -74,6 +74,7 @@ export interface TaskState {
   openTaskCUDialog: boolean;
   selectedTaskToUpdate: Task;
   isUpdate: boolean;
+  fullUsersList: UsersListItem[];
 }
 
 export interface UIState {

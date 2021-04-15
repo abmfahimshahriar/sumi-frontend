@@ -21,6 +21,7 @@ const initialSprintState: TaskState = {
   openTaskCUDialog: false,
   selectedTaskToUpdate: {} as Task,
   isUpdate: false,
+  fullUsersList: [],
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -111,7 +112,7 @@ export default function (
     case actionTypes.SET_FILTER_BY_USER:
       return {
         ...state,
-        usersList: action.payload,
+        usersList: [...action.payload],
       };
     case actionTypes.SET_OPEN_TASK_CU_DIALOG:
       return {
@@ -134,6 +135,20 @@ export default function (
         ...state,
         selectedTaskToUpdate: {} as Task,
         isUpdate: false,
+      };
+    case actionTypes.SET_USERSLIST_FOR_TASK_FILTERING:
+      return {
+        ...state,
+        fullUsersList: [...action.payload],
+      };
+    case actionTypes.SELECT_USER_FOR_TASK_FILTERING:
+      const selectedUser = state.fullUsersList.find(
+        (item) => item._id === action.payload
+      );
+      if (selectedUser) selectedUser.IsSelected = !selectedUser.IsSelected;
+
+      return {
+        ...state,
       };
     // const usersList: UsersListItem[] = action.payload;
     // let tempTaskForUserFilter = [...state.tasks];

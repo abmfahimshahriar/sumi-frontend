@@ -10,6 +10,7 @@ import { CreateTaskDialog, TaskNavigation } from "../../../components";
 import {
   IAllMapStateToProps,
   ProjectState,
+  TaskState,
 } from "../../../interfaces/GlobalTypes";
 import "./TaskListToolbar.css";
 import Avatar from "@material-ui/core/Avatar";
@@ -18,7 +19,7 @@ import { MyButton } from "../../../utility/components";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
-import {openTaskCUDialog,closeTaskCUDialog} from "../../../store/actions/taskActions";
+import {openTaskCUDialog,closeTaskCUDialog, selectUserForTaskFiltering} from "../../../store/actions/taskActions";
 
 type Props = {
   project: ProjectState;
@@ -27,6 +28,8 @@ type Props = {
   filterTasksByUser: Function;
   openTaskCUDialog: Function;
   closeTaskCUDialog: Function;
+  task: TaskState;
+  selectUserForTaskFiltering: Function;
 };
 const TaskListToolbar: React.FC<Props> = ({
   filterTasks,
@@ -34,7 +37,9 @@ const TaskListToolbar: React.FC<Props> = ({
   selectUser,
   filterTasksByUser,
   openTaskCUDialog,
-  closeTaskCUDialog
+  closeTaskCUDialog,
+  selectUserForTaskFiltering,
+  task,
 }) => {
   const maxLen = 3;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,8 +75,8 @@ const TaskListToolbar: React.FC<Props> = ({
   };
 
   const handleUserSelect = (userId: string) => {
-    selectUser(userId);
-    const selectedUsers = project.usersList.filter(
+    selectUserForTaskFiltering(userId);
+    const selectedUsers = task.fullUsersList.filter(
       (item) => item.IsSelected === true
     );
     filterTasksByUser(selectedUsers);
@@ -104,7 +109,7 @@ const TaskListToolbar: React.FC<Props> = ({
           />
         </div>
         <div className="users-avatar-wrapper">
-          {project.usersList.slice(0, maxLen).map((item) => {
+          {task.fullUsersList.slice(0, maxLen).map((item) => {
             let avatarMarkup;
             if (item.ProfileImageUrl) {
               avatarMarkup = (
@@ -136,11 +141,11 @@ const TaskListToolbar: React.FC<Props> = ({
               </div>
             );
           })}
-          {project.usersList.length > maxLen && (
+          {task.fullUsersList.length > maxLen && (
             <Fragment>
               <div className="user-avatar">
                 <MyButton tip="more users" onClick={openProfileMenu}>
-                  <Avatar>+{project.usersList.length - maxLen}</Avatar>
+                  <Avatar>+{task.fullUsersList.length - maxLen}</Avatar>
                 </MyButton>
               </div>
               <Menu
@@ -150,8 +155,8 @@ const TaskListToolbar: React.FC<Props> = ({
                 open={Boolean(anchorEl)}
                 onClose={closeProfileMenu}
               >
-                {project.usersList
-                  .slice(maxLen, project.usersList.length)
+                {task.fullUsersList
+                  .slice(maxLen, task.fullUsersList.length)
                   .map((item) => {
                     let avatarMarkup;
                     if (item.ProfileImageUrl) {
@@ -200,7 +205,8 @@ const mapActionToProps = {
   selectUser,
   filterTasksByUser,
   openTaskCUDialog,
-  closeTaskCUDialog
+  closeTaskCUDialog,
+  selectUserForTaskFiltering
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskListToolbar);

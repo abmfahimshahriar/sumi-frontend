@@ -211,7 +211,11 @@ export const getUsersListWithDetails = (
       const data: SumiBackendResponse = res.data;
       dispatch({
         type: actionTypes.SET_USERS_LIST,
-        payload: data.Result.UsersList,
+        payload: [...data.Result.UsersList],
+      });
+      dispatch({
+        type: actionTypes.SET_USERSLIST_FOR_TASK_FILTERING,
+        payload: JSON.parse(JSON.stringify(data.Result.UsersList)),
       });
       dispatch({ type: actionTypes.END_LOCAL_LOADING });
       dispatch({ type: actionTypes.END_GLOBAL_LOADING });
@@ -262,12 +266,9 @@ export const closeTaskCUDialog = (): ThunkAction<
   });
 };
 
-export const setSelectedTaskForUpdate = (selectedTask: Task): ThunkAction<
-  void,
-  {},
-  unknown,
-  Action<string>
-> => async (dispatch) => {
+export const setSelectedTaskForUpdate = (
+  selectedTask: Task
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
   dispatch({
     type: actionTypes.SET_SELECTED_TASK_FOR_UPDATE,
     payload: selectedTask,
@@ -282,7 +283,16 @@ export const removeSelectedTaskForUpdate = (): ThunkAction<
   Action<string>
 > => async (dispatch) => {
   dispatch({
-    type: actionTypes.REMOVE_SELECTED_TASK_FOR_UPDATE
+    type: actionTypes.REMOVE_SELECTED_TASK_FOR_UPDATE,
   });
   dispatch(closeTaskCUDialog());
+};
+
+export const selectUserForTaskFiltering = (
+  userId: string
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({
+    type: actionTypes.SELECT_USER_FOR_TASK_FILTERING,
+    payload: userId,
+  });
 };
