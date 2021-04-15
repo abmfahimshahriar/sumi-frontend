@@ -36,6 +36,7 @@ export interface UserProfile {
   Name: string;
   Email: string;
   ProfileImageUrl: string;
+  ProfileImageId?: string;
 }
 
 export interface UsersListItem {

@@ -127,7 +127,8 @@ const Navbar: React.FC<Props> = ({
                 <Fragment>
                   <Notification/>
                   <MyButton tip="profile" onClick={openProfileMenu}>
-                    <Avatar>{user.username?.slice(0, 1)}</Avatar>
+                    {user.userDetails.ProfileImageId ? <Avatar alt={user.userDetails.Name} src={user.userDetails.ProfileImageUrl} /> : <Avatar>{user.username?.slice(0, 1)}</Avatar>}
+                    
                   </MyButton>
                   <Menu
                     id="simple-menu"
