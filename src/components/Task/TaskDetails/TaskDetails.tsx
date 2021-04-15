@@ -27,20 +27,24 @@ const TaskDetails: React.FC<Props> = ({ selectedTask, open, onClose }) => {
   const { projectId, sprintId, taskId } = useParams<ParamTypes>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(open);
-  const [oldPath, setOldPath] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [oldPath, setOldPath] = useState(`/sprints/${projectId}/${sprintId}`);
   const openMoreMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
   useEffect(() => {
-    if (taskId === selectedTask._id) {
+    handleDialogOpen();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open,window.location.pathname]);
+
+  const handleDialogOpen = () => {
+    const newUrl = window.location.pathname;
+    if (taskId === selectedTask._id && newUrl !== oldPath) {
       setOpenDialog(true);
-      const oldUrl =  `/sprints/${projectId}/${sprintId}`;
-      setOldPath(oldUrl);
     }
     else setOpenDialog(open);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }
 
   // const handleOpen = () => {
   //   let oldUrl = window.location.pathname;
