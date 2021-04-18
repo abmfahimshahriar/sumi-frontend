@@ -7,16 +7,26 @@
   width: 40vw;
   height: 60vh;
   padding: 32px;
+}
+
+.velocity-chart-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
 @media only screen and (max-width: 600px) {
   .velocity-chart-card {
     width: 95%;
-    height: 100%;
     padding: 16px;
+  }
+
+  .velocity-chart-wrapper {
+    overflow: scroll;
+    justify-content: start;
+    align-items: stretch;
   }
 }

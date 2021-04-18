@@ -20,8 +20,9 @@ interface ParamTypes {
 }
 const VelocityChart: React.FC<Props> = ({ getSprints, sprint }) => {
   const { projectId } = useParams<ParamTypes>();
-
   const [chartData, setChartData] = useState<any[]>([]);
+
+  const { innerWidth: width } = window;
   useEffect(() => {
     getSprints(projectId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,8 +50,10 @@ const VelocityChart: React.FC<Props> = ({ getSprints, sprint }) => {
   };
   return (
     <div className="velocity-chart-card">
+      <div className="velocity-chart-wrapper">
       <Chart
-        width={"100%"}
+        width={width > 600 ? "100%" : `${2 * width}px`}
+        height={"100%"}
         chartType="Bar"
         loader={<div>Loading Chart</div>}
         data={chartData}
@@ -63,6 +66,7 @@ const VelocityChart: React.FC<Props> = ({ getSprints, sprint }) => {
         // For tests
         rootProps={{ "data-testid": "2" }}
       />
+      </div>
     </div>
   );
 };
