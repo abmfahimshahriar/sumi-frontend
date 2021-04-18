@@ -70,7 +70,7 @@ const Navbar: React.FC<Props> = ({
       const decodedToken: any = jwtDecode(token);
       if (decodedToken.exp * 1000 < Date.now()) {
         logoutUser();
-        window.location.href = "/login";
+        
       } else {
         setAuthenticated();
       }

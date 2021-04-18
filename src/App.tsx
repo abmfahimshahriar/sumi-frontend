@@ -10,7 +10,7 @@ import {
   ReportPage,
   GanttChartPage,
   VelocityChartPage,
-  ProfilePage
+  ProfilePage,
 } from "./pages";
 import { Navbar, Sidebar } from "./components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -18,9 +18,25 @@ import { AuthRoute } from "./utility/components";
 // redux
 import { Provider } from "react-redux";
 import store from "./store/store";
-import axios from "axios";
-
+import axios, { AxiosResponse, AxiosError } from "axios";
+import {logoutUser} from "./store/actions/userActions";
 axios.defaults.baseURL = "https://sumi-server.herokuapp.com";
+
+axios.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    
+    if(error.response) {
+      if(error.response.data.TokenError) {
+        store.dispatch<any>(logoutUser());
+      }
+      else return error;
+    }
+    return error;
+  }
+);
 
 function App() {
   return (
@@ -50,11 +66,17 @@ function App() {
                 <Sidebar />
                 <ReportPage />
               </AuthRoute>
-              <AuthRoute exact path="/sprints/:projectId/:sprintId/reports/ganttChart">
+              <AuthRoute
+                exact
+                path="/sprints/:projectId/:sprintId/reports/ganttChart"
+              >
                 <Sidebar />
                 <GanttChartPage />
               </AuthRoute>
-              <AuthRoute exact path="/sprints/:projectId/:sprintId/reports/velocityChart">
+              <AuthRoute
+                exact
+                path="/sprints/:projectId/:sprintId/reports/velocityChart"
+              >
                 <Sidebar />
                 <VelocityChartPage />
               </AuthRoute>

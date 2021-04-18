@@ -90,6 +90,7 @@ export const logoutUser = (): ThunkAction<
   localStorage.removeItem("Username");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: actionTypes.SET_DEFAULT });
+  // window.location.href = "/login";
 };
 
 export const setAuthenticated = (): ThunkAction<

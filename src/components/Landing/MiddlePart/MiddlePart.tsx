@@ -11,7 +11,7 @@ const MiddlePart = () => {
                 <h1>
                     Plan
                 </h1>
-                <p>
+                <p className="landing-page-paragraph">
                     Create user tasks, plan sprints, take a look at
                     sprint reports, and distribute tasks across
                     your project's team.
@@ -20,7 +20,7 @@ const MiddlePart = () => {
                 <h1>
                     Track
                 </h1>
-                <p>
+                <p className="landing-page-paragraph">
                     Prioritize and discuss your
                     team’s work in full context with complete visibility.
                 </p>

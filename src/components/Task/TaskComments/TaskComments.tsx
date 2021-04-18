@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import {
   CreateCommentPayload,
   ITaskMapStateToProps,
@@ -15,6 +15,7 @@ import {
   getComments,
   clearComments,
 } from "../../../store/actions/taskActions";
+import { inputValidator } from "../../../utility/validators/inputValidator";
 
 type Props = {
   open: boolean;
@@ -34,6 +35,7 @@ const TaskComments: React.FC<Props> = ({
   clearComments,
 }) => {
   const [commentContent, setCommentContent] = useState("");
+  const [formErrors, setFormErrors] = useState<any>({});
 
   useEffect(() => {
     if (open) {
@@ -48,15 +50,30 @@ const TaskComments: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-  const handleComment = () => {
-    const payload: CreateCommentPayload = {
-      ProjectId: selectedTask.ProjectId,
-      SprintId: selectedTask.SprintId,
-      TaskId: selectedTask._id,
-      CommentContent: commentContent,
-    };
-    createComment(payload);
-    setCommentContent("");
+
+  const inputs = [
+    {
+      fieldValue: commentContent,
+      fieldName: "commentContent",
+      validations: ["required"],
+      minLength: 1,
+      maxLength: 1,
+    },
+  ];
+  const handleComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const errorsObject = inputValidator(inputs);
+    setFormErrors(errorsObject);
+    if (!errorsObject.hasError) {
+      const payload: CreateCommentPayload = {
+        ProjectId: selectedTask.ProjectId,
+        SprintId: selectedTask.SprintId,
+        TaskId: selectedTask._id,
+        CommentContent: commentContent,
+      };
+      createComment(payload);
+      setCommentContent("");
+    }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -70,7 +87,11 @@ const TaskComments: React.FC<Props> = ({
         ))}
       </div>
       <div>
-        <form className="create-sprint-form" autoComplete="off">
+        <form
+          className="create-sprint-form"
+          autoComplete="off"
+          onSubmit={handleComment}
+        >
           <div className="form-item">
             <TextField
               className="full-width"
@@ -83,15 +104,18 @@ const TaskComments: React.FC<Props> = ({
               multiline
               rows={2}
               onChange={handleInputChange}
+              error={
+                formErrors.commentContent?.errors.length > 0 ? true : false
+              }
+              helperText={
+                formErrors.commentContent?.errors.length > 0
+                  ? formErrors.commentContent?.errors[0]
+                  : null
+              }
             />
           </div>
           <div className="comment-btn">
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={handleComment}
-            >
+            <Button variant="contained" color="primary" type="submit">
               Comment
             </Button>
           </div>

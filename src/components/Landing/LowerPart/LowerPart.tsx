@@ -11,7 +11,7 @@ const LowerPart = () => {
                     </h1>
                 </div>
                 <div className="workflow-support-text">
-                    <p>
+                    <p className="landing-page-paragraph">
                         Every team has a unique process
                         for managing projects.
                         Create one to match the way your team works.
