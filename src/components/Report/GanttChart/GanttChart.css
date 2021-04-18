@@ -20,11 +20,12 @@
 @media only screen and (max-width: 600px) {
   .gantt-chart-card {
     width: 95%;
-    height: 100%;
     padding: 16px;
   }
 
   .gantt-chart-wrapper {
     overflow: scroll;
+    justify-content: start;
+    align-items: stretch;
   }
 }

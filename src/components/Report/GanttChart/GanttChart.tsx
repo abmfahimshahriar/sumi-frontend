@@ -21,7 +21,7 @@ interface ParamTypes {
 const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
   const { projectId } = useParams<ParamTypes>();
   const [chartData, setChartData] = useState<any[]>([]);
-  const { innerWidth: width, innerHeight: height } = window;
+  const { innerWidth: width } = window;
 
   useEffect(() => {
     getSprints(projectId);

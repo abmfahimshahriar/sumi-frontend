@@ -19,6 +19,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import BarChartIcon from "@material-ui/icons/BarChart";
 
 const drawerWidth = 240;
+const { innerWidth: width } = window;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
     },
     customSidebar: {
-      top: 64,
+      top: width > 600 ? 64 : 56,
     },
   })
 );
