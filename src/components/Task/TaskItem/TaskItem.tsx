@@ -4,6 +4,7 @@ import "./TaskItem.css";
 import Tooltip from "@material-ui/core/Tooltip";
 import Chip from "@material-ui/core/Chip";
 import { TaskDetails } from "../../../components";
+import { TASK_NAME_LIMIT } from "../../../utility/constants/stringLimitConstants";
 
 type Props = {
   selectedTask: Task;
@@ -21,7 +22,7 @@ const TaskItem: React.FC<Props> = ({ selectedTask }) => {
     <Fragment>
       <div className="task-item-wrapper" onClick={handleClickOpen}>
         <div className="task-details-wrapper mb-16">
-          <div className="task-name">{selectedTask.TaskName}</div>
+          <div className="task-name">{selectedTask.TaskName.length > TASK_NAME_LIMIT ? `${selectedTask.TaskName.slice(0, TASK_NAME_LIMIT)}...`  : selectedTask.TaskName}</div>
           <div>
             <Tooltip title="Story points" placement="top">
               <Chip label={selectedTask.StoryPoints} color="primary" />
@@ -29,7 +30,7 @@ const TaskItem: React.FC<Props> = ({ selectedTask }) => {
           </div>
         </div>
         <div className="task-details-wrapper">
-          <div>{selectedTask.TaskDescription}</div>
+          <div>{selectedTask.TaskDescription.length > TASK_NAME_LIMIT ? `${selectedTask.TaskDescription.slice(0, TASK_NAME_LIMIT)}...` : selectedTask.TaskDescription}</div>
           <div>
             <Tooltip title={selectedTask.Assignee.Name} placement="top">
               <Chip

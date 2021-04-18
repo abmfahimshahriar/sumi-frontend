@@ -15,7 +15,9 @@ const SingleComment: React.FC<Props> = ({ comment }) => {
           <Chip label={comment.Commenter.Name.slice(0, 1)} color="secondary" />
         </div>
         <div className="commenter-name">{comment.Commenter.Name}</div>
-        <div className="comment-date">{moment(comment.CommentedAt).format("MM-DD-YYYY")}</div>
+        <div className="comment-date">
+          {moment(comment.CommentedAt).calendar()}
+        </div>
       </div>
       <div className="comment-text">{comment.CommentContent}</div>
     </div>
