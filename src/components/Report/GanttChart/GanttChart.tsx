@@ -20,8 +20,9 @@ interface ParamTypes {
 }
 const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
   const { projectId } = useParams<ParamTypes>();
-
   const [chartData, setChartData] = useState<any[]>([]);
+  const { innerWidth: width, innerHeight: height } = window;
+
   useEffect(() => {
     getSprints(projectId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,19 +68,23 @@ const GanttChart: React.FC<Props> = ({ getSprints, sprint }) => {
   };
   return (
     <div className="gantt-chart-card">
-      <h3>{sprint.projectDetails.ProjectName}</h3>
-      <Chart
-        width={"100%"}
-        chartType="Gantt"
-        loader={<div>Loading Chart</div>}
-        data={chartData}
-        options={{
-          gantt: {
-            criticalPathEnabled: false,
-          },
-        }}
-        rootProps={{ "data-testid": "1" }}
-      />
+      <div className="gantt-chart-wrapper">
+        <h3>{sprint.projectDetails.ProjectName}</h3>
+        <Chart
+          style={{ marginLeft: width > 600 ? "0" : "auto" }}
+          width={width > 600 ? "100%" : `${2 * width}px`}
+          height={"100%"}
+          chartType="Gantt"
+          loader={<div>Loading Chart</div>}
+          data={chartData}
+          options={{
+            gantt: {
+              criticalPathEnabled: false,
+            },
+          }}
+          rootProps={{ "data-testid": "1" }}
+        />
+      </div>
     </div>
   );
 };

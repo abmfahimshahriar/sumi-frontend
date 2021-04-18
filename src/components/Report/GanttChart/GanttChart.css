@@ -1,5 +1,4 @@
 .gantt-chart-card {
-  overflow-y: auto;
   box-shadow: 0 0 1px 0 rgb(0 0 0 / 70%), 0 3px 4px -2px rgb(0 0 0 / 50%);
   border-radius: 4px;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -7,10 +6,15 @@
   width: 40vw;
   height: 60vh;
   padding: 32px;
+}
+
+.gantt-chart-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 @media only screen and (max-width: 600px) {
@@ -18,5 +22,9 @@
     width: 95%;
     height: 100%;
     padding: 16px;
+  }
+
+  .gantt-chart-wrapper {
+    overflow: scroll;
   }
 }
