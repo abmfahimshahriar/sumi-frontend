@@ -32,9 +32,8 @@ axios.interceptors.response.use(
       if(error.response.data.TokenError) {
         store.dispatch<any>(logoutUser());
       }
-      else return error;
     }
-    return error;
+    return Promise.reject(error);
   }
 );
 
