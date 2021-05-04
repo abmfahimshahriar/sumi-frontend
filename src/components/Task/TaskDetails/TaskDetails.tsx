@@ -1,7 +1,11 @@
 import Chip from "@material-ui/core/Chip";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { ITaskMapStateToProps, Task } from "../../../interfaces/GlobalTypes";
+import {
+  DeleteTaskPayload,
+  ITaskMapStateToProps,
+  Task,
+} from "../../../interfaces/GlobalTypes";
 import { MyButton } from "../../../utility/components";
 import "./TaskDetails.css";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -12,12 +16,14 @@ import { TaskComments } from "../../../components";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { setSelectedTaskForUpdate } from "../../../store/actions/taskActions";
+import { deleteTask } from "../../../store/actions/taskActions";
 
 type Props = {
   selectedTask: Task;
   open: boolean;
   onClose: Function;
   setSelectedTaskForUpdate: Function;
+  deleteTask: Function;
 };
 
 interface ParamTypes {
@@ -31,6 +37,7 @@ const TaskDetails: React.FC<Props> = ({
   open,
   onClose,
   setSelectedTaskForUpdate,
+  deleteTask,
 }) => {
   const { projectId, sprintId, taskId } = useParams<ParamTypes>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -74,6 +81,12 @@ const TaskDetails: React.FC<Props> = ({
   };
 
   const handleDeleteTask = () => {
+    const deleteTaskPayload: DeleteTaskPayload = {
+      ProjectId: selectedTask.ProjectId,
+      SprintId: selectedTask.SprintId,
+      TaskId: selectedTask._id,
+    };
+    deleteTask(deleteTaskPayload);
     closeMoreMenu();
   };
 
@@ -152,6 +165,7 @@ const mapStateToProps = (state: ITaskMapStateToProps) => ({
 
 const mapActionToProps = {
   setSelectedTaskForUpdate,
+  deleteTask,
 };
 
 export default connect(mapStateToProps, mapActionToProps)(TaskDetails);

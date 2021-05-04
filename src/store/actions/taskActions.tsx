@@ -5,6 +5,7 @@ import {
   ChangeBucketPayload,
   CreateCommentPayload,
   CreateTaskPayload,
+  DeleteTaskPayload,
   SumiBackendResponse,
   Task,
   UsersListItem,
@@ -295,4 +296,27 @@ export const selectUserForTaskFiltering = (
     type: actionTypes.SELECT_USER_FOR_TASK_FILTERING,
     payload: userId,
   });
+};
+
+
+export const deleteTask = (
+  taskData: DeleteTaskPayload
+): ThunkAction<void, {}, unknown, Action<string>> => async (dispatch) => {
+  dispatch({ type: actionTypes.START_LOCAL_LOADING });
+  dispatch({ type: actionTypes.START_GLOBAL_LOADING });
+  axios
+    .post("/task/deleteTask", taskData)
+    .then((res: AxiosResponse) => {
+      dispatch(getTasks(taskData.SprintId));
+      dispatch({ type: actionTypes.END_LOCAL_LOADING });
+      dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+    })
+    .catch((err: AxiosError) => {
+      const data = err.response?.data;
+      if (data) {
+        dispatch({ type: actionTypes.TASK_ERROR, payload: data.Errors });
+        dispatch({ type: actionTypes.END_LOCAL_LOADING });
+        dispatch({ type: actionTypes.END_GLOBAL_LOADING });
+      }
+    });
 };

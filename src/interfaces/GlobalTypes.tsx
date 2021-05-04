@@ -207,6 +207,12 @@ export interface CreateTaskPayload {
   TaskId?: string;
 }
 
+export interface DeleteTaskPayload {
+  ProjectId: string;
+  SprintId: string;
+  TaskId: string;
+}
+
 export interface Comment {
   _id: string;
   ProjectId: string;
