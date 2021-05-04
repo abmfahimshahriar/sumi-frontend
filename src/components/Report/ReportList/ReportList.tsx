@@ -2,6 +2,8 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import "./ReportList.css";
 import ganttChartImage from "../../../utility/images/gantt.png";
+import velocityChartImage from "../../../utility/images/velocityChart.png";
+
 interface ParamTypes {
   projectId: string;
   sprintId: string;
@@ -23,7 +25,7 @@ const ReportList = () => {
           <Link to={`/sprints/${projectId}/${sprintId}/reports/velocityChart`}>
             <div className="chart-header">Velocity chart</div>
           </Link>
-          <img className="chart-img" src={ganttChartImage} alt="ganttChart" />
+          <img className="chart-img" src={velocityChartImage} alt="velocityChart" />
         </div>
       </div>
     </div>
