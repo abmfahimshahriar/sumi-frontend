@@ -1,6 +1,6 @@
 import React from 'react';
 import "./MiddlePart.css";
-import taskListImage from "../../../utility/images/taskList.jpg"
+import taskListImage from "../../../utility/images/taskPage.jpg"
 const MiddlePart = () => {
     return (
         <div className="middle-part-wrapper">
